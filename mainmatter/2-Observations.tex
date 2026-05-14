@@ -1,0 +1,22 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Chapter 2: Observations and data reduction
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Observations and data reduction}
+
+\subsection{PolarBase}
+
+For this work, we use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations. The archive provides spectra spanning [TYPE RANGE], collected between [TIME PERIOD], and offers extensive coverage of M~dwarfs.
+
+In the optical, we analyse NARVAL and ESPaDOnS spectra, both of which cover 
+0.37--1\,$\mu$m at a resolving power of ${\sim}65{,}000$ 
+\citep{espadons, polarbase1}. In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a resolving power of $70{,}000$ \citep{spirou}.
+
+NARVAL and ESPaDOnS data are reduced in real time at the Télescope Bernard Lyot (TBL) and the Canada--France--Hawaii Telescope (CFHT), respectively, using the Libre-Esprit pipeline, which implements the algorithm of \citet{polarbase2}. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
+
+Our analysis focuses on a sample of 44 stars drawn from \citet{cristofari+2022b}; the full list is given in [REF TABLE]. For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a nightly template. We then median-combine all nightly templates to construct a final template for each star.
+
+Out of these 44 targets stars, only 39 had data in the optical regime from either the NARVAL or ESPaDOnS instrument. The missing stars are Gl 617B, GJ 4063, PM J09553-2715, GJ 1012 and PM J08402+3127 and have been excluded from this analysis.
+
+% git token: olp_4UdMk0EeNIL2neX1o6rcK5M4Fqzs642cdnk6
