@@ -5,27 +5,23 @@
 
 \section{Observations and data reduction}
 
-This chapter describes the spectroscopic data underlying the thesis. We work in two wavelength regimes: the optical, with NARVAL and ESPaDOnS spectra drawn from the PolarBase archive, and the near-infrared, with SPIRou spectra. Both samples are extended by the new-targets campaign, which adds less-studied M~dwarfs not analysed in \citet{cristofari+2022b}. Throughout this work we analyse only the Stokes~I (unpolarised intensity) component of the spectropolarimetric sequences. The magnetic measurements in this thesis rely on Zeeman intensification, which probes the unsigned small-scale field through differential broadening in Stokes~I, rather than on the signed large-scale field accessible via Stokes~V. 
+This chapter describes the spectroscopic data underlying the thesis. All observations are drawn from the PolarBase archive, which provides high-resolution spectropolarimetric data from three instruments: NARVAL and ESPaDOnS in the optical, and SPIRou in the near-infrared. Throughout this work we analyse only the Stokes~I (unpolarised intensity) component of the spectropolarimetric sequences. The magnetic measurements in this thesis rely on Zeeman intensification, which probes the unsigned small-scale field through differential broadening in Stokes~I, rather than on the signed large-scale field accessible via Stokes~V.
 
-% The chapter is organised as follows. Section~\ref{sec:obs_polarbase_opt} describes the optical PolarBase data; Section~\ref{sec:obs_spirou} the SPIRou near-infrared data; and Section~\ref{sec:obs_newtargets} the new-targets campaign.
+\subsection{Instruments and reduction}
+\label{sec:obs_instruments}
 
-\subsection{PolarBase optical: NARVAL and ESPaDOnS}
-\label{sec:obs_polarbase_opt}
+We use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations with extensive coverage of M~dwarfs.
 
-For the optical analysis, we use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations with extensive coverage of M~dwarfs.
+In the optical, we use NARVAL and ESPaDOnS spectra, both of which cover 0.37--1\,$\mu$m at a resolving power of ${\sim}65{,}000$ \citep{narval, espadons, polarbase1}. NARVAL and ESPaDOnS data are reduced in real time at the Télescope Bernard Lyot (TBL) and the Canada--France--Hawaii Telescope (CFHT), respectively, using the Libre-Esprit pipeline, which implements the algorithm of \citet{polarbase2}. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
 
-We analyse NARVAL and ESPaDOnS spectra, both of which cover 0.37--1\,$\mu$m at a resolving power of ${\sim}65{,}000$ \citep{narval, espadons, polarbase1}. NARVAL and ESPaDOnS data are reduced in real time at the Télescope Bernard Lyot (TBL) and the Canada--France--Hawaii Telescope (CFHT), respectively, using the Libre-Esprit pipeline, which implements the algorithm of \citet{polarbase2}. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
+In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a resolving power of $70{,}000$ \citep{spirou}. [VALUE NEEDED: identification of the SPIRou reduction pipeline (e.g.\ APERO) and a one-sentence description of its wavelength solution and continuum-normalisation behaviour.]
 
-Of the 44 stars in the \citet{cristofari+2022b} sample, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase; the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. A per-star summary of observation counts, baselines, and median signal-to-noise is given in Appendix~\ref{app:obs_summary} (Table~\ref{tab:obs_summary}). For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a nightly template. We then median-combine all nightly templates to construct a final template for each star. The combination across nights and epochs implicitly assumes that the magnetic configuration of each star is stationary on the relevant timescales; we refer to [CITATION NEEDED: Reiners+2022, arXiv:2204.00342] for empirical bounds on the epoch-to-epoch variability of M-dwarf surface fields, which are below the systematic-uncertainty floor of our retrieval.
+\subsection{Sample}
+\label{sec:obs_sample}
 
-\subsection{SPIRou near-infrared}
-\label{sec:obs_spirou}
+Our sample consists of two subsets. The first is the 44 M~dwarfs of \citet{cristofari+2022b}, which provides our primary literature comparison; of these, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. [VALUE NEEDED: number of these 44 stars with SPIRou coverage in PolarBase.] The second is the new-targets campaign, which extends the analysis to less-studied M~dwarfs not analysed by \citet{cristofari+2022b}. [VALUE NEEDED: number of stars in the new-targets campaign; selection criteria; instruments and wavelength regimes covered.] A per-star summary of observation counts, baselines, and median signal-to-noise for both subsets is given in Appendix~\ref{app:obs_summary} (Table~\ref{tab:obs_summary}).
 
-In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a resolving power of $70{,}000$ \citep{spirou}.
+\subsection{Per-star data preparation}
+\label{sec:obs_preparation}
 
-[VALUE NEEDED: number of stars from \textbf{the sample} with SPIRou coverage; identification of the reduction pipeline used (e.g.\ APERO); per-star observation baseline; SNR threshold; nightly- and epoch-combination procedure if different from the optical.]
-
-\subsection{New-targets campaign}
-\label{sec:obs_newtargets}
-
-[VALUE NEEDED: number of stars in the new-targets campaign; selection criteria for inclusion; instruments and wavelength regimes covered; per-star observation baseline; reduction and combination procedure (note any deviation from the per-instrument workflow described above).]
+For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a nightly template. We then median-combine all nightly templates to construct a final template for each star. The combination across nights and epochs implicitly assumes that the magnetic configuration of each star is stationary on the relevant timescales; we refer to [CITATION NEEDED: Reiners+2022, arXiv:2204.00342] for empirical bounds on the epoch-to-epoch variability of M-dwarf surface fields, which are below the systematic-uncertainty floor of our retrieval.
