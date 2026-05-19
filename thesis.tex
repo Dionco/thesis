@@ -12,7 +12,9 @@
 %                              according to the author-year natbib style
 
 %
-\documentclass{aa}  
+\documentclass{aa}
+\usepackage{amsmath}  % Loaded before hyperref: provides \eqref, align, gather, \text, \DeclareMathOperator
+\usepackage{amssymb}  % Extra symbol set (\lesssim, \gtrsim, \mathbb, ...)
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \usepackage{booktabs} % For professional-looking tables
 \usepackage{array} % For better column alignment

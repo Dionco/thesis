@@ -11,13 +11,13 @@ This chapter describes how we extract atmospheric and magnetic parameters from t
 
 \subsection{The MCMC fit}
 \label{sec:methods_fit}
-The goal of the MCMC is to search for the model in the grid created by \texttt{ZeeTurbo} that provides the best fit to the observations. For this we rely on the emcee package\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee} to estimate the atmospheric parameters from posterior distributions. At each iteration a set of parameters is defined. With these parameters, synthetic spectra is pulled from the precomputed \texttt{ZeeTurbo} grid and is then linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each $B_i$ node. This produces eleven per-node spectra $S_i(\lambda:T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ on the wavelength grid of the precomputed grid. 
-Following the results of \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectra are modelled as a combination of spectra computed for various magnetic field strengths. These interpolated spectra are then linearly combined in flux weighted by the filling factors:
+The goal of the MCMC is to search for the model in the grid created by \texttt{ZeeTurbo} that provides the best fit to the observations. For this we rely on the emcee package\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee} to estimate the atmospheric parameters from posterior distributions. At each iteration a set of parameters is defined. With these parameters, synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each magnetic-field node $B_i$, with $i = 0, 1, \dots, N_B$ indexing the discrete field strengths spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces $N_B + 1$ per-node spectra $S_i(\lambda; T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ on the wavelength grid of the precomputed grid.
+Following the results of \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectra are modelled as a combination of spectra computed for various magnetic field strengths. These interpolated spectra are then linearly combined in flux weighted by the filling factors $f_i$:
 \begin{equation}
-  S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda) ,
-  \qquad \sum_{i=0}^{N_B} f_i = 1,
-  \qquad f_i \geq 0 .
   \label{eq:magnetic-mixing}
+  S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda) ,
+  \qquad \sum_{i=0}^{N_B} f_i = 1 ,
+  \qquad f_i \geq 0 .
 \end{equation}
 The surface is, thus, treated as a mosaic of magnetic patches with discrete field strengths.
 
