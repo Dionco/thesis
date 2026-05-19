@@ -5,15 +5,26 @@
 \section{Methods: characterising spectra with MCMC}
 \label{sec:methods}
 
-This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit against synthetic spectra drawn from the ZeeTurbo grid, with a parameter vector spanning $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_\mathrm{r}$, $v_\mathrm{mac}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. 
+This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit against synthetic spectra drawn from the ZeeTurbo grid, with a parameter vector spanning $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_\mathrm{mac}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. 
+
 % Sect.~\ref{sec:methods_fit} introduces the single-star fit. Sect.~\ref{sec:methods_linelist} describes the atomic and molecular line list common to all stars, drawn from the VALD3 database [CITATION NEEDED: vald3]. Sect.~\ref{sec:methods_filter} introduces a per-star, $\chi^2$-based filter that prunes spectral regions in which the forward model fits the data poorly, allowing the use of a uniform initial list across a heterogeneous sample. Sect.~\ref{sec:methods_bic} introduces a post-hoc $\mathrm{BIC}$ scan that selects the number of magnetic filling-factor components per star, in contrast to the fixed magnetic grids used by \citet{cristofari+2022b, cristofari_2023b, reiners_2022}. Sect.~\ref{sec:methods_campaign} closes by describing how these elements are assembled into a three-phase campaign that produces the self-consistent parameter set used in the chapters that follow.
 
 \subsection{The MCMC fit}
 \label{sec:methods_fit}
+The goal of the MCMC is to search for the model in the grid created by \texttt{ZeeTurbo} that provides the best fit to the observations. For this we rely on the emcee package\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee} to estimate the atmospheric parameters from posterior distributions. At each iteration a set of parameters is defined. With these parameters, synthetic spectra is pulled from the precomputed \texttt{ZeeTurbo} grid and is then linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each $B_i$ node. This produces eleven per-node spectra $S_i(\lambda:T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ on the wavelength grid of the precomputed grid. These interpolated spectra are then linearly combined in flux weighted by the filling factors:
+\begin{equation}
+  S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda) ,
+  \qquad \sum_{i=0}^{N_B} f_i = 1 .
+  \label{eq:magnetic-mixing}
+\end{equation}
+
+
 
 \subsubsection{Forward model}
 
 \subsubsection{Free parameters}
+
+\subsubsection{Modelling magnetic activity}
 
 \subsubsection{Likelihood and error treatment}
 
