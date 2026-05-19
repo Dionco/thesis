@@ -20,9 +20,20 @@ Following the results of \citet{shulyak+2010, shulyak+2014, kochukhov+2020, rein
   \qquad f_i \geq 0 .
 \end{equation}
 The surface is, thus, treated as a mosaic of magnetic patches with discrete field strengths. Each filling factor is defined to be greater than zero as a negative percentage of the total distribution is both physically and mathematically wrong. The sum of the filling factors are defined to add up to one so the entire surface of the star is spanned.
-Next we apply the Doppler shift to the wavelength solution of the synthetic spectrum. 
-
-
+Next we apply the Doppler shift to the wavelength solution of the synthetic spectrum, which is defined as follows:
+\begin{equation}
+    \mathcal{D}(v_r) \;=\; \sqrt{\frac{1 + \beta}{1 - \beta}} , \qquad \beta \equiv \frac{v_r}{c}.
+\end{equation}
+Initially, this $v_r$ is found by cross-correlation the observed spectrum $S(\lambda)$ against a VALD absorption line-mask $\{(\lambda_j^{(0)},\, w_j)\}$, where $\lambda_j^{(0)}$ are rest-frame line centres and $w_j$ are the depths of the lines, which are used as line weights. With median-subtracted versions $\tilde w_j = w_j - \operatorname{med}(w)$ and $\tilde S = S - \operatorname{med}(S)$, the normalised CCF at velocity $v$ is
+\begin{equation}
+    \rho(v) \;=\; \frac{\sum_j \tilde w_j \, \tilde S\!\bigl(\lambda_j^{(0)} \mathcal{D}(-v)\bigr)}{\sqrt{\,\sum_j \tilde w_j^{\,2} \;\; \sum_j \tilde S\!\bigl(\lambda_j^{(0)} \mathcal{D}(-v)\bigr)^{2}\,}} .
+\end{equation}
+The initial RV values is calculated in two passes; a coarse and a fine pass:
+\begin{enumerate}
+    \item \textbf{Coarse}: $v \in \{-250, -248, \dots, +248\}$ km s$^{-1}$ at $\Delta v = 2$ km s$^{-1}$. $v_0$ is then the value for which $\rho$ is minimal.
+    \item \textbf{Fine}: Pre-shift the mask by $\mathcal{D}(-v_0)$ and then recompute $\rho(v)$ for narrower set of velocities of $\pm 25$ km s$^{-1}$ at $\Delta v = 0.1$ km s$^{-1}$, then cubic-interpolate $\rho$ onto a 0.01 km s$^{-1}$ grid and locate $v_1$.
+\end{enumerate}
+The returned initial Radial velocity is then equal to $v_\text{RV} =  v_0 + v_1$. This value is then used to shift the wavelength solution of the synthetic spectrum to match the observed radial velocity.
 
 \subsubsection{Forward model}
 
