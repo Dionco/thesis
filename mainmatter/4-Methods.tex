@@ -30,7 +30,7 @@ Initially, this $v_r$ is found by cross-correlation the observed spectrum $S(\la
 \end{equation}
 The initial RV values is calculated in two passes; a coarse and a fine pass:
 \begin{enumerate}
-    \item \textbf{Coarse}: $v \in \{-250, -248, \dots, +248\}$ km s$^{-1}$ at $\Delta v = 2$ km s$^{-1}$. $v_0$ is then the value for which $\rho$ is minimal.
+    \item \textbf{Coarse}: $v \in \{-250,\dots,+250\}$ km s$^{-1}$ at $\Delta v = 2$ km s$^{-1}$. $v_0$ is then the value for which $\rho$ is minimal.
     \item \textbf{Fine}: Pre-shift the mask by $\mathcal{D}(-v_0)$ and then recompute $\rho(v)$ for narrower set of velocities of $\pm 25$ km s$^{-1}$ at $\Delta v = 0.1$ km s$^{-1}$, then cubic-interpolate $\rho$ onto a 0.01 km s$^{-1}$ grid and locate $v_1$.
 \end{enumerate}
 The returned initial Radial velocity is then equal to $v_\text{RV} =  v_0 + v_1$. This value is then used to shift the wavelength solution of the synthetic spectrum to match the observed radial velocity.
