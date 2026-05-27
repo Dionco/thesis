@@ -56,25 +56,25 @@ Two constraints follow from this picture. Each filling factor is non-negative, $
 
 \subsubsection{Free parameters and priors}
 \label{sec:methods_freeparams}
-The MCMC samples a common parameter vector for every star in the sample: the atmospheric parameters $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$, the radial velocity $v_r$, the macroturbulent velocity $\zeta_\mathrm{RT}$, and the magnetic filling factors $f_1,\dots,f_{N_B}$. All priors are uniform; their bounds are listed in Table~\ref{tab:mcmc_priors}. The bounds on the atmospheric parameters are inherited from the \texttt{ZeeTurbo} grid extents, with the small downward extrapolation tolerances permitted by \texttt{asap} (200~K below the lowest $T_\mathrm{eff}$ node and 0.5~dex below the lowest $\log g$ node); no extrapolation is allowed in $[\mathrm{M/H}]$ or above the upper grid edges. The prior on $\{f_1,\dots,f_{N_B}\}$ is uniform over the simplex defined in Sect.~\ref{sec:methods_magnetic}; $N_B$ is not itself a free parameter, but is fixed for a given run and selected post-hoc by the BIC scan (Sect.~\ref{sec:methods_bic}). The remaining parameters supported by \texttt{asap} — $v\sin i$ (Sect.~\ref{sec:methods_forward}), $[\alpha/\mathrm{Fe}]$, the veiling factor, and any additional Gaussian broadening — are held fixed across the sample.
+The MCMC samples a common parameter vector for every star in the sample: the atmospheric parameters $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$, the radial velocity $v_r$, the macroturbulent velocity $\zeta_\mathrm{RT}$, and the magnetic filling factors $f_1,\dots,f_{N_B}$. All priors are uniform; their bounds are listed in Table~\ref{tab:mcmc_priors}. The bounds on the atmospheric parameters are inherited from the \texttt{ZeeTurbo} grid extents. The prior on $\{f_1,\dots,f_{N_B}\}$ is uniform over the simplex defined in Sect.~\ref{sec:methods_magnetic}. $N_B$ is not itself a free parameter, but is fixed for a given run and selected post-hoc by the BIC scan (Sect.~\ref{sec:methods_bic}). The remaining parameters supported by \texttt{asap}, $v\sin i$ (Sect.~\ref{sec:methods_forward}), $[\alpha/\mathrm{Fe}]$, the veiling factor, and any additional Gaussian broadening, are held fixed and set to zero across the sample.
 
 \begin{table}
-\caption{Uniform-prior bounds on the MCMC free parameters, for the optical (NARVAL/ESPaDOnS) and near-infrared (SPIRou) configurations of the retrieval. The atmospheric-parameter bounds correspond to the extent of the relevant \texttt{ZeeTurbo} grid, including the downward extrapolation tolerances of \texttt{asap}. The macroturbulent kernel mode and the fixed instrumental broadening are not priors but are listed for completeness.}
+\caption{Uniform-prior bounds on the MCMC free parameters, for the optical (NARVAL/ESPaDOnS) and near-infrared (SPIRou) configurations of the retrieval. The atmospheric-parameter bounds correspond to the extent of the relevant \texttt{ZeeTurbo} grid. The macroturbulent kernel mode and the fixed instrumental broadening are not priors but are listed for completeness.}
 \label{tab:mcmc_priors}
 \centering
 \begin{tabular}{lcc}
 \toprule
 Parameter & Optical & NIR \\
 \midrule
-$T_\mathrm{eff}$ [K]                       & $[2700,\,4000]$    & $[2700,\,3900]$ \\
-$\log g$ [dex]                              & $[3.5,\,5.5]$      & $[4.0,\,5.5]$ \\
+$T_\mathrm{eff}$ [K]                       & $[2900,\,4000]$    & $[2900,\,3900]$ \\
+$\log g$ [dex]                              & $[3.5,\,5.5]$      & $[4.5,\,5.5]$ \\
 $[\mathrm{M/H}]$ [dex]                      & $[-0.75,\,+0.75]$  & $[-0.5,\,+0.25]$ \\
 $v_r$ [km\,s$^{-1}$]                        & $[-200,\,+200]$    & $[-200,\,+200]$ \\
 $\zeta_\mathrm{RT}$ [km\,s$^{-1}$]          & $\geq 0$           & $\geq 0$ \\
 $\{f_i\}$                                   & simplex            & simplex \\
-$\{B_i\}$ initial set [kG]                  & $\{0,1,2,3,4\}$    & $\{0,1,\dots,10\}$ \\
+$\{B_i\}$ initial set [kG]                  & $\{0,1,\dots,10\}$    & $\{0,1,\dots,10\}$ \\
 \midrule
-Macroturbulent kernel                       & radial-tangential  & Gaussian \\
+Macroturbulent kernel                       & radial-tangential  & radial-tangential \\
 $v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
 \bottomrule
 \end{tabular}
@@ -82,6 +82,7 @@ $v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
 
 \subsubsection{Likelihood and error treatment}
 \label{sec:methods_likelihood}
+
 
 \subsubsection{MCMC sampling}
 \label{sec:methods_sampling}
