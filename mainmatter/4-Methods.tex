@@ -106,13 +106,16 @@ The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Ca
 
 \subsection{Line list}
 \label{sec:methods_linelist}
-Line lists are used to define spectral regions which are used to compute the likelihood on which the sampler is driven. Therefore, the selection of such lines is crucial for Zeeman broadening analysis, which is also explained in detail in \citet{Kochukhov_2021}. The Zeeman splitting that encodes the magnetic field is not a uniform property of all spectral lines, it depends on specific atomic and molecular transitions. Only relying on the Landé factor for the selection of lines is insufficient, especially when we are simultaneously constraining the $T_\mathrm{eff}$, $\log{g}$, $[\mathrm{M/H}]$, $v_r$ and $\zeta_\mathrm{RT}$. This is because a line profile is the convolution of multiple broadening sources  (thermal, macroturbulent, rotational, instrumental, pressure-broadened wings, magnetic) and the equivalent width is set by an interplay of temperature, gravity, and magnetic intensification. So a good set of lines needs to satisfy several competing constraints at the same time. Lines in clean wavelength regions with minimal molecular blending, they need to be reliable enough in the forward model, a spread in Landé factors that includes near-null and strongly sensitive lines, weak and strong lines for $\log{g}$ and $\zeta_\mathrm{RT}$ leverage
+The line list defines the wavelength regions on which the likelihood of Sect.~\ref{sec:methods_likelihood} is evaluated, and therefore which features of the spectrum drive the joint posterior over $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and the filling factors $f_i$. Because each of these parameters acts on the line profile through a partly overlapping channel, the list must be chosen so that their responses can be separated rather than absorbed into one another \citep{Kochukhov_2021}. The clearest instance is the degeneracy between bulk metallicity and magnetic intensification: both raise the equivalent width of magnetically sensitive Fe lines, so a list dominated by high-$g_\mathrm{eff}$ Fe transitions cannot distinguish a more metal-rich, weakly magnetic star from a less metal-rich, strongly magnetic one. Sect.~\ref{sec:methods_linelist_source} describes the source of the transitions; Sect.~\ref{sec:methods_linelist_selection} the physical criteria applied to them; and Sect.~\ref{sec:methods_linelist_initial} the construction of the common initial list used across the sample.
 
 \subsubsection{Source}
+\label{sec:methods_linelist_source}
 
 \subsubsection{Selection criteria}
+\label{sec:methods_linelist_selection}
 
 \subsubsection{Initial list construction}
+\label{sec:methods_linelist_initial}
 
 
 \subsection{Per-star line-list filter}
