@@ -5,7 +5,7 @@
 \section{Methods: characterising spectra with MCMC}
 \label{sec:methods}
 
-This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit: we sample the posterior distribution of a parameter vector and report point estimates (posterior medians) and credible intervals derived from it. The parameter vector spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $v_\mathrm{mac}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. The synthetic spectrum compared to the data is not drawn from the ZeeTurbo grid directly; it is built from the grid at every step by interpolation, magnetic mixing, Doppler shifting and broadening.
+This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit: we sample the posterior distribution of a parameter vector and report point estimates (posterior medians) and credible intervals derived from it. The parameter vector spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. The synthetic spectrum compared to the data is not drawn from the ZeeTurbo grid directly; it is built from the grid at every step by interpolation, magnetic mixing, Doppler shifting and broadening.
 
 % Sect.~\ref{sec:methods_fit} introduces the single-star fit. Sect.~\ref{sec:methods_linelist} describes the atomic and molecular line list common to all stars, drawn from the VALD3 database [CITATION NEEDED: vald3]. Sect.~\ref{sec:methods_filter} introduces a per-star, $\chi^2$-based filter that prunes spectral regions in which the forward model fits the data poorly, allowing the use of a uniform initial list across a heterogeneous sample. Sect.~\ref{sec:methods_bic} introduces a post-hoc $\mathrm{BIC}$ scan that selects the number of magnetic filling-factor components per star, in contrast to the fixed magnetic grids used by \citet{cristofari+2022b, cristofari_2023b, reiners_2022}. Sect.~\ref{sec:methods_campaign} closes by describing how these elements are assembled into a three-phase campaign that produces the self-consistent parameter set used in the chapters that follow.
 
@@ -31,7 +31,7 @@ The combined spectrum is then shifted in wavelength to the stellar rest frame. T
     \label{eq:doppler}
     \mathcal{D}(v_r) \;=\; \sqrt{\frac{1 + \beta}{1 - \beta}} , \qquad \beta \equiv \frac{v_r}{c}
 \end{equation}
-is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode. Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $v_\mathrm{mac}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening.
+is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening.
 
 % which is defined as follows:
 % \begin{equation}
@@ -56,7 +56,16 @@ Two constraints follow from this picture. Each filling factor is non-negative, $
 
 \subsubsection{Free parameters and priors}
 \label{sec:methods_freeparams}
-
+To run the analysis pipeline we use the free parameters, of which the priors are shown in Table(MCMC\_priors); 
+\begin{enumerate}
+    \item $T_\mathrm{eff}$
+    \item $\log g$
+    \item $[\mathrm{M/H}]$
+    \item $v_r$
+    \item $\zeta_\mathrm{RT}$
+    \item $f_1,\dots,f_{N_B}$
+\end{enumerate}
+the prior on ${f_1,\dots,f_{N_B}}$ is uniform over the simplex defined in Sect. ~\ref{sec:methods_magnetic}. $N_B$ is not a free parameter of the MCMC, it is fixed for a given run and selected post-hoc by the BIC scan (Sect. ~\ref{sec:methods_bic}). We have chosen to fix the $v\sin i$ to 0 km s$^{-1}$ as explained in Sect. ~\ref{sec:methods_forward}.
 
 \subsubsection{Likelihood and error treatment}
 \label{sec:methods_likelihood}
@@ -95,7 +104,6 @@ Two constraints follow from this picture. Each filling factor is non-negative, $
 \subsubsection{Motivation}
 
 \subsubsection{The BIC scan}
-
 % \subsubsection{Post-hoc characterisation}
 
 % \subsubsection{Re-fit with the optimal grid}
