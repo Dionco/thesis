@@ -118,6 +118,26 @@ The line list defines the wavelength regions on which the likelihood of Sect.~\r
 \subsubsection{Initial list construction}
 \label{sec:methods_linelist_initial}
 
+The initial optical list used for the NARVAL/ESPaDOnS configuration of the retrieval comprises $45$ wavelength regions in the range $746$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region (largest central depth, $\pm 0.02\,\mathrm{nm}$ padding); Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is dominated by Ti\,\textsc{i} ($24$ lines) and Fe\,\textsc{i} ($16$ lines), with single Cr\,\textsc{i} and Mg\,\textsc{i} regions, two V\,\textsc{i} regions, and one molecular MgH region.
+
+\begin{table*}
+\caption{Initial optical line list. Each entry reports the central wavelength of the line region (vacuum \AA) and the effective Land\'e factor $g_\mathrm{eff}$ of the strongest VALD\,3 transition inside it (largest central depth, with a $\pm 0.02\,\mathrm{nm}$ padding on the region bounds). Entries marked ``$\ldots$'' correspond to VALD transitions for which the level data needed to compute $g_\mathrm{eff}$ are not tabulated.}
+\label{tab:linelist_opt}
+\centering
+\begin{tabular}{l>{\raggedright\arraybackslash}p{0.83\textwidth}}
+\toprule
+Species & Wavelength (\AA) [$g_\mathrm{eff}$] \\
+\midrule
+Cr\,\textsc{i} & 7464.60 [1.37] \\
+Fe\,\textsc{i} & 7497.62 [1.34], 7512.37 [1.42], 8001.30 [0.90], 8048.25 [0.78], 8077.36 [0.76], 8470.77 [2.49], 8516.29 [1.83], 8517.45 [0.78], 8584.65 [1.07], 8614.23 [1.49], 8624.04 [1.22], 8690.95 [1.66], 8759.70 [1.49], 8807.10 [1.02], 8826.78 [1.49], 8840.70 [1.50] \\
+Mg\,\textsc{i} & 8809.31 [$\ldots$] \\
+MgH & 7492.55 [$\ldots$] \\
+Ti\,\textsc{i} & 7491.25 [0.96], 7493.69 [1.34], 7998.60 [1.19], 8026.99 [1.06], 8070.38 [0.75], 8399.22 [0.00], 8414.59 [0.66], 8419.28 [0.87], 8428.75 [1.00], 8441.58 [1.12], 8469.48 [1.10], 8520.60 [1.06], 8685.37 [0.99], 8737.10 [1.00], 8769.09 [1.33], 9678.13 [1.35], 9691.59 [1.50], 9708.68 [1.26], 9721.64 [0.95], 9731.10 [1.00], 9745.93 [0.00], 9773.02 [1.55], 9786.11 [1.48], 9790.46 [1.50] \\
+V\,\textsc{i} & 8119.07 [1.42], 8146.91 [1.51] \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
 
 \subsection{Per-star line-list filter}
 \label{sec:methods_filter}
