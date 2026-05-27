@@ -31,7 +31,7 @@ The combined spectrum is then shifted in wavelength to the stellar rest frame. T
     \label{eq:doppler}
     \mathcal{D}(v_r) \;=\; \sqrt{\frac{1 + \beta}{1 - \beta}} , \qquad \beta \equiv \frac{v_r}{c}
 \end{equation}
-is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid; we write the resulting model flux at pixel $i$ as $M_i$, the quantity that enters the likelihood of Sect.~\ref{sec:methods_likelihood}.
+is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid. We write the resulting model flux at pixel $i$ as $M_i$, the quantity that enters the likelihood of Sect.~\ref{sec:methods_likelihood}.
 
 % which is defined as follows:
 % \begin{equation}
@@ -82,7 +82,7 @@ $v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
 
 \subsubsection{Likelihood and error treatment}
 \label{sec:methods_likelihood}
-Following \citet{cristofari_2023a, cristofari_2023b}, we adopt a pixel-wise Gaussian likelihood. With $O_i$ the observed normalised flux at pixel $i$, $M_i$ the synthetic flux returned by the forward model (Sect.~\ref{sec:methods_forward}), and $\sigma_i$ the observational uncertainty on $O_i$, the chi-squared statistic is
+Following \citet{cristofari_2023a, cristofari_2023b}, we adopt a pixel-wise Gaussian likelihood. With $O_i$ the observed normalised flux at pixel $i$, $M_i$ the synthetic flux returned by the forward model, and $\sigma_i$ the observational uncertainty on $O_i$, the chi-squared statistic is
 \begin{equation}
     \label{eq:chi2}
     \chi^2 = \sum_{i=1}^{n} \frac{(O_i - M_i)^2}{\sigma_i^2} ,
@@ -92,12 +92,11 @@ and the log-likelihood is
     \label{eq:likelihood}
     \ln \mathcal{L} = -\frac{1}{2}\chi^2 - \frac{1}{2}\sum_{i=1}^{n} \ln\!\left(2\pi\sigma_i^2\right) ,
 \end{equation}
-where $n$ is the number of fitted pixels --- those surviving the per-star line-list filter of Sect.~\ref{sec:methods_filter}. For fixed $\sigma_i$, maximising $\ln \mathcal{L}$ is equivalent to minimising $\chi^2$.
+where $n$ is the number of fitted pixels. For fixed $\sigma_i$, maximising $\ln \mathcal{L}$ is equivalent to minimising $\chi^2$.
 
-To absorb modelling-induced systematics that the pipeline uncertainties do not capture, we follow the two-pass procedure of \citet{cristofari_2023a}. A first MCMC is run with the original $\sigma_i$; the residuals at the posterior median yield a reduced chi-squared $\chi^2_\nu = \chi^2/\nu$, with $\nu = n - k$ degrees of freedom and $k$ free parameters. The per-pixel errors are then rescaled by $\sigma_i \to \sigma_i\sqrt{\chi^2_\nu}$ so that the rescaled best fit has $\chi^2_\nu \approx 1$, and the MCMC is re-run with the inflated errors. In \texttt{asap} the rescaling is stored as a per-region multiplicative factor (\texttt{normFactor}), so spectral regions whose residuals dominate the misfit are down-weighted more aggressively than well-fitted ones.
+To absorb modelling-induced systematics that the pipeline uncertainties do not capture, we follow the two-pass procedure of \citet{cristofari_2023a, cristofari_2023b}. A first MCMC is run with the original $\sigma_i$. The residuals at the posterior median yield a reduced chi-squared $\chi^2_\nu = \chi^2/\nu$, with $\nu = n - k$ degrees of freedom and $k$ free parameters. The per-pixel errors are then rescaled by $\sigma_i \to \sigma_i\sqrt{\chi^2_\nu}$ so that the rescaled best fit has $\chi^2_\nu \approx 1$, and the MCMC is re-run with the inflated errors.
 
-The 16th--84th percentiles of the second-pass posterior, taken relative to the median (Sect.~\ref{sec:methods_sampling}), define what we call the \emph{formal} error bars; typical values quoted by \citet{cristofari_2023a} are $5$--$10$~K in $T_\mathrm{eff}$ and $0.005$--$0.020$~dex in $\log g$ and $[\mathrm{M/H}]$ [VERIFY: that this range holds for our sample]. \citet{cristofari_2022b, cristofari_2023a} found these formal errors to be significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, and proposed \emph{empirical} error bars obtained by adding in quadrature a floor of $30$~K in $T_\mathrm{eff}$, $0.05$~dex in $\log g$, and $0.10$~dex in $[\mathrm{M/H}]$. We adopt the same floors in this work.
-
+The 16th--84th percentiles of the second-pass posterior, taken relative to the median (Sect.~\ref{sec:methods_sampling}), define what we call the \emph{formal} error bars. Typical values are $5$--$20$~K in $T_\mathrm{eff}$ and $0.005$--$0.080$~dex in $\log g$ and $[\mathrm{M/H}]$. \citet{cristofari_2023b, cristofari_2023a} found these formal errors to be significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, and proposed \emph{empirical} error bars obtained by adding in quadrature a floor of $30$~K in $T_\mathrm{eff}$, $0.05$~dex in $\log g$, and $0.10$~dex in $[\mathrm{M/H}]$. We adopt the same floors in this work.
 
 
 \subsubsection{MCMC sampling}
