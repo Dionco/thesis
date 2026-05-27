@@ -82,6 +82,13 @@ $v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
 
 \subsubsection{Likelihood and error treatment}
 \label{sec:methods_likelihood}
+As in \cite{cristofari_2023a, cristofari_2023b}, we rely on a log-likelihood of the form
+\begin{equation}
+\label{eq:likelihood}
+    \ln{\mathcal{L}} = - \frac{1}{2} \left( \sum^n_{i=1} (\frac{O_i - S_i}{\sigma_i})^2\right) - \frac{n}{2} \ln{(2 \pi)} - \frac{1}{2} \sum^n_{i=1} \ln{\sigma^2_i},
+\end{equation}
+with $O_i$ the observed normalized flux, $S_i$ the synthetic spectrum, and $\sigma_i$ the uncertainty on the observed spectrum, for pixel $i$. The likelihood is closely related to the $\chi^2$. To estimate error bars, we look at the posterior distributions, and compare the 16th and 84th percentiles to the median of the distributions (Sect ~\ref{sec:methods_sampling}. In order to account for some of the systematic uncertainties in the error bars, we run our process twice, enlarging the error bars on each pixel in the second run in order to ensure that the best fit leads to a reduced $\chi^2$ of 1 \citep{cristofari_2023a}. The error bars derived from posterior distributions are referred to as ‘formal’ error bars, and are typically 5–10 K in $T_\mathrm{eff}$ and 0.005 to 0.020 dex in $\log{g}$, $[\mathrm{M/H}]$. We found that formal error bars are significantly smaller than the dispersion due to modelling assumptions, and defined ‘empirical’ error bars by quadratically adding 30 K for $T_\mathrm{eff}$ , 0.05 dex for $\log{g}$, 0.10 dex for $[\mathrm{M/H}]$ to our formal error bars in order to account for some of this dispersion.
+
 
 
 \subsubsection{MCMC sampling}
