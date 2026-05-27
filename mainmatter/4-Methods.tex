@@ -106,7 +106,7 @@ The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Ca
 
 \subsection{Line list}
 \label{sec:methods_linelist}
-Line lists are used to define spectral regions which are used to compute the likelihood on which the sampler is driven. Therefore, the selection of such lines is crucial for Zeeman broadening analysis, which is also explained in detail in \citet{Kochukhov_2021}. 
+Line lists are used to define spectral regions which are used to compute the likelihood on which the sampler is driven. Therefore, the selection of such lines is crucial for Zeeman broadening analysis, which is also explained in detail in \citet{Kochukhov_2021}. The Zeeman splitting that encodes the magnetic field is not a uniform property of all spectral lines, it depends on specific atomic and molecular transitions. Only relying on the Landé factor for the selection of lines is insufficient, especially when we are simultaneously constraining the $T_\mathrm{eff}$, $\log{g}$, $[\mathrm{M/H}]$, $v_r$ and $\zeta_\mathrm{RT}$. This is because a line profile is the convolution of multiple broadening sources  (thermal, macroturbulent, rotational, instrumental, pressure-broadened wings, magnetic) and the equivalent width is set by an interplay of temperature, gravity, and magnetic intensification. So a good set of lines needs to satisfy several competing constraints at the same time. Lines in clean wavelength regions with minimal molecular blending, they need to be reliable enough in the forward model, a spread in Landé factors that includes near-null and strongly sensitive lines, weak and strong lines for $\log{g}$ and $\zeta_\mathrm{RT}$ leverage
 
 \subsubsection{Source}
 
