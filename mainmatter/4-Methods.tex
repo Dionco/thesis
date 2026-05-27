@@ -101,7 +101,23 @@ The 16th--84th percentiles of the second-pass posterior, taken relative to the m
 
 \subsubsection{MCMC sampling}
 \label{sec:methods_sampling}
-As already mentioned, for the sampling we make use of the \texttt{emcee} ensemble sampler.
+The walker ensemble is propagated using the affine-invariant \emph{stretch move} of [CITATION NEEDED: Goodman \& Weare 2010, ``Ensemble samplers with affine invariance''], as implemented in \texttt{emcee} \citep{emcee}. At each step, every walker $\theta_k$ ($k = 1, \dots, K$) is updated in turn: a complementary walker $\theta_j$ is drawn uniformly at random from the rest of the ensemble $\{\theta_i : i \neq k\}$, and a new position is proposed along the line joining them,
+\begin{equation}
+    \label{eq:stretch}
+    \theta_k \to \theta_k^\prime = \theta_j + z\,(\theta_k - \theta_j),
+\end{equation}
+with the stretch factor $z$ drawn from the symmetric distribution
+\begin{equation}
+    \label{eq:stretch-pdf}
+    g(z) \propto \frac{1}{\sqrt{z}}, \qquad z \in \left[\tfrac{1}{a},\, a\right],
+\end{equation}
+and the standard scale parameter $a = 2$ [CITATION NEEDED: Goodman \& Weare 2010]. The proposal is accepted with probability
+\begin{equation}
+    \label{eq:stretch-accept}
+    q = \min\!\left(1,\; z^{N-1}\,\frac{P(\theta_k^\prime)}{P(\theta_k)}\right),
+\end{equation}
+where $P = \mathcal{L}\,\pi$ is the un-normalised posterior built from the likelihood of Eq.~\ref{eq:likelihood} and the prior of Sect.~\ref{sec:methods_freeparams}, $N$ is the dimension of the parameter vector, and the factor $z^{N-1}$ is the Jacobian of the stretch in $N$ dimensions that, combined with the symmetry of $g$, ensures detailed balance. With the uniform priors of Sect.~\ref{sec:methods_freeparams}, $\pi$ acts as an indicator function over its support: proposals stepping outside it are rejected outright, while inside it the acceptance reduces to a likelihood ratio. To take advantage of multiple cores we run \texttt{emcee} in its split-ensemble mode \citep{emcee}, in which the walkers are partitioned into two halves that are advanced in parallel, each using only the positions of the other half --- a procedure statistically equivalent to the serial stretch move.
+
 
 \subsection{Line list}
 \label{sec:methods_linelist}
