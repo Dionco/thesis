@@ -154,13 +154,14 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 
 \begin{figure}
 \centering
+\resizebox{\columnwidth}{!}{%
 \begin{tikzpicture}[
   font=\small, text=black,
   >={Stealth[length=2.6mm,width=2mm]},
   % ---- shared geometry: every box lines up to the same grid ----
   box/.style={draw, align=center, inner sep=5pt, minimum height=11mm,
               line width=0.8pt, fill=white},
-  card/.style={box, text width=36mm},                  % fixed-width step box
+  card/.style={box, text width=28mm},                  % fixed-width step box
   term/.style={box, rounded corners=11pt, inner xsep=9pt, line width=0.9pt,
                draw=termAc, fill=termBg, font=\small\bfseries},  % start / end
   diag/.style={card, draw=diagAc},                     % diagnostic-phase step
@@ -186,8 +187,8 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 \node[dec,  below=7mm of C]  (D) {Any region with\\[1pt]$\chi^2_R/N_R > 50$\,?};
 
 % ===================== branch (decision outcome) ===================
-\node[bridge] (E) at ([xshift=-33mm,yshift=-19mm]D.south) {Common list is final};
-\node[bridge] (F) at ([xshift= 33mm,yshift=-19mm]D.south) {Drop rejected regions\\$\rightarrow$ filtered list};
+\node[bridge] (E) at ([xshift=-22mm,yshift=-19mm]D.south) {Common list is final};
+\node[bridge] (F) at ([xshift= 22mm,yshift=-19mm]D.south) {Drop rejected regions\\$\rightarrow$ filtered list};
 
 % ======================== production lanes =========================
 \node[prod, below=12mm of E] (G) {Run to full length\\(5000 steps)};
@@ -197,9 +198,9 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 % ===================== phase frames (background) ===================
 \begin{scope}[on background layer]
   \node[draw=diagAc, fill=diagBg, rounded corners=9pt, line width=1pt,
-        fit=(B)(C)(D), inner xsep=8mm, inner ysep=7mm] (diagF) {};
+        fit=(B)(C)(D), inner xsep=6mm, inner ysep=7mm] (diagF) {};
   \node[draw=prodAc, fill=prodBg, rounded corners=9pt, line width=1pt,
-        fit=(G)(H)(I), inner xsep=8mm, inner ysep=7mm] (prodF) {};
+        fit=(G)(H)(I), inner xsep=6mm, inner ysep=7mm] (prodF) {};
 \end{scope}
 
 % ============================= arrows ==============================
@@ -221,7 +222,8 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 \node[banner, fill=diagAc] at ([xshift=7mm]diagF.north west) {Diagnostic phase};
 \node[banner, fill=prodAc] at ([xshift=7mm]prodF.north west) {Production phase};
 
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{Per-star line-list filtering workflow (Sect.~\ref{sec:methods_filter}). In the diagnostic phase (blue) the star is fitted on the common line list with a reduced number of MCMC steps, and the mean per-pixel $\chi^2$ over the fitted pixels of each region, $\chi^2_R/N_R$, is evaluated. If no region exceeds the threshold $\chi^2_R/N_R > 50$ the common list is final and the run is carried to its full production length; if any region does, those regions are commented out to form a per-star filtered list and the star is refitted from scratch. The production phase (green) is in either case an ordinary pipeline run that differs only in the line list it uses, and it is this run that yields the reported parameters.}
 \label{fig:linelist_filter}
 \end{figure}
