@@ -159,10 +159,10 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
   font=\small, text=black,
   >={Stealth[length=2.6mm,width=2mm]},
   % ---- shared geometry: every box lines up to the same grid ----
-  box/.style={draw, align=center, inner sep=5pt, minimum height=11mm,
+  box/.style={draw, align=center, inner sep=2pt, minimum height=9mm,
               line width=0.8pt, fill=white},
   card/.style={box, text width=28mm},                  % fixed-width step box
-  term/.style={box, rounded corners=11pt, inner xsep=9pt, line width=0.9pt,
+  term/.style={box, rounded corners=8pt, inner xsep=9pt, inner ysep=1pt, line width=0.9pt,
                draw=termAc, fill=termBg, font=\small\bfseries},  % start / end
   diag/.style={card, draw=diagAc},                     % diagnostic-phase step
   prod/.style={card, draw=prodAc},                     % production-phase step
@@ -175,32 +175,36 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
   pyes/.style={font=\footnotesize\bfseries, draw=yesAc, text=yesAc, fill=white,
                line width=0.7pt, inner sep=2.5pt, rounded corners=2pt},
   banner/.style={font=\small\bfseries, text=white, inner sep=3.5pt,
-                 rounded corners=3pt, anchor=west},                % phase tab
+                 rounded corners=3pt, anchor=west, draw=diagAc},                % phase tab
 ]
 
 % ============================= start ===============================
 \node[term] (A) {Star $+$ common line list};
 
 % ========================= diagnostic spine ========================
-\node[diag, below=10mm of A] (B) {Fit with reduced MCMC steps};
-\node[diag, below=6mm of B]  (C) {Compute $\chi^2_R/N_R$ for each region $R$};
-\node[dec,  below=7mm of C]  (D) {Any region with\\[1pt]$\chi^2_R/N_R > 50$\,?};
+\node[diag, below=8mm of A] (B) {Run pipeline with reduced steps};
+\node[diag, below=6mm of B]  (C) {Compute $\chi^2_R/N_R$ for each region};
+\node[dec,  below=5mm of C]  (D) {Any region with\\[1pt]$\chi^2_R/N_R > 50$\,?};
 
 % ===================== branch (decision outcome) ===================
-\node[bridge] (E) at ([xshift=-22mm,yshift=-19mm]D.south) {Common list is final};
-\node[bridge] (F) at ([xshift= 22mm,yshift=-19mm]D.south) {Drop rejected regions\\$\rightarrow$ filtered list};
+\node[diag] (E) at ([xshift=-22mm,yshift=-15mm]D.south) {Common list is final};
+\node[diag] (F) at ([xshift= 22mm,yshift=-15mm]D.south) {Drop rejected regions\\$\rightarrow$ filtered list};
 
 % ======================== production lanes =========================
-\node[prod, below=12mm of E] (G) {Run to full length\\(5000 steps)};
-\node[prod, below=12mm of F] (H) {Refit from scratch\\on filtered list};
-\node[term] (I) at ($(G.south)!0.5!(H.south)+(0,-12mm)$) {Reported parameters};
+\node[prod, below=12mm of E] (G) {Run to full length};
+\node[prod, below=12mm of F] (H) {Rerun from scratch\\on filtered list};
+\node[term] (I) at ($(G.south)!0.5!(H.south)+(0,-8mm)$) {Posterior estimates};
 
 % ===================== phase frames (background) ===================
+\coordinate[above=4mm of B] (diagTop);
+\coordinate[below=21mm of D] (diagBot);
+\coordinate[above=6mm of G] (prodTop);
+\coordinate[below=3mm of I] (prodBot);
 \begin{scope}[on background layer]
   \node[draw=diagAc, fill=diagBg, rounded corners=9pt, line width=1pt,
-        fit=(B)(C)(D), inner xsep=6mm, inner ysep=7mm] (diagF) {};
+        fit=(B)(C)(D)(diagTop)(diagBot), inner xsep=23.5mm, inner ysep=0mm] (diagF) {};
   \node[draw=prodAc, fill=prodBg, rounded corners=9pt, line width=1pt,
-        fit=(G)(H)(I), inner xsep=6mm, inner ysep=7mm] (prodF) {};
+        fit=(G)(H)(I)(prodTop)(prodBot), inner xsep=8mm, inner ysep=0mm] (prodF) {};
 \end{scope}
 
 % ============================= arrows ==============================
@@ -208,8 +212,8 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 \draw[arr] (B) -- (C);
 \draw[arr] (C) -- (D);
 
-\draw[arr] (D.south) -- (E.north) node[pno, pos=0.62] {No};
-\draw[arr] (D.south) -- (F.north) node[pyes, pos=0.62] {Yes};
+\draw[arr] (D.south) -- (E.north) node[pno, pos=0.5] {No};
+\draw[arr] (D.south) -- (F.north) node[pyes, pos=0.5] {Yes};
 
 \draw[arr] (E) -- (G);
 \draw[arr] (F) -- (H);
@@ -224,21 +228,30 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 
 \end{tikzpicture}%
 }
-\caption{Per-star line-list filtering workflow (Sect.~\ref{sec:methods_filter}). In the diagnostic phase (blue) the star is fitted on the common line list with a reduced number of MCMC steps, and the mean per-pixel $\chi^2$ over the fitted pixels of each region, $\chi^2_R/N_R$, is evaluated. If no region exceeds the threshold $\chi^2_R/N_R > 50$ the common list is final and the run is carried to its full production length; if any region does, those regions are commented out to form a per-star filtered list and the star is refitted from scratch. The production phase (green) is in either case an ordinary pipeline run that differs only in the line list it uses, and it is this run that yields the reported parameters.}
+\caption{Per-star line-list filtering workflow. In the diagnostic phase (blue) the pipeline is ran using the common line list with a reduced number of MCMC steps, and the mean per-pixel $\chi^2$ over the fitted pixels of each region, $\chi^2_R/N_R$, is evaluated. If no region exceeds the threshold the common list is final and the run is carried to its full production length. If any region does, those regions are filtered out and the pipeline is rerun from scratch with the filtered line list. The production phase (green) is in either case an ordinary pipeline run that differs only in the line list it uses, and it is this run that yields the posterior estimates.}
 \label{fig:linelist_filter}
 \end{figure}
 
 The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnostic phase the star is fitted on the full common list with a reduced number of MCMC steps, the aim being a representative synthetic spectrum rather than a converged posterior. The forward model evaluated at the point estimates of this posterior gives this synthetic spectrum, which we compare to the observations region by region. For a region $R$ we take the mean per-pixel $\chi^2$ over its $N_R$ fitted pixels ($\chi^2_R/N_R$). This is also the quantity reported by the tool used to build the list by hand (Sect.~\ref{sec:methods_linelist}), so manual and automatic selection rank regions using a common method.
 
-A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the per-region fits: below it the model reproduces the data well, while higher values mark clear mismatches such as an unmodelled blend, a residual telluric, or a continuum error. Since the metric is a mean of squared, error-normalised residuals, $50$ corresponds to a mean per-pixel residual of $\sim\!7\sigma$, so the cut is deliberately permissive, leaving marginal regions in the fit, where the error-inflation step of Sect.~\ref{sec:methods_likelihood} already down-weights them.
+A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the per-region model. Below the threshold the model reproduces the data well, while higher values mark mismatches such as an unmodelled blend, a residual telluric, or a continuum error. Since the metric is a mean of squared, error-normalised residuals, $50$ corresponds to a mean per-pixel residual of $\sim\!7\sigma$, so the cut is deliberately permissive, leaving marginal regions in the fit, where the error-inflation step of Sect.~\ref{sec:methods_likelihood} already down-weights them.
 
 The diagnostic check sets the production run. If no region is rejected, the common list is final and the run continues to the full production length. If any region is rejected, the fitted pixels and the likelihood have changed, and the star is refitted from scratch on its filtered list. The filtered list is saved as a copy of the common list with rejected regions commented out and annotated with their $\chi^2_R/N_R$, preserving each star's provenance. In either case the production run is an ordinary pipeline run (Sect.~\ref{sec:methods_sampling}) differing only in its line list, and it is this run that yields the reported parameters.
 
 
 \subsection{Magnetic-component selection via BIC}
 \label{sec:methods_bic}
-The modelling of the magnetic activity is described in Sect. ~\ref{sec:methods_magnetic}. Due to the inherent functionalities of how the emcee operates, we noticed that, specifically for weak magnetically active stars, the sampler tries to account for small 
+The modelling of the magnetic activity is described in Sect. ~\ref{sec:methods_magnetic}. Due to the inherent functionalities of how the priors are defined and the emcee sampler operates, we notice that, specifically for weak magnetically active stars, the sampler tries to account for small contributions of strong magnetic components (filling factors). Since each filling factor is non-negative, the sampler will explore only values equal or greater than zero. This inherently biases the value to a value larger than 0, because of an asymmetry. Even small contributions of these strong magnetic components can have a significant impact on the average magnetic fields strength $<B>$ for weakly magnetically active stars. This means that if we sample all 10 magnetic componenets and filling factors, we are biasing our results to a higher average magnetic fields strength. We therefore implemented a method to reduce the number of magnetic components used as a free parameter in the MCMC, and thus find a more realistic number for $<B>$.
 
+To combat this inherent problem we make use of the Bayesian information criterion (BIC) to find the optimal number of magnetic components for each individual star. The BIC is defined as
+\begin{equation}
+    \mathrm{BIC} = -2 \ln{p( Y|\hat\theta)} + d\ln{n},
+\end{equation}
+where (explain variables in formula) \citep{Sharma_2017}. This criterion rewards a high likelihood (Eq. ~\ref{eq:likelihood}), but give a penalty that scales with the number of free parameters, inherently penalizing overfitting and the complexity of the model. A minimal BIC is optimal. 
+
+In order to be able to use the BIC to find the optimal number of magnetic components we use a small trick. After having completed a full run as described in Sect. ~\ref{sec:methods_filter}, we compute the BIC value for this star which has 0-10 kG magnetic componenets with an interval of 1kG by default. We then remove the strongest magnetic component and add its filling factor to the second highest component. We then compute a new synthetic spectrum using the forward model,  compute the new likelihood, and compute the BIC for this configuration. We repeat this process until all magnetic componenets have been eliminated and have saved the BIC for each configuration. The configuration with the lowest BIC is considered the optimal configuration.
+
+With this new configuration we rerun the pipeline in the production phase with the filtered line list from the diagnostic phase run.
 
 \subsubsection{Motivation}
 
