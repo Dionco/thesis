@@ -109,8 +109,7 @@ The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Ca
 \subsection{Line list}
 \label{sec:methods_linelist}
 
-Not all of the observed spectrum is usable, and not all of it is equally
-informative. Parts are degraded by low signal-to-noise or contaminated by
+A careful selection of absorption lines is crucial. Not all of the observed spectrum is usable, and not all of it is equally informative. Parts are degraded by low signal-to-noise or contaminated by
 telluric features, and the forward model reproduces some regions more
 faithfully than others. We therefore restrict the analysis to a curated set of spectral regions, since the likelihood of Sect.~\ref{sec:methods_likelihood} is evaluated only over them: these regions alone determine which features drive the joint posterior over $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and the filling factors $f_i$. In what follows we use \emph{line list} for the set of spectral lines of interest and \emph{regions}
 for the wavelength windows around them on which the likelihood is computed.
@@ -155,10 +154,6 @@ The sample of stars described in ~\ref{tab:obs_summary} spans multiple spectral 
 
 Using this method we find that we are able to use more lines across the sample of stars, and the convergence and quality of the synthetic spectrum generated with the point estimates of the posteriors of the filtered runs improve substantially. 
 
-\begin{enumerate}
-    \item 
-\end{enumerate}
-
 \subsubsection{Motivation}
 
 \subsubsection{Two-phase architecture}
@@ -172,6 +167,8 @@ Using this method we find that we are able to use more lines across the sample o
 
 \subsection{Magnetic-component selection via BIC}
 \label{sec:methods_bic}
+The modelling of the magnetic activity is described in Sect. ~\ref{sec:methods_magnetic}. Due to the inherent funcitonalities of how the emcee operates, we noticed that, specifically for weak magnetically active stars, the sampler tries to account for small 
+
 
 \subsubsection{Motivation}
 
