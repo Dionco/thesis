@@ -26,6 +26,23 @@
 % \usepackage[toc,page]{appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TikZ — workflow flowcharts (e.g. the per-star line-list filter, Sect.~\ref{sec:methods_filter})
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, fit, calc, shapes.geometric, backgrounds}
+% Flowchart palette (light & muted)
+\definecolor{diagAc}{HTML}{3F7CA6}  % steel blue       - diagnostic accent
+\definecolor{diagBg}{HTML}{EEF4F9}  % pale blue        - diagnostic frame
+\definecolor{prodAc}{HTML}{4E9379}  % muted green      - production accent
+\definecolor{prodBg}{HTML}{EDF6F0}  % pale green       - production frame
+\definecolor{decAc}{HTML}{C79A3E}   % soft ochre       - decision accent
+\definecolor{decBg}{HTML}{FBF3DF}   % pale amber       - decision fill
+\definecolor{termAc}{HTML}{5C6B7A}  % slate grey       - terminal border
+\definecolor{termBg}{HTML}{EBEEF1}  % pale grey        - terminal fill
+\definecolor{edge}{HTML}{4A5560}    % soft dark grey   - arrows
+\definecolor{noAc}{HTML}{B05A4E}    % muted terracotta - "No"
+\definecolor{yesAc}{HTML}{4E9379}   % muted green      - "Yes"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{txfonts}
 \usepackage{dblfloatfix}
 \RequirePackage[noabbrev,nameinlink,]{cleveref} % Intelligent cross-referencing
