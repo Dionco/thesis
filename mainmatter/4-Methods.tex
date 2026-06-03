@@ -152,7 +152,7 @@ V\,\textsc{i} & 8119.07 [1.42], 8146.91 [1.51] \\
 
 The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a diverse sample. Because the targets of Table~\ref{tab:obs_summary} span a range of M spectral types and data quality, a region that is clean and well modelled in one star can be unusable in another. Telluric absorption falls at different stellar-frame wavelengths depending on a star's radial velocity and observing epochs, so a line free of contamination in one target may be blended in another, and low S/N can leave a region uninformative. Line strengths also depend strongly on $T_\mathrm{eff}$, so a transition that is clean in a warmer M dwarf can be overwhelmed by a growing blend in a cooler one. \citet{reiners+2022} address both by tailoring the selection per star: a minimum S/N per line, a rejection of lines lying too close to tellurics, and a progressive exclusion of lines below $T_\mathrm{eff}=3750$ and $3600\,\mathrm{K}$. Rather than impose fixed temperature cuts, we identify the regions to drop empirically, from a short diagnostic run of each star.
 
-\begin{figure*}
+\begin{figure}
 \centering
 \begin{tikzpicture}[
   font=\small, text=black,
@@ -224,7 +224,7 @@ The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a
 \end{tikzpicture}
 \caption{Per-star line-list filtering workflow (Sect.~\ref{sec:methods_filter}). In the diagnostic phase (blue) the star is fitted on the common line list with a reduced number of MCMC steps, and the mean per-pixel $\chi^2$ over the fitted pixels of each region, $\chi^2_R/N_R$, is evaluated. If no region exceeds the threshold $\chi^2_R/N_R > 50$ the common list is final and the run is carried to its full production length; if any region does, those regions are commented out to form a per-star filtered list and the star is refitted from scratch. The production phase (green) is in either case an ordinary pipeline run that differs only in the line list it uses, and it is this run that yields the reported parameters.}
 \label{fig:linelist_filter}
-\end{figure*}
+\end{figure}
 
 The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnostic phase the star is fitted on the full common list with a reduced number of MCMC steps, the aim being a representative synthetic spectrum rather than a converged posterior. The forward model evaluated at the point estimates of this posterior gives this synthetic spectrum, which we compare to the observations region by region. For a region $R$ we take the mean per-pixel $\chi^2$ over its $N_R$ fitted pixels ($\chi^2_R/N_R$). This is also the quantity reported by the tool used to build the list by hand (Sect.~\ref{sec:methods_linelist}), so manual and automatic selection rank regions using a common method.
 
