@@ -2,7 +2,7 @@
 %% Chapter 4: Methods — characterising spectra with MCMC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Methods: characterising spectra with MCMC}
+\section{Methods: characterising spectra with an MCMC}
 \label{sec:methods}
 
 This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit: we sample the posterior distribution of a parameter vector and report point estimates (posterior medians) and credible intervals derived from it. The parameter vector spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. The synthetic spectrum compared to the data is not drawn from the ZeeTurbo grid directly; it is built from the grid at every step by interpolation, magnetic mixing, Doppler shifting and broadening.
@@ -11,13 +11,14 @@ This chapter describes how we extract atmospheric and magnetic parameters from t
 
 \subsection{The MCMC fit}
 \label{sec:methods_fit}
-We fit each master spectrum with a Bayesian forward model. At every step a synthetic spectrum is constructed from the \texttt{ZeeTurbo} grid, compared to the data through a likelihood, and the posterior distribution of the parameter vector is explored with the \texttt{emcee} ensemble sampler\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}. Sect.~\ref{sec:methods_forward} describes the forward model; Sect.~\ref{sec:methods_magnetic} how magnetic activity enters it; Sect.~\ref{sec:methods_freeparams} the free parameters and their priors; Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment; and Sect.~\ref{sec:methods_sampling} the sampler configuration.
+% We fit each master spectrum with a Bayesian forward model. 
+At every step a synthetic spectrum is constructed from the \texttt{ZeeTurbo} grid, compared to the data through a likelihood, and the posterior distribution of the parameter vector is explored with the \texttt{emcee} ensemble sampler\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}. Sect.~\ref{sec:methods_forward} describes the forward model; Sect.~\ref{sec:methods_magnetic} how magnetic activity enters it; Sect.~\ref{sec:methods_freeparams} the free parameters and their priors; Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment; and Sect.~\ref{sec:methods_sampling} the sampler configuration.
 
 \subsubsection{Forward model}
 \label{sec:methods_forward}
 The forward model turns a parameter vector into a synthetic spectrum that can be compared to the data; it is evaluated afresh at every MCMC step. Synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each magnetic-field node $B_i$, with $i = 0, 1, \dots, N_B$ indexing the discrete field strengths spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces $N_B + 1$ per-node spectra $S_i(\lambda; T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ on the wavelength grid of the precomputed grid.
 
-Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectrum is modelled as a combination of spectra computed for various magnetic field strengths. The interpolated per-node spectra are linearly combined in flux, weighted by the filling factors $f_i$:
+Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectrum is modelled as a linear combination of these spectra computed for various magnetic field strengths. The interpolated per-node spectra are linearly combined in flux, weighted by the filling factors $f_i$:
 \begin{equation}
   \label{eq:magnetic-mixing}
   S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda) ,
@@ -31,7 +32,8 @@ The combined spectrum is then shifted in wavelength to the stellar rest frame. T
     \label{eq:doppler}
     \mathcal{D}(v_r) \;=\; \sqrt{\frac{1 + \beta}{1 - \beta}} , \qquad \beta \equiv \frac{v_r}{c}
 \end{equation}
-is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid. We write the resulting model flux at pixel $i$ as $M_i$, the quantity that enters the likelihood of Sect.~\ref{sec:methods_likelihood}.
+is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid. 
+% We write the resulting model flux at pixel $i$ as $M_i$, the quantity that enters the likelihood of Sect.~\ref{sec:methods_likelihood}.
 
 % which is defined as follows:
 % \begin{equation}
@@ -80,7 +82,7 @@ $v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
 \end{tabular}
 \end{table}
 
-\subsubsection{Likelihood and error treatment}
+\subsubsection{Likelihood and error estimation}
 \label{sec:methods_likelihood}
 Following \citet{cristofari_2023a, cristofari_2023b}, we adopt a pixel-wise Gaussian likelihood. With $O_i$ the observed normalised flux at pixel $i$, $M_i$ the synthetic flux returned by the forward model, and $\sigma_i$ the observational uncertainty on $O_i$, the chi-squared statistic is
 \begin{equation}
@@ -106,19 +108,15 @@ The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Ca
 
 \subsection{Line list}
 \label{sec:methods_linelist}
-The line list defines the wavelength regions on which the likelihood of Sect.~\ref{sec:methods_likelihood} is evaluated, and therefore which features of the spectrum drive the joint posterior over $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and the filling factors $f_i$. Because each parameter changes the line's strength, width, or wavelength position in ways that partly mimic the others, the list must be chosen so that their responses can be separated rather than absorbed into one another \citep{Kochukhov_2021}. A clear instance is the degeneracy between metallicity and magnetic intensification: both raise the equivalent width of magnetically sensitive Fe lines, so a list dominated by high-$g_\mathrm{eff}$ Fe transitions cannot distinguish a more metal-rich, weakly magnetic star from a less metal-rich, strongly magnetic one. 
+A careful selection of absorption lines is crucial. Regions of the observed spectra may be of poor quality or contaminated by telluric features, rendering them unsuitable for analysis, and the models themselves perform better in some spectral regions than others. We therefore restrict the pipeline to an optimally selected set of regions and exclude the rest. This choice matters because the likelihood of Sect.~\ref{sec:methods_likelihood} is evaluated only on these regions, which in turn determine the spectral features that drive the joint posterior over $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and the filling factors $f_i$. Because each parameter changes a line's strength, width, or wavelength position in ways that partly mimic the others, the list must be chosen so that their responses can be disentangled rather than absorbed into one another \citep{Kochukhov_2021}. A clear example is the degeneracy between metallicity and magnetic intensification: both increase the equivalent width of magnetically sensitive Fe lines. The magnetic sensitivity of a transition is set by its effective Land\'e factor $g_\mathrm{eff}$, which fixes the size of the Zeeman splitting at a given field strength, so a list dominated by high-$g_\mathrm{eff}$ Fe transitions cannot distinguish a more metal-rich, weakly magnetic star from a less metal-rich, strongly magnetic one.
 
-\subsubsection{Source}
-\label{sec:methods_linelist_source}
+The set of lines should cover a range of Landé-g values to break degeneracies between different broadening mechanisms. Lines at longer wavelengths are more Zeeman sensitive and therefore preferable \citep{donati_landstreet+2009, Reiners+2012}. \citet{Kochukhov+2017, Shulyak+2017, Kochukhov_2021} showed that a group of Ti I lines around 970 nm is a very useful for Zeeman analysis. A set of suitable spectral lines have been identified with a range of Landé-g values to separate magnetic Zeeman broadening from other broadening effects. It is in particular important to include at least one line that shows little to no sensitivity to Zeeman broadening in order to determine the macroturbulence and disentangle rotational from Zeeman broadening.
 
-\subsubsection{Selection criteria}
-\label{sec:methods_linelist_selection}
+In order to create this set of lines, an exploratory spectrum tool has been created, called wave explorer. This tool uses the observed spectrum and synthetic spectrum generated using the retrieved parameters for a star. With this we can observe what spectral lines are fitted properly. We can edit the bounds of the regions, add regions and also remove them. The tool also show the residuals between the observations and generated spectrum, giving an objective indication of similarity between the two spectra. Each regions also has a quality flag based on the reduced chi2 values of that region, adding another objective indication to the quality of that region. With these quality flags, a list/table ordered by the quality is computed, giving the user the ability to quickly inspect regions which show a large dispute between observations and the synthetic spectrum. 
 
+This tool can be used for a single star, but also a set of stars, which allows for the option of creating a hyper specific set of lines for a single star, but also a set of lines which is in accordance and works better for a wider range of stars, which is useful for running analyses simultaneously. This is done by averaging the flux of the observations and modelled flux pixel-per-pixel. This way we can observe what spectral features are shared in a wider set of stars and use those to create a line list which works well for many of those stars.
 
-\subsubsection{Initial list construction}
-\label{sec:methods_linelist_initial}
-
-The initial optical list used for the NARVAL/ESPaDOnS configuration of the retrieval comprises $45$ wavelength regions in the range $746$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region (largest central depth, $\pm 0.02\,\mathrm{nm}$ padding); Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is dominated by Ti\,\textsc{i} ($24$ lines) and Fe\,\textsc{i} ($16$ lines), with single Cr\,\textsc{i} and Mg\,\textsc{i} regions, two V\,\textsc{i} regions, and one molecular MgH region.
+The initial optical list used for the NARVAL/ESPaDOnS configuration of the retrieval comprises $45$ wavelength regions in the range $746$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region. Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is dominated by Ti\,\textsc{i} ($24$ lines) and Fe\,\textsc{i} ($16$ lines), with single Cr\,\textsc{i} and Mg\,\textsc{i} regions, two V\,\textsc{i} regions, and one molecular MgH region.
 
 \begin{table}
 \caption{Initial optical line list. The identification relied on wavelengths and depths extracted from the VALD database. Each entry reports the central wavelength of the line region (vacuum \AA). Effective Landé factors are given for atomic lines.}
