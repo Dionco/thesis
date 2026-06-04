@@ -2,7 +2,7 @@
 %% Chapter 4: Methods — characterising spectra with MCMC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Methods: characterising spectra with an MCMC}
+\section{Methods: characterising spectra using \texttt{ASAP}}
 \label{sec:methods}
 
 This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit: we sample the posterior distribution of a parameter vector and report point estimates (posterior medians) and credible intervals derived from it. The parameter vector spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. The synthetic spectrum compared to the data is not drawn from the ZeeTurbo grid directly; it is built from the grid at every step by interpolation, magnetic mixing, Doppler shifting and broadening.
@@ -12,7 +12,7 @@ This chapter describes how we extract atmospheric and magnetic parameters from t
 \subsection{The MCMC fit}
 \label{sec:methods_fit}
 % We fit each master spectrum with a Bayesian forward model. 
-At every step a synthetic spectrum is constructed from the \texttt{ZeeTurbo} grid, compared to the data through a likelihood, and the posterior distribution of the parameter vector is explored with the \texttt{emcee} ensemble sampler\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}. Sect.~\ref{sec:methods_forward} describes the forward model; Sect.~\ref{sec:methods_magnetic} how magnetic activity enters it; Sect.~\ref{sec:methods_freeparams} the free parameters and their priors; Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment; and Sect.~\ref{sec:methods_sampling} the sampler configuration.
+At every step a synthetic spectrum is constructed from the \texttt{ZeeTurbo} grid, compared to the data through a likelihood, and the posterior distribution of the parameter space is explored with the \texttt{emcee} ensemble sampler\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}. Sect.~\ref{sec:methods_forward} describes the forward model; Sect.~\ref{sec:methods_magnetic} how magnetic activity enters it; Sect.~\ref{sec:methods_freeparams} the free parameters and their priors; Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment; and Sect.~\ref{sec:methods_sampling} the sampler configuration.
 
 \subsubsection{Forward model}
 \label{sec:methods_forward}
