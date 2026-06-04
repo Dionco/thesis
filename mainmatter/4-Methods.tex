@@ -5,7 +5,9 @@
 \section{Methods: characterising spectra using \texttt{ASAP}}
 \label{sec:methods}
 
-This chapter describes how we extract atmospheric and magnetic parameters from the template spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a pipeline in which the forward model create a synthetic spectrum and the MCMC explores and sample the parameter space, creating and comparing the synthetic spectrum to the observations at each step. We sample the posterior distribution of the parameter space and report point estimates (posterior medians) and credible intervals derived from it. The parameter space spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range.
+This chapter describes how we recover atmospheric and magnetic parameters from the template spectra of Sect.~\ref{sec:obs_preparation}. We use \texttt{asap}, a retrieval pipeline that couples a forward model, which turns a parameter set into a synthetic spectrum, with an MCMC sampler, which explores the parameter space and scores each proposal by how well its spectrum reproduces the observations. Run as a loop, the two map out the posterior distribution of the parameters, from which we report point estimates (posterior medians) and credible intervals. The parameters are the effective temperature $T_\mathrm{eff}$, surface gravity $\log g$, metallicity $\mathrm{[M/H]}$, radial velocity $v_r$, macroturbulence $\zeta_\mathrm{RT}$, and a set of magnetic filling factors $f_i$ defined on a grid of field strengths $B_i$ spanning $0$--$10\,\mathrm{kG}$.
+
+The chapter follows the pipeline from a single fit to the full sample. Sect.~\ref{sec:methods_fit} sets out the \texttt{asap} retrieval itself: the forward model, how magnetic activity enters it, the free parameters and priors, and the likelihood. Sect.~\ref{sec:methods_linelist} describes the common atomic and molecular line list, that selects which spectral regions enter the likelihood. Sect.~\ref{sec:methods_filter} adds a per-star, $\chi^2$-based filter that prunes regions the forward model fits poorly, so a single starting list can serve a diverse sample. Sect.~\ref{sec:methods_bic} introduces a post-hoc BIC scan that fixes the number of magnetic components per star, in place of the fixed magnetic grids used by \citet{cristofari+2022b, cristofari_2023b, reiners+2022}.
 
 % Sect.~\ref{sec:methods_fit} introduces the single-star fit. Sect.~\ref{sec:methods_linelist} describes the atomic and molecular line list common to all stars, drawn from the VALD3 database [CITATION NEEDED: vald3]. Sect.~\ref{sec:methods_filter} introduces a per-star, $\chi^2$-based filter that prunes spectral regions in which the forward model fits the data poorly, allowing the use of a uniform initial list across a heterogeneous sample. Sect.~\ref{sec:methods_bic} introduces a post-hoc $\mathrm{BIC}$ scan that selects the number of magnetic filling-factor components per star, in contrast to the fixed magnetic grids used by \citet{cristofari+2022b, cristofari_2023b, reiners_2022}. Sect.~\ref{sec:methods_campaign} closes by describing how these elements are assembled into a three-phase campaign that produces the self-consistent parameter set used in the chapters that follow.
 
@@ -44,7 +46,7 @@ is evaluated, and the synthetic wavelength solution is multiplied by it. An init
 % \end{enumerate}
 % The returned initial Radial velocity is then equal to $v_\text{RV} =  v_0 + v_1$. This value is then used to shift the wavelength solution of the synthetic spectrum to match the observed radial velocity.
 
-\subsubsection{Modelling magnetic activity}
+\subsubsection{Modelling magnetic intensity}
 \label{sec:methods_magnetic}
 Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectrum is modelled as a linear combination of the spectra computed with \texttt{ZeeTurbo} for various magnetic field strengths. These interpolated spectra are linearly combined in flux, weighted by the filling factors $f_i$,
 \begin{equation}
@@ -257,10 +259,8 @@ $\langle B \rangle$ is derived. Figure~\ref{fig:bic_scan_ds_leo} illustrates thi
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/bic_scan_ds_leo.pdf}
-    \caption{The post-hoc BIC scan (Sect.~\ref{sec:methods_bic}) for DS~Leo. Plotted is $\Delta\mathrm{BIC}$, the BIC relative to its lowest value, against the strongest magnetic component still retained as the scan collapses the $0$--$10\,\mathrm{kG}$ grid from the top down. The curve falls as unsupported high-field components are stripped and rises once a genuine one is removed; the minimum (red point) is adopted: five components with a maximum field of $4\,\mathrm{kG}$. The inset magnifies the shallow upturn beyond the minimum, with the dotted line at $\Delta\mathrm{BIC}=10$ for reference.}
+    \caption{The post-hoc BIC scan for DS~Leo. Plotted is $\Delta\mathrm{BIC}$, the BIC relative to its lowest value, against the strongest magnetic component still retained as the scan collapses the $0$--$10\,\mathrm{kG}$ grid from the top down. The curve falls as unsupported high-field components are stripped and rises once a genuine one is removed. The minimum (red point) is adopted: five components with a maximum field of $4\,\mathrm{kG}$. The inset magnifies the shallow upturn beyond the minimum, with the dotted line at $\Delta\mathrm{BIC}=10$ for reference.}
     \label{fig:bic_scan_ds_leo}
 \end{figure}
 
 
-\subsection{Campaign-level orchestration}
-\label{sec:methods_campaign}
