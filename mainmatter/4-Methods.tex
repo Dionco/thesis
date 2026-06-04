@@ -5,34 +5,28 @@
 \section{Methods: characterising spectra using \texttt{ASAP}}
 \label{sec:methods}
 
-This chapter describes how we extract atmospheric and magnetic parameters from the master spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a Bayesian MCMC fit: we sample the posterior distribution of a parameter vector and report point estimates (posterior medians) and credible intervals derived from it. The parameter vector spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range. The synthetic spectrum compared to the data is not drawn from the ZeeTurbo grid directly; it is built from the grid at every step by interpolation, magnetic mixing, Doppler shifting and broadening.
+This chapter describes how we extract atmospheric and magnetic parameters from the template spectra produced in Sect.~\ref{sec:obs_preparation}. The retrieval is a pipeline in which the forward model create a synthetic spectrum and the MCMC explores and sample the parameter space, creating and comparing the synthetic spectrum to the observations at each step. We sample the posterior distribution of the parameter space and report point estimates (posterior medians) and credible intervals derived from it. The parameter space spans $T_\mathrm{eff}$, $\log g$, $\mathrm{[M/H]}$, $v_r$, $\zeta_\mathrm{RT}$, and a set of discrete filling factors $f_i$ defined on a grid of magnetic field strengths $B_i$ over the $0$--$10\,\mathrm{kG}$ range.
 
 % Sect.~\ref{sec:methods_fit} introduces the single-star fit. Sect.~\ref{sec:methods_linelist} describes the atomic and molecular line list common to all stars, drawn from the VALD3 database [CITATION NEEDED: vald3]. Sect.~\ref{sec:methods_filter} introduces a per-star, $\chi^2$-based filter that prunes spectral regions in which the forward model fits the data poorly, allowing the use of a uniform initial list across a heterogeneous sample. Sect.~\ref{sec:methods_bic} introduces a post-hoc $\mathrm{BIC}$ scan that selects the number of magnetic filling-factor components per star, in contrast to the fixed magnetic grids used by \citet{cristofari+2022b, cristofari_2023b, reiners_2022}. Sect.~\ref{sec:methods_campaign} closes by describing how these elements are assembled into a three-phase campaign that produces the self-consistent parameter set used in the chapters that follow.
 
-\subsection{The MCMC fit}
+\subsection{The ASAP retrieval}
 \label{sec:methods_fit}
-% We fit each master spectrum with a Bayesian forward model. 
-At every step a synthetic spectrum is constructed from the \texttt{ZeeTurbo} grid, compared to the data through a likelihood, and the posterior distribution of the parameter space is explored with the \texttt{emcee} ensemble sampler\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}. Sect.~\ref{sec:methods_forward} describes the forward model; Sect.~\ref{sec:methods_magnetic} how magnetic activity enters it; Sect.~\ref{sec:methods_freeparams} the free parameters and their priors; Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment; and Sect.~\ref{sec:methods_sampling} the sampler configuration.
+The \texttt{asap} retrieval couples a forward model, which turns a parameter set into a synthetic spectrum, with an MCMC sampler, which
+explores the parameter space and scores each proposal by how well that
+spectrum reproduces the data. The two run in a loop: at each step the sampler proposes a parameter set, the forward model renders the corresponding synthetic spectrum, and a likelihood measures its agreement with the observation. The proposal is accepted or rejected accordingly, and over many steps the accepted positions trace out the posterior. We use the affine-invariant ensemble sampler \texttt{emcee}\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}.
+
+The remainder of this section follows that division. Sect.~\ref{sec:methods_forward} and Sect.~\ref{sec:methods_magnetic} describe the forward model and how magnetic activity enters it. Sect.~\ref{sec:methods_freeparams} lists the sampled parameters and their priors, Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment, and Sect.~\ref{sec:methods_sampling} the sampler configuration.
 
 \subsubsection{Forward model}
 \label{sec:methods_forward}
-The forward model turns a parameter vector into a synthetic spectrum that can be compared to the data; it is evaluated afresh at every MCMC step. Synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each magnetic-field node $B_i$, with $i = 0, 1, \dots, N_B$ indexing the discrete field strengths spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces $N_B + 1$ per-node spectra $S_i(\lambda; T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ on the wavelength grid of the precomputed grid.
+The forward model turns a parameter set into a synthetic spectrum that can be compared to the data. Synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each magnetic component $B_i$, with $i = 0, 1, \dots, N_B$ indexing the discrete field strengths spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces 11 spectra $S_i(\lambda)$, one per field strength, which the magnetic model of Sect.~\ref{sec:methods_magnetic} combines into the single spectrum $S_\mathrm{mag}= \sum f_i S_i$ used in the rest of the forward model.
 
-Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectrum is modelled as a linear combination of these spectra computed for various magnetic field strengths. The interpolated per-node spectra are linearly combined in flux, weighted by the filling factors $f_i$:
-\begin{equation}
-  \label{eq:magnetic-mixing}
-  S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda) ,
-  \qquad \sum_{i=0}^{N_B} f_i = 1 ,
-  \qquad f_i \geq 0 .
-\end{equation}
-The physical interpretation of this mixing and the constraints on the $f_i$ are described in Sect.~\ref{sec:methods_magnetic}.
-
-The combined spectrum is then shifted in wavelength to the stellar rest frame. The radial velocity $v_r$ is a free parameter of the fit (Sect.~\ref{sec:methods_freeparams}); from its current sample the relativistic Doppler factor
+The combined spectrum is then shifted in wavelength to the stellar rest frame. The relativistic Doppler factor
 \begin{equation}
     \label{eq:doppler}
     \mathcal{D}(v_r) \;=\; \sqrt{\frac{1 + \beta}{1 - \beta}} , \qquad \beta \equiv \frac{v_r}{c}
 \end{equation}
-is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask; this only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter (Sect.~\ref{sec:methods_freeparams}), applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid. 
+is evaluated, and the synthetic wavelength solution is multiplied by it. An initial value for $v_r$ is obtained once, before sampling, by cross-correlating the observed spectrum against a VALD absorption-line mask. This only seeds the walkers and is not held fixed during the fit. Finally the synthetic spectrum is broadened. Instrumental broadening is a fixed convolution set by the spectrograph resolution. Macroturbulence is a free parameter, applied in radial-tangential mode ($\zeta_\mathrm{RT}$). Rotational broadening is supported by the forward model but, for the slow-rotating M dwarfs of this sample, $v\sin i$ is deliberately fixed to zero: at the instrumental resolution rotation is unresolved, and the fitted $\zeta_\mathrm{RT}$ acts as an effective broadening parameter that absorbs the combined macroturbulent and residual rotational broadening. The fully transformed synthetic spectrum is then resampled onto the observed wavelength grid. 
 % We write the resulting model flux at pixel $i$ as $M_i$, the quantity that enters the likelihood of Sect.~\ref{sec:methods_likelihood}.
 
 % which is defined as follows:
@@ -52,9 +46,16 @@ is evaluated, and the synthetic wavelength solution is multiplied by it. An init
 
 \subsubsection{Modelling magnetic activity}
 \label{sec:methods_magnetic}
-The linear mixing of Eq.~\ref{eq:magnetic-mixing} treats the visible stellar surface as a mosaic of magnetic patches: each patch carries one of the discrete field strengths $B_i$ and contributes a fraction $f_i$ of the disc-integrated flux. The discrete set $\{B_i\}$ is not a free modelling choice; it is inherited from the \texttt{ZeeTurbo} grid described in the previous chapter, which samples $0$--$10\,\mathrm{kG}$ at $1\,\mathrm{kG}$ resolution. The mosaic is therefore a discretisation, at the grid's resolution, of the underlying continuous distribution of surface field strengths.
+Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, cristofari_2023a}, the stellar spectrum is modelled as a linear combination of the spectra computed with \texttt{ZeeTurbo} for various magnetic field strengths. These interpolated spectra are linearly combined in flux, weighted by the filling factors $f_i$,
+\begin{equation}
+  \label{eq:magnetic-mixing}
+  S_\mathrm{mag}(\lambda) = \sum_{i=0}^{N_B} f_i \, S_i(\lambda),
+  \qquad \sum_{i=0}^{N_B} f_i = 1,
+  \qquad f_i \geq 0 ,
+\end{equation} 
+where each weight $f_i$ is the fraction of the disc-integrated flux emitted by regions at field strength $B_i$. The two constraints have direct meaning: $f_i \geq 0$ because a region cannot cover a negative fraction of the disc, and $\sum_i f_i = 1$ because the strengths must account for the whole visible surface, with $f_0$ the non-magnetic fraction. Together they make $\{f_i\}$ a normalised distribution over field strength, which can be seen as a histogram, binned at the grid resolution, of how the visible disc is partitioned among the available strengths.
 
-Two constraints follow from this picture. Each filling factor is non-negative, $f_i \geq 0$, since a patch cannot cover a negative fraction of the visible disc. The filling factors sum to unity, $\sum_i f_i = 1$, so that the patches tile the entire visible surface. The MCMC does not sample all $N_B + 1$ filling factors independently: it samples the $N_B$ magnetic factors $f_1, \dots, f_{N_B}$, and the non-magnetic factor $f_0$ is fixed by closure, $f_0 = 1 - \sum_{i \geq 1} f_i$. The sum constraint is thus satisfied by construction, and the prior only enforces non-negativity, equivalently $\sum_{i \geq 1} f_i \leq 1$.
+The MCMC does not sample all $N_B + 1$ weights independently. It samples the $N_B$ magnetic factors $f_1, \dots, f_{N_B}$ and fixes the non-magnetic factor by closure, $f_0 = 1 - \sum_{i \geq 1} f_i$.
 
 \subsubsection{Free parameters and priors}
 \label{sec:methods_freeparams}
@@ -94,7 +95,7 @@ and the log-likelihood is
     \label{eq:likelihood}
     \ln \mathcal{L} = -\frac{1}{2}\chi^2 - \frac{1}{2}\sum_{i=1}^{n} \ln\!\left(2\pi\sigma_i^2\right) ,
 \end{equation}
-where $n$ is the number of fitted pixels. For fixed $\sigma_i$, maximising $\ln \mathcal{L}$ is equivalent to minimising $\chi^2$.
+where $n$ is the number of fitted pixels.
 
 To absorb modelling-induced systematics that the pipeline uncertainties do not capture, we follow the two-pass procedure of \citet{cristofari_2023a, cristofari_2023b}. A first MCMC is run with the original $\sigma_i$. The residuals at the posterior median yield a reduced chi-squared $\chi^2_\nu = \chi^2/\nu$, with $\nu = n - k$ degrees of freedom for $k$ free parameters. In the subsequent run, all pixel errors are inflated as $\sigma_i \to \sigma_i\sqrt{\chi^2_\nu}$, so that the best fit has $\chi^2_\nu \approx 1$.
 
