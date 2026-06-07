@@ -28,7 +28,7 @@ The remainder of this section follows that division. Sect.~\ref{sec:methods_forw
 
 \subsubsection{Forward model}
 \label{sec:methods_forward}
-The forward model turns a parameter set into a synthetic spectrum that can be compared to the data. Synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ at each magnetic component $B_i$ spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces 11 spectra $S_i(\lambda)$, one per field strength, which the magnetic model of Sect.~\ref{sec:methods_magnetic} combines into the single spectrum $S_\mathrm{mag}= \sum f_i S_i$ used in the rest of the forward model.
+The forward model turns a parameter set into a synthetic spectrum that can be compared to the data. Synthetic spectra are pulled from the precomputed \texttt{ZeeTurbo} grid and linearly interpolated over the 3D box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ (Fig.~\ref{fig:forward_model}) at each magnetic component $B_i$ spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. This produces 11 spectra $S_i(\lambda)$, one per field strength, which the magnetic model of Sect.~\ref{sec:methods_magnetic} combines into the single spectrum $S_\mathrm{mag}= \sum f_i S_i$ used in the rest of the forward model.
 
 The combined spectrum is then shifted in wavelength to the stellar rest frame. The relativistic Doppler factor
 \begin{equation}
@@ -62,7 +62,7 @@ Following \citet{shulyak+2010, shulyak+2014, kochukhov+2020, reiners+2022, crist
   \qquad \sum_{i=0}^{N_B} f_i = 1,
   \qquad f_i \geq 0 ,
 \end{equation} 
-where each weight $f_i$ is the fraction of the disc-integrated flux emitted by regions at field strength $B_i$. The two constraints have direct meaning: $f_i \geq 0$ because a region cannot cover a negative fraction of the disc, and $\sum_i f_i = 1$ because the strengths must account for the whole visible surface, with $f_0$ the non-magnetic fraction. Together they make $\{f_i\}$ a normalised distribution over field strength, which can be seen as a histogram, binned at the grid resolution, of how the visible disc is partitioned among the available strengths.
+where each weight $f_i$ is the fraction of the disc-integrated flux emitted by regions at field strength $B_i$. The two constraints have direct meaning: $f_i \geq 0$ because a region cannot cover a negative fraction of the disc, and $\sum_i f_i = 1$ because the strengths must account for the whole visible surface, with $f_0$ the non-magnetic fraction. Together they make $\{f_i\}$ a normalised distribution over field strength, which can be seen as a histogram, binned at the grid resolution, of how the visible disc is partitioned among the available strengths. Figure~\ref{fig:forward_model} illustrates this combination for a single line, with the filling factors drawn as a histogram over the field grid and the weighted sum $S_\mathrm{mag}$ shown beneath.
 
 The MCMC does not sample all $N_B + 1$ weights independently. It samples the $N_B$ magnetic factors $f_1, \dots, f_{N_B}$ and fixes the non-magnetic factor by closure, $f_0 = 1 - \sum_{i \geq 1} f_i$.
 
