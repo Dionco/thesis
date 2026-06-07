@@ -15,7 +15,7 @@ The chapter follows the pipeline from a single fit to the full sample. Sect.~\re
 \label{sec:methods_fit}
 The \texttt{asap} retrieval couples a forward model, which turns a parameter set into a synthetic spectrum, with an MCMC sampler, which
 explores the parameter space and scores each proposal by how well that
-spectrum reproduces the data. The two run in a loop: at each step the sampler proposes a parameter set, the forward model renders the corresponding synthetic spectrum, and a likelihood measures its agreement with the observation. The proposal is accepted or rejected accordingly, and over many steps the accepted positions trace out the posterior. Figure~\ref{fig:forward_model} illustrates one such step, from interpolation of the synthetic grid through the likelihood comparison, for a Zeeman-sensitive Fe\,\textsc{i} line in Gl~388 (AD~Leo). We use the affine-invariant ensemble sampler \texttt{emcee}\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}.
+spectrum reproduces the data. The two run in a loop: at each step the sampler proposes a parameter set, the forward model renders the corresponding synthetic spectrum, and a likelihood measures its agreement with the observation. The proposal is accepted or rejected accordingly, and over many steps the accepted positions trace out the posterior. Figure~\ref{fig:forward_model} illustrates one such step, from interpolation of the synthetic grid through the likelihood comparison, for a Zeeman-sensitive Ti\,\textsc{i} line in Gl~388 (AD~Leo). We use the affine-invariant ensemble sampler \texttt{emcee}\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}.
 
 \begin{figure*}
     \centering
