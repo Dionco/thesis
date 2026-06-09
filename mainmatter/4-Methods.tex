@@ -163,6 +163,12 @@ V\,\textsc{i} & 8119.07 [1.42], 8146.91 [1.51] \\
 \end{tabular}
 \end{table}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/region_filtering.pdf}
+    \caption{The region filter in action for Gl~445. Each panel shows one spectral region: the observed spectrum (black) against the fitted model (red). A region is kept when $\chi^2_R/N_R < 50$ (left column, green) and dropped when they exceed the threshold (right column, red). See Sect. ~\ref{sec:methods_filter} and Fig. ~\ref{fig:linelist_filter}}
+    \label{fig:region_filtering}
+\end{figure}
 
 \subsection{Per-star line-list filter}
 \label{sec:methods_filter}
@@ -253,14 +259,7 @@ The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnosti
 
 A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the per-region model. Below the threshold the model reproduces the data well, while higher values mark mismatches such as an unmodelled blend, a residual telluric, or a continuum error. Since the metric is a mean of squared, error-normalised residuals, $50$ corresponds to a mean per-pixel residual of $\sim\!7\sigma$, so the cut is deliberately permissive, leaving marginal regions in the fit, where the error-inflation step of Sect.~\ref{sec:methods_likelihood} already down-weights them.
 
-Figure~\ref{fig:region_filtering} shows the filter at work for Gl~445, putting the diagnostic phase of Fig.~\ref{fig:linelist_filter} into practice. Each panel sets the observed spectrum against the model fitted to it over one region of the common list, with the grey band marking the pixels that enter $\chi^2_R/N_R$ and the value itself printed in the corner, in green where the region is kept and red where it is dropped. The kept regions in the left column track the model closely and sit well below the threshold; the rejected ones in the right column tell the opposite story. All three shown fall in the $967$--$979\,\mathrm{nm}$ band, where telluric water absorption that the model does not reproduce pulls it away from the data and sends $\chi^2_R/N_R$ into the hundreds or thousands. The filter removes eight of the star's $45$ regions, six of them in that band.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/region_filtering.pdf}
-    \caption{The region filter in action for Gl~445. Each panel shows one spectral region: the observed spectrum (black) against the fitted model (red). A region is kept when the two agree (left column, green) and dropped when they clearly disagree (right column, red).}
-    \label{fig:region_filtering}
-\end{figure}
+Figure~\ref{fig:region_filtering} shows the filter at work for Gl~445, putting the diagnostic phase of Fig.~\ref{fig:linelist_filter} into practice. Each panel sets the observed spectrum against the model fitted to it over one region of the common list, with the grey band marking the pixels that enter $\chi^2_R/N_R$ and the value itself printed in the corner, in green where the region is kept and red where it is dropped. The kept regions in the left column track the model closely and sit below the threshold. The rejected regions in the right column fall in the $967$--$979\,\mathrm{nm}$ band, where telluric absorption that the model does not reproduce pulls it away from the data and sends $\chi^2_R/N_R$ over the threshold.
 
 The diagnostic check sets the production run. If no region is rejected, the common list is final and the run continues to the full production length. If any region is rejected, the fitted pixels and the likelihood have changed, and the star is refitted from scratch on its filtered list. The filtered list is saved as a copy of the common list with rejected regions commented out and annotated with their $\chi^2_R/N_R$, preserving each star's provenance. In either case the production run is an ordinary pipeline run (Sect.~\ref{sec:methods_sampling}) differing only in its line list, and it is this run that yields the reported parameters.
 
