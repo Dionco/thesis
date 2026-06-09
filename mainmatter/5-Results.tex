@@ -67,29 +67,8 @@ GJ~1002        & \dots & \dots & \dots & \dots \\
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{figures/literature_parameter_comparison.pdf}
-    \caption{Caption}
+    \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field with published values. From top to bottom the panels show $T_{\rm eff}$, $\log g$, $[\mathrm{M/H}]$ and $\langle B \rangle$; our \texttt{asap} retrieval (the BIC-selected run) is the black star and each literature source has its own coloured marker. Literature values are taken from \citet{Passegger_2019} (optical and near-infrared), \citet{Marfil_2021} (free and fixed $\log g$), \citet{Schweitzer_2019}, \citet{cristofari_2023b} and \citet{reiners+2022}; a star missing from a given table simply has no marker for that source. The magenta points in the $\log g$ panel are not a literature measurement but the surface gravity implied by each star's mass and radius.}
     \label{fig:literature_params}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{figures/teff_pre_and_post_bic_scan.pdf}
-    \caption{Effect of the BIC magnetic-component selection on the retrieved effective temperature. \emph{Top:} $T_{\rm eff}$ for each star from the full magnetic model (open grey circles), and from the model with the number of components fixed by the BIC scan (filled red circles); stars are ordered by their BIC-selected $T_{\rm eff}$. \emph{Bottom:} the star-by-star difference between the two (full minus BIC-selected), with the solid line at zero and the dashed line at the median. The median residual is only $+2.3$~K, about an order of magnitude smaller than the individual uncertainties, so fixing the number of magnetic components leaves the temperatures essentially unchanged.}
-    \label{fig:pre_post_bic_teff}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{figures/logg_pre_and_post_bic_scan.pdf}
-    \caption{Same as Fig.~\ref{fig:pre_post_bic_teff}, but for the surface gravity $\log g$. Open grey circles show the full magnetic model and filled red circles the BIC-selected model, with the stars kept in the same order. The median residual between the two is $-0.02$~dex, well within the per-star uncertainties, confirming that the magnetic-component selection does not bias the gravities.}
-    \label{fig:pre_post_bic_logg}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{figures/mh_pre_and_post_bic_scan.pdf}
-    \caption{Same as Fig.~\ref{fig:pre_post_bic_teff}, but for the metallicity $[\mathrm{M/H}]$. The median residual between the full magnetic and BIC-selected models is just $-0.002$~dex, far below the individual uncertainties, so the metallicities are effectively unaffected by the choice of magnetic-component number.}
-    \label{fig:pre_post_bic_mh}
 \end{figure*}
 
 
@@ -108,7 +87,31 @@ GJ~1002        & \dots & \dots & \dots & \dots \\
 \citet{cristofari_2023b, reiners+2022} reported average magnetic fields for most of our targets. Figure ~\ref{fig:comparison_cristofari} presents a comparison between the retrieved values for the atmospheric parameters and $<B>$ of \citet{cristofari_2023b} and ours. Whereas we use ESPaDOnS and NARVAL data in the optical wavelength regime, they have used SPIRou data in NIR.
 
 \subsection{BIC selection}
-When applying the BIC selection, effectively removing unsupported high-field components, we find minimal impact on the retrieved atmospheric properties. This is displaye
+\label{sec:results_bic}
+The BIC scan (Sect.~\ref{sec:methods_bic}) decides how many magnetic filling-factor components the data actually support and drops the highest-field components that the spectrum does not constrain. This raises an obvious question: does simplifying the magnetic model in this way feed back into the stellar atmosphere? If removing components shifted $T_{\rm eff}$, $\log g$ or $[\mathrm{M/H}]$, the magnetic-component choice would be contaminating the atmospheric solution rather than just cleaning up the field.
+
+To check this we retrieve every star twice: a \emph{full-magnetic} run, with all magnetic filling-factor components left free, and a \emph{BIC-selected} run, with the number of components fixed to the value picked by the scan. Figures~\ref{fig:pre_post_bic_teff}--\ref{fig:pre_post_bic_mh} compare the two runs parameter by parameter, plotting each star's value in both runs and, in the lower panel, their difference. The shifts are negligible: the median change is $+2.3$~K in $T_{\rm eff}$, $-0.02$~dex in $\log g$ and $-0.002$~dex in $[\mathrm{M/H}]$, in every case far smaller than the per-star uncertainties and with no trend across the sample. The BIC selection therefore removes the unsupported high-field components without measurably altering the atmospheric parameters, so the magnetic and atmospheric parts of the fit are effectively decoupled.
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\linewidth]{figures/teff_pre_and_post_bic_scan.pdf}
+    \caption{Retrieved $T_{\rm eff}$ from the full-magnetic run (open grey) and the BIC-selected run (filled crimson), ordered by the BIC-selected $T_{\rm eff}$. The lower panel shows the per-star difference (full minus BIC-selected); the dashed line marks the median. Median residual $+2.3$~K.}
+    \label{fig:pre_post_bic_teff}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\linewidth]{figures/logg_pre_and_post_bic_scan.pdf}
+    \caption{As Fig.~\ref{fig:pre_post_bic_teff}, but for $\log g$. Median residual $-0.02$~dex.}
+    \label{fig:pre_post_bic_logg}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\linewidth]{figures/mh_pre_and_post_bic_scan.pdf}
+    \caption{As Fig.~\ref{fig:pre_post_bic_teff}, but for $[\mathrm{M/H}]$. Median residual $-0.002$~dex.}
+    \label{fig:pre_post_bic_mh}
+\end{figure*}
 
 \subsection{Rossby number}
 
