@@ -1,15 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Chapter 5: The results of PZ Tel B %%
+%% Chapter 5: Results %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Results}
+\label{sec:results}
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{figures/spectral_fit_ds_leo.pdf}
-    \caption{Caption}
+    \caption{Best-fit \texttt{asap} model (red) compared with the observed template spectrum (black) for Gl~410 (DS~Leo), shown over a selection of the spectral regions that enter the likelihood. The lower sub-panels give the residuals between observation and model.}
+    % TODO(Dion): finalize caption
     \label{fig:spectral_fit_ds_leo}
 \end{figure*}
-We apply our process to the XXX targets in our sample and report the retrieved atmospheric parameters and average magnetic fields strengths in Table~\ref{tab:results}. An example of a best-fit model compared to the observation data is represented in Fig. ~\ref{fig:spectral_fit_ds_leo}, which shows a selection of regions which have been used to compute the likelihood, as described in Sect. ~\ref{sec:methods_likelihood}, for star DS Leo.
+We apply our process to the XXX targets in our sample and report the retrieved atmospheric parameters and average magnetic field strengths in Table~\ref{tab:results}.
+% TODO(Dion): replace XXX with the final number of targets
+An example of a best-fit model compared to the observation data is represented in Fig.~\ref{fig:spectral_fit_ds_leo}, which shows a selection of regions which have been used to compute the likelihood, as described in Sect.~\ref{sec:methods_likelihood}, for star Gl~410.
 
 \begin{table*}
 \centering
@@ -63,34 +67,48 @@ GJ~1002        & \dots & \dots & \dots & \dots \\
 \end{tabular}
 \end{table*}
 
-\subsection{Deriving atmospheric properties}
+\subsection{Atmospheric parameters}
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{figures/literature_parameter_comparison.pdf}
-    \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field with published values. From top to bottom the panels show $T_{\rm eff}$, $\log g$, $[\mathrm{M/H}]$ and $\langle B \rangle$; our \texttt{asap} retrieval (the BIC-selected run) is the black star and each literature source has its own coloured marker. Literature values are taken from \citet{Passegger_2019} (optical and near-infrared), \citet{Marfil_2021} (free and fixed $\log g$), \citet{Schweitzer_2019}, \citet{cristofari_2023b} and \citet{reiners+2022}; a star missing from a given table simply has no marker for that source. The magenta points in the $\log g$ panel are not a literature measurement but the surface gravity implied by each star's mass and radius.}
+    \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field with published values. From top to bottom the panels show $T_{\rm eff}$, $\log g$, $[\mathrm{M/H}]$ and $\langle B \rangle$. Our \texttt{asap} retrieval (the BIC-selected run) is the black star and each literature source has its own coloured marker. Literature values are taken from \citet{Passegger_2019} (optical and near-infrared), \citet{Marfil_2021} (free and fixed $\log g$), \citet{Schweitzer_2019}, \citet{cristofari_2023b} and \citet{reiners+2022}. A star missing from a given table simply has no marker for that source. The magenta points in the $\log g$ panel are not a literature measurement but the surface gravity implied by each star's mass and radius.}
     \label{fig:literature_params}
 \end{figure*}
 
 
-\citet{cristofari_2023b, cristofari+2022b, reiners+2022, Marfil_2021, Passegger_2019, Schweitzer_2019} reported atmospheric parameters 
+\citet{cristofari_2023b, cristofari+2022b, reiners+2022, Marfil_2021, Passegger_2019, Schweitzer_2019} reported atmospheric parameters for most of our targets, and Fig.~\ref{fig:literature_params} compares our retrieved $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ with these published values star by star.
+% TODO(Dion): expand once final values are in
 
-
-
-\subsection{Deriving an average magnetic field strength}
+\subsection{Average magnetic field strengths}
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{figures/comparison_cristofari2023.pdf}
-    \caption{Caption}
+    \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field $\langle B \rangle$ with the SPIRou near-infrared values of \citet{cristofari_2023b}, for the targets in common.}
+    % TODO(Dion): finalize caption
     \label{fig:comparison_cristofari}
 \end{figure*}
 
-\citet{cristofari_2023b, reiners+2022} reported average magnetic fields for most of our targets. Figure ~\ref{fig:comparison_cristofari} presents a comparison between the retrieved values for the atmospheric parameters and $<B>$ of \citet{cristofari_2023b} and ours. Whereas we use ESPaDOnS and NARVAL data in the optical wavelength regime, they have used SPIRou data in NIR.
+\citet{cristofari_2023b, reiners+2022} reported average magnetic fields for most of our targets. Figure~\ref{fig:comparison_cristofari} presents a comparison between the retrieved values for the atmospheric parameters and $\langle B \rangle$ of \citet{cristofari_2023b} and ours. Whereas we use ESPaDOnS and NARVAL data in the optical wavelength regime, they have used SPIRou data in NIR.
 
 \subsection{BIC selection}
 \label{sec:results_bic}
-The BIC scan (Sect.~\ref{sec:methods_bic}) fixes the number of magnetic filling-factor components per star, dropping the highest-field components that the spectrum does not constrain. Because the magnetic and atmospheric parameters are sampled jointly, reducing the magnetic model could in principle propagate into the atmospheric solution. If dropping components shifted $T_{\rm eff}$, $\log g$ or $[\mathrm{M/H}]$, the component selection would be biasing the atmospheric parameters rather than only lowering $\langle B \rangle$.
+The BIC scan (Sect.~\ref{sec:methods_bic}) fixes the number of magnetic filling-factor components per star, dropping the highest-field components that the spectrum does not constrain. The selection lowers $\langle B\rangle$ for all 40 stars (Fig.~\ref{fig:bic_field_comparison}), confirming the one-sided upward bias of the full grid.
+% RECONCILE: figures and Ch.4 text use 40 stars incl. Gl 873; this table has 39. Dion to resolve.
+The shift is systematically downwards with a median of $0.23\,\mathrm{kG}$, comparable to the typical $1\sigma$ uncertainty on $\langle B\rangle$ and smaller than the error bar for 24 of the 40 stars.
+% RECONCILE: figures and Ch.4 text use 40 stars incl. Gl 873; this table has 39. Dion to resolve.
+It is largest in the weakly magnetic tail, where the non-negativity bias dominates. Every shift above $2\sigma$ falls there, and the field is removed entirely for six stars with full-grid $\langle B\rangle \lesssim 0.7\,\mathrm{kG}$. For the genuinely magnetic stars the full and BIC-selected models agree within their uncertainties, so the BIC component selection suppresses the weak-field signal without disturbing the strong-field measurements.
 
-We test this by retrieving every star twice: a full-magnetic run, with all magnetic filling-factor components, and a BIC-selected run, with the number of components fixed to the value chosen by the scan. Figures~\ref{fig:pre_post_bic_teff}--\ref{fig:pre_post_bic_mh} compare the two runs parameter by parameter, showing each star's value in both runs and, in the lower panel, their difference. The median shifts are $+2.3$~K in $T_{\rm eff}$, $-0.02$~dex in $\log g$ and $-0.002$~dex in $[\mathrm{M/H}]$, each below the per-star uncertainties and with no trend across the sample. The BIC selection therefore generally removes the unsupported high-field components without measurably altering the atmospheric parameters.
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/bic_scan_field_comparison.pdf}
+    \caption{Average magnetic field $\langle B \rangle$ for each star from the full-magnetic run (open grey) and the BIC-selected run (red), ordered by decreasing $\langle B \rangle$. The selection lowers $\langle B \rangle$ for all stars, and removes the field entirely for six weakly magnetic ones (blue triangles), each vertical bar showing the spurious field it strips. This is the sample-wide counterpart of the single-star scan shown for Gl~410 in Fig.~\ref{fig:bic_scan_ds_leo}.}
+    \label{fig:bic_field_comparison}
+\end{figure*}
+
+Because the magnetic and atmospheric parameters are sampled jointly, reducing the magnetic model could in principle propagate into the atmospheric solution. If dropping components shifted $T_{\rm eff}$, $\log g$ or $[\mathrm{M/H}]$, the component selection would be biasing the atmospheric parameters rather than only lowering $\langle B \rangle$.
+
+We test this by retrieving every star twice: a full-magnetic run, with all magnetic filling-factor components, and a BIC-selected run, with the number of components fixed to the value chosen by the scan. Figures~\ref{fig:pre_post_bic_teff}--\ref{fig:pre_post_bic_mh} compare the two runs parameter by parameter, showing each star's value in both runs and, in the lower panel, their difference. The median shifts are $+2.3$~K in $T_{\rm eff}$, $-0.02$~dex in $\log g$ and $-0.002$~dex in $[\mathrm{M/H}]$, each below the per-star uncertainties and with no trend across the sample. A few stars stand out in the $\Delta$ panels: for Gl~411, Gl~48, and Gl~873 the filtered line lists differed between the full-magnetic and BIC-selected runs, because the diagnostic fit that sets the filter depends on the magnetic configuration (Sect.~\ref{sec:methods_filter}). Their larger shifts therefore reflect a change in the fitted regions rather than the component selection itself. Pending a rerun on a common line list, we conclude that at fixed regions the BIC selection removes the unsupported high-field components without measurably altering the atmospheric parameters.
+% PENDING: rerun BIC-selected configs on frozen line lists (or flag changed stars in the figures); update this paragraph with the clean comparison
 
 \begin{figure*}
     \centering
@@ -112,6 +130,10 @@ We test this by retrieving every star twice: a full-magnetic run, with all magne
     \caption{As Fig.~\ref{fig:pre_post_bic_teff}, but for $[\mathrm{M/H}]$. Median residual $-0.002$~dex.}
     \label{fig:pre_post_bic_mh}
 \end{figure*}
+
+\subsection{Validation on synthetic spectra}
+The injection--recovery suite of Sect.~\ref{sec:methods_injection} tests the pipeline on synthetic spectra of known parameters, quantifying the recovery of $\langle B \rangle$ across the activity range and the behaviour of the scan for the weakly magnetic stars whose high-field components are stripped.
+% PENDING: results from injection-recovery suite — recovery figure, detection floor, upper-limit definition for stripped stars
 
 \subsection{Rossby number}
 

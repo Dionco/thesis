@@ -4,10 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Observations and data reduction}
+\label{sec:observations}
 
-This chapter describes the spectroscopic data underlying the thesis. We work in two wavelength regimes: the optical, with NARVAL and ESPaDOnS spectra drawn from the PolarBase archive, and the near-infrared, with SPIRou spectra. Both samples are extended by the new-targets campaign, which adds less-studied M~dwarfs not analysed in \citet{cristofari+2022b, cristofari_2023b}. Throughout this work we analyse only the Stokes I (unpolarised intensity) component of the spectropolarimetric observations. 
+This chapter describes the spectroscopic data underlying the thesis. We work in two wavelength regimes: the optical, with NARVAL and ESPaDOnS spectra drawn from the PolarBase archive, and the near-infrared, with SPIRou spectra. Throughout this work we analyse only the Stokes I (unpolarised intensity) component of the spectropolarimetric observations.
 
-% The magnetic measurements presented here rely on Zeeman intensification, which probes the total unsigned surface magnetic flux through differential broadening of magnetically sensitive lines in Stokes I. This diagnostic is complementary to circular polarimetry. Stokes V is sensitive only to the net line-of-sight field and is therefore restricted to the large-scale, signed component, whereas mixed-polarity small-scale fields, which dominate the magnetic flux budget of M dwarfs, cancel in polarised light but contribute fully to the Stokes I signal \citep{reiners_basri_2009, Kochukhov_2021}.
+The magnetic measurements presented here rely on Zeeman intensification, which probes the total unsigned surface magnetic flux through differential broadening of magnetically sensitive lines in Stokes I. This diagnostic is complementary to circular polarimetry. Stokes V is sensitive only to the net line-of-sight field and is therefore restricted to the large-scale, signed component, whereas mixed-polarity small-scale fields, which dominate the magnetic flux budget of M dwarfs, cancel in polarised light but contribute fully to the Stokes I signal \citep{reiners_basri_2009, Kochukhov_2021}.
 
 \subsection{Instruments and reduction}
 \label{sec:obs_instruments}
@@ -21,12 +22,15 @@ In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a r
 \subsection{Sample}
 \label{sec:obs_sample}
 
-Our sample consists of two subsets. The first is the 44 M~dwarfs of \citet{cristofari+2022b}, which provides our primary literature comparison; of these, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. [VALUE NEEDED: number of these 44 stars with SPIRou coverage in PolarBase.] The second is the new-targets campaign, which extends the analysis to less-studied M~dwarfs not analysed by \citet{cristofari+2022b}. [VALUE NEEDED: number of stars in the new-targets campaign; selection criteria; instruments and wavelength regimes covered.] A per-star summary of observation counts and median signal-to-noise for the 39 \citet{cristofari+2022b} stars retained after the optical-coverage cut is given in Table~\ref{tab:obs_summary}.
+Our sample consists of two subsets. The first is the 44 M~dwarfs of \citet{cristofari+2022b}, which provides our primary literature comparison. Of these, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. [VALUE NEEDED: number of these 44 stars with SPIRou coverage in PolarBase.] The second is the new-targets campaign, which extends the analysis to less-studied M~dwarfs not analysed by \citet{cristofari+2022b}. [VALUE NEEDED: number of stars in the new-targets campaign; selection criteria; instruments and wavelength regimes covered.]
+% TODO(Dion): either supply campaign details or remove campaign from this chapter and the thesis framing
+A per-star summary of observation counts and median signal-to-noise for the 39 \citet{cristofari+2022b} stars retained after the optical-coverage cut is given in Table~\ref{tab:obs_summary}.
 
 \begin{table*}
 \centering
 \caption{Per-star observing summary for the 39 M~dwarfs of the \citet{cristofari+2022b,cristofari_2023b} sample with PolarBase optical coverage, after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
 \label{tab:obs_summary}
+% RECONCILE: figures and Ch.4 text use 40 stars incl. Gl 873; this table has 39. Dion to resolve.
 \begin{tabular}{l l c r r}
 \toprule
 Star & SpT & Instr. & $N_{\mathrm{obs}}$ & Median SNR \\
@@ -70,6 +74,9 @@ GJ~1103        & M4.5V  & E    & 8   & 110 \\
 Gl~905         & M5.0V  & E, N & 28  & 133 \\
 GJ~1286        & M5.0Ve & E    & 8   & 120 \\
 GJ~1002        & M5.5V  & E    & 9   & 185 \\
+% RECONCILE: Gl 873 appears in the results figures and the "40 stars" counts but is absent here. Dion to resolve.
+% TODO(Dion): fill Gl 873 row from observing log
+% Gl~873 & [SpT] & [Instr.] & [N_obs] & [SNR] \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -77,4 +84,4 @@ GJ~1002        & M5.5V  & E    & 9   & 185 \\
 \subsection{Per-star data preparation}
 \label{sec:obs_preparation}
 
-For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a night template. We then median-combine all night templates to construct a final template for each star. The co-added product is a high signal-to-noise template spectrum that is, by construction, a time average. M~dwarfs are known to show temporal variability in their surface magnetic and activity diagnostics; we therefore interpret the recovered atmospheric and magnetic parameters as time-averaged quantities, following the practice of \citet{cristofari+2022b, cristofari_2023b, reiners+2022, Passegger_2019}.
+For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a night template. We then median-combine all night templates to construct a final template for each star. The co-added product is a high signal-to-noise template spectrum that is, by construction, a time average. M~dwarfs are known to show temporal variability in their surface magnetic and activity diagnostics. We therefore interpret the recovered atmospheric and magnetic parameters as time-averaged quantities, following the practice of \citet{cristofari+2022b, cristofari_2023b, reiners+2022, Passegger_2019}.

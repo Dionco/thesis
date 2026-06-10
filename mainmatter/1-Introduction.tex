@@ -2,8 +2,18 @@
 %% Chapter 1: The Introduction %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% DRAFT by Claude — Dion to revise; argument framing is mine to approve
+
 \section{Introduction}
 \label{chap:intro}
 
+M dwarfs are the most numerous stars in the Galaxy and the most common planet hosts, which places them at the centre of the search for habitable worlds. Their low luminosities bring the habitable zone close in, where planets are easier to detect but also more exposed to stellar activity. M dwarfs remain magnetically active for billions of years, and the resulting high-energy radiation and particle flux shape the atmospheres and the habitability of the planets they host. Magnetic fields also distort the stellar spectrum itself, biasing the atmospheric parameters on which planet characterisation depends. Measuring the surface magnetic fields of M dwarfs is therefore a prerequisite for both stellar and exoplanetary characterisation.
 
+Most of the magnetic flux on an M dwarf resides in small-scale, mixed-polarity structures that circular polarimetry cannot recover, because opposite polarities cancel in the net Stokes V signal \citep{donati_landstreet+2009, Kochukhov_2021}. These fields nonetheless broaden and intensify magnetically sensitive lines in the unpolarised Stokes I spectrum through Zeeman intensification, a diagnostic of the total unsigned surface flux \citep{reiners_basri_2009}. We therefore measure magnetic fields from Zeeman intensification in Stokes I rather than from polarimetry.
 
+Zeeman intensification has recently been turned into a quantitative tool by fitting M-dwarf spectra against grids of magnetic synthetic spectra. \citet{cristofari_2023a, cristofari_2023b} built such a retrieval on the \texttt{ZeeTurbo} code and applied it to near-infrared SPIRou spectra, and \citet{reiners+2022} measured average fields for a large CARMENES sample. These analyses fix the grid of magnetic components in advance and tailor their line selection by hand or through fixed temperature cuts. This thesis instead applies a single homogeneous optical analysis to the whole sample, combining a per-star line-list filter with a data-driven selection of the number of magnetic components, so that the magnetic model of each star is set by its own spectrum rather than fixed beforehand.
+
+The running title of this thesis promises a self-consistent retrieval. We use \emph{self-consistent} to mean that the atmospheric parameters and the magnetic filling factors are retrieved jointly from the same spectra in a single posterior, rather than fixing one while fitting the other.
+% TODO(Dion): confirm this is the intended meaning of self-consistent
+
+The thesis is organised as follows. Sect.~\ref{sec:observations} describes the spectroscopic data and their reduction. Sect.~\ref{chap:zeeturbo} introduces the \texttt{ZeeTurbo} magnetic synthetic-spectrum grids. Sect.~\ref{sec:methods} sets out the \texttt{asap} retrieval, the per-star line-list filter, and the BIC-based magnetic-component selection. Sect.~\ref{sec:results} reports the retrieved atmospheric parameters and magnetic fields and compares them with published values. Sect.~\ref{chap:discussion} discusses the results, and Sect.~\ref{chap:conclusions} concludes.
