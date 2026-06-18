@@ -131,28 +131,28 @@ We test this by retrieving every star twice: a full-magnetic run, with all magne
     \label{fig:pre_post_bic_mh}
 \end{figure*}
 
-\subsection{Validation on synthetic spectra}
-\label{sec:results_injection}
-We validate the retrieval on the injection--recovery suite of Sect.~\ref{sec:methods_injection}, which injects synthetic spectra of a representative M~dwarf ($T_{\rm eff}=3400$~K, $\log g=4.8$, $[\mathrm{M/H}]=0$) at six mean fields $\langle B \rangle \in \{0, 0.3, 0.5, 1, 2, 4\}\,\mathrm{kG}$ and two signal levels, and pushes each one through the full chain from the region filter to the BIC-selected rerun.
+% \subsection{Validation on synthetic spectra}
+% \label{sec:results_injection}
+% We validate the retrieval on the injection--recovery suite of Sect.~\ref{sec:methods_injection}, which injects synthetic spectra of a representative M~dwarf ($T_{\rm eff}=3400$~K, $\log g=4.8$, $[\mathrm{M/H}]=0$) at six mean fields $\langle B \rangle \in \{0, 0.3, 0.5, 1, 2, 4\}\,\mathrm{kG}$ and two signal levels, and pushes each one through the full chain from the region filter to the BIC-selected rerun.
 
-The suite reproduces the low-field bias seen in the real sample and confirms that the BIC scan removes it (Fig.~\ref{fig:injrec_recovery}). For the weak injections the full grid sits above the injected value, by $+0.12\,\mathrm{kG}$ ($+2.3\sigma$) at $\langle B\rangle=0.5\,\mathrm{kG}$ and median signal-to-noise, whereas the BIC-selected estimator recovers the truth there ($0.53\pm0.02\,\mathrm{kG}$). The zero-field injection is correctly stripped to no magnetic component. At the moderate and strong injections ($1$, $2$, and $4\,\mathrm{kG}$) the two estimators agree and both track the one-to-one relation, so the selection corrects the weak-field overestimate without ever undershooting a genuine field.
+% The suite reproduces the low-field bias seen in the real sample and confirms that the BIC scan removes it (Fig.~\ref{fig:injrec_recovery}). For the weak injections the full grid sits above the injected value, by $+0.12\,\mathrm{kG}$ ($+2.3\sigma$) at $\langle B\rangle=0.5\,\mathrm{kG}$ and median signal-to-noise, whereas the BIC-selected estimator recovers the truth there ($0.53\pm0.02\,\mathrm{kG}$). The zero-field injection is correctly stripped to no magnetic component. At the moderate and strong injections ($1$, $2$, and $4\,\mathrm{kG}$) the two estimators agree and both track the one-to-one relation, so the selection corrects the weak-field overestimate without ever undershooting a genuine field.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{figures/recovery_vs_injected.pdf}
-    \caption{Injection--recovery of the mean field. Retrieved $\langle B \rangle$ against the injected value for the full-magnetic grid (grey, open) and the BIC-selected run (crimson, filled), at the median (circles) and floor (squares) signal levels. The grey line is the one-to-one relation. The full grid overestimates $\langle B \rangle$ for the weak injections, whereas the BIC-selected estimator recovers the injected field across the range without overshooting the strong fields.}
-    \label{fig:injrec_recovery}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\columnwidth]{figures/recovery_vs_injected.pdf}
+%     \caption{Injection--recovery of the mean field. Retrieved $\langle B \rangle$ against the injected value for the full-magnetic grid (grey, open) and the BIC-selected run (crimson, filled), at the median (circles) and floor (squares) signal levels. The grey line is the one-to-one relation. The full grid overestimates $\langle B \rangle$ for the weak injections, whereas the BIC-selected estimator recovers the injected field across the range without overshooting the strong fields.}
+%     \label{fig:injrec_recovery}
+% \end{figure}
 
-The component selection leaves the atmospheric parameters intact (Fig.~\ref{fig:injrec_atmo}). Across the suite the full-grid and BIC-selected runs return the same $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ to within their uncertainties: $\Delta T_{\rm eff}$ scatters within about $\pm10\,\mathrm{K}$, $\Delta[\mathrm{M/H}]$ within $0.01\,\mathrm{dex}$, and $\Delta\log g$ shows a small $\approx\!+0.05\,\mathrm{dex}$ offset common to both estimators, at the level of the empirical floor of Sect.~\ref{sec:methods_likelihood}. The selection therefore removes the upward $\langle B\rangle$ bias of the full grid while preserving the atmospheric solution. For stars the scan strips to no magnetic component we quote the 84th percentile of the full-grid $\langle B\rangle$ posterior as an upper limit, the full grid being the conservative envelope because the collapse only ever removes field.
-% PENDING: SNR-med 0.0 and 0.3 kG fakes still to finish; quote the per-SNR detection floor once complete
+% The component selection leaves the atmospheric parameters intact (Fig.~\ref{fig:injrec_atmo}). Across the suite the full-grid and BIC-selected runs return the same $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ to within their uncertainties: $\Delta T_{\rm eff}$ scatters within about $\pm10\,\mathrm{K}$, $\Delta[\mathrm{M/H}]$ within $0.01\,\mathrm{dex}$, and $\Delta\log g$ shows a small $\approx\!+0.05\,\mathrm{dex}$ offset common to both estimators, at the level of the empirical floor of Sect.~\ref{sec:methods_likelihood}. The selection therefore removes the upward $\langle B\rangle$ bias of the full grid while preserving the atmospheric solution. For stars the scan strips to no magnetic component we quote the 84th percentile of the full-grid $\langle B\rangle$ posterior as an upper limit, the full grid being the conservative envelope because the collapse only ever removes field.
+% % PENDING: SNR-med 0.0 and 0.3 kG fakes still to finish; quote the per-SNR detection floor once complete
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{figures/atmo_deltas.pdf}
-    \caption{Recovery of the atmospheric parameters. Difference between retrieved and injected $T_{\rm eff}$ (top), $\log g$ (middle), and $[\mathrm{M/H}]$ (bottom) against injected $\langle B \rangle$, for the full-magnetic grid (grey, open) and the BIC-selected run (crimson, filled). The two estimators overlap at every injected field, so the magnetic-component selection does not shift the atmospheric solution.}
-    \label{fig:injrec_atmo}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\columnwidth]{figures/atmo_deltas.pdf}
+%     \caption{Recovery of the atmospheric parameters. Difference between retrieved and injected $T_{\rm eff}$ (top), $\log g$ (middle), and $[\mathrm{M/H}]$ (bottom) against injected $\langle B \rangle$, for the full-magnetic grid (grey, open) and the BIC-selected run (crimson, filled). The two estimators overlap at every injected field, so the magnetic-component selection does not shift the atmospheric solution.}
+%     \label{fig:injrec_atmo}
+% \end{figure}
 
 \subsection{Rossby number}
 

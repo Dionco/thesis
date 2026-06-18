@@ -22,7 +22,7 @@ The chapter follows the pipeline from a single fit to the full sample. Sect.~\re
 \label{sec:methods_fit}
 The forward model and the sampler run together in a loop. At each step the sampler proposes a parameter set, the forward model renders the corresponding synthetic spectrum, and the likelihood measures its agreement with the observation, so the proposal is accepted or rejected accordingly. Over many steps the accepted positions trace out the posterior. We use the affine-invariant ensemble sampler \texttt{emcee}\footnote{\url{https://emcee.readthedocs.io/en/stable/}} \citep{emcee}.
 
-The remainder of this section follows that division. Sect.~\ref{sec:methods_forward} and Sect.~\ref{sec:methods_magnetic} describe the forward model and how magnetic activity enters it. Sect.~\ref{sec:methods_freeparams} lists the sampled parameters and their priors, Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment, and Sect.~\ref{sec:methods_sampling} the MCMC sampling itself.
+The remainder of this section follows that division. Sect.~\ref{sec:methods_forward} and Sect.~\ref{sec:methods_magnetic} describe the forward model and how magnetic activity enters it. Sect.~\ref{sec:methods_freeparams} lists the sampled parameters and their priors and Sect.~\ref{sec:methods_likelihood} the likelihood and error treatment.
 
 \subsubsection{Forward model}
 \label{sec:methods_forward}
@@ -109,9 +109,9 @@ To absorb modelling-induced systematics that the pipeline uncertainties do not c
 The 16th--84th percentiles of the second-pass posterior, taken relative to the median, define what we call the \emph{formal} error bars. These formal bars are statistical lower bounds that reflect only the width of the posterior and do not capture systematics or model error, which is why the empirical floors of \citet{cristofari_2023b, cristofari_2023a} are adopted as the reported uncertainties. Typical formal values are $5$--$20$~K in $T_\mathrm{eff}$ and $0.005$--$0.080$~dex in $\log g$ and $[\mathrm{M/H}]$. \citet{cristofari_2023b, cristofari_2023a} found these formal errors to be significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, and proposed \emph{empirical} error bars obtained by adding in quadrature a floor of $30$~K in $T_\mathrm{eff}$, $0.05$~dex in $\log g$, and $0.10$~dex in $[\mathrm{M/H}]$.
 
 
-\subsubsection{MCMC sampling}
-\label{sec:methods_sampling}
-The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Carlo sampler that uses the affine-invariant proposal of \citet{emcee_algorithm}. A population of $K$ walkers is initialised in the parameter space of Sect.~\ref{sec:methods_freeparams} and advanced jointly, each walker proposing a new position from the current configuration of the ensemble. At each proposal the forward model of Sect.~\ref{sec:methods_forward} is evaluated and compared to the observed flux through the likelihood of Sect.~\ref{sec:methods_likelihood}, and the move is accepted or rejected with a probability set by the ratio of posterior densities at the new and current points. The point estimates and error bars of Sect.~\ref{sec:methods_likelihood} are then computed from the accumulated walker positions.
+% \subsubsection{MCMC sampling}
+% \label{sec:methods_sampling}
+% The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Carlo sampler that uses the affine-invariant proposal of \citet{emcee_algorithm}. A population of $K$ walkers is initialised in the parameter space of Sect.~\ref{sec:methods_freeparams} and advanced jointly, each walker proposing a new position from the current configuration of the ensemble. At each proposal the forward model of Sect.~\ref{sec:methods_forward} is evaluated and compared to the observed flux through the likelihood of Sect.~\ref{sec:methods_likelihood}, and the move is accepted or rejected with a probability set by the ratio of posterior densities at the new and current points. The point estimates and error bars of Sect.~\ref{sec:methods_likelihood} are then computed from the accumulated walker positions.
 
 
 \subsection{Line list}
@@ -259,7 +259,7 @@ A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the
 
 Figure~\ref{fig:region_filtering} shows the filter at work for Gl~445, putting the diagnostic phase of Fig.~\ref{fig:linelist_filter} into practice. Each panel sets the observed spectrum against the model fitted to it over one region of the common list, with the grey band marking the pixels that enter $\chi^2_R/N_R$ and the value itself printed in the corner, in green where the region is kept and red where it is dropped. The kept regions in the left column track the model closely and sit below the threshold. The rejected regions in the right column fall in the $967$--$979\,\mathrm{nm}$ band, where telluric absorption that the model does not reproduce pulls it away from the data and sends $\chi^2_R/N_R$ over the threshold.
 
-The diagnostic check sets the production run. If no region is rejected, the common list is final and the run continues to the full production length. If any region is rejected, the fitted pixels and the likelihood have changed, and the star is refitted from scratch on its filtered list. The filtered list is saved as a copy of the common list with rejected regions commented out and annotated with their $\chi^2_R/N_R$, preserving each star's provenance. In either case the production run is an ordinary pipeline run (Sect.~\ref{sec:methods_sampling}) differing only in its line list, and it is this run that yields the reported parameters.
+The diagnostic check sets the production run. If no region is rejected, the common list is final and the run continues to the full production length. If any region is rejected, the fitted pixels and the likelihood have changed, and the star is refitted from scratch on its filtered list. The filtered list is saved as a copy of the common list with rejected regions commented out and annotated with their $\chi^2_R/N_R$, preserving each star's provenance. In either case the production run is an ordinary pipeline run (Sect.~\ref{sec:methods_fit}) differing only in its line list, and it is this run that yields the reported parameters.
 
 
 \subsection{Magnetic-component selection via BIC}
@@ -299,8 +299,8 @@ For three stars spanning the activity range (Gl~410, Gl~514, Gl~725A) we reran t
     \label{fig:bic_scan_validation}
 \end{figure}
 
-\subsection{Validation on synthetic spectra}
-\label{sec:methods_injection}
-To characterise the pipeline's response under controlled conditions, we generate synthetic observations from the forward model at known parameters and mean fields $\langle B \rangle \in \{0, 0.3, 0.5, 1, 2, 4\}\,\mathrm{kG}$. Each synthetic spectrum is degraded with Gaussian noise matched to two representative signal-to-noise ratios bracketing the sample, and then pushed through the complete pipeline, including the per-star line-list filter (Sect.~\ref{sec:methods_filter}) and the BIC scan (Sect.~\ref{sec:methods_bic}). Comparing the recovered parameters with the injected truth tests whether the procedure returns unbiased atmospheric parameters and an accurate $\langle B \rangle$ across the activity range, and in particular how it behaves for the weakly magnetic stars whose high-field components the scan strips.
-% PENDING: results from injection-recovery suite — recovery figure, detection floor, upper-limit definition for stripped stars
+% \subsection{Validation on synthetic spectra}
+% \label{sec:methods_injection}
+% To characterise the pipeline's response under controlled conditions, we generate synthetic observations from the forward model at known parameters and mean fields $\langle B \rangle \in \{0, 0.3, 0.5, 1, 2, 4\}\,\mathrm{kG}$. Each synthetic spectrum is degraded with Gaussian noise matched to two representative signal-to-noise ratios bracketing the sample, and then pushed through the complete pipeline, including the per-star line-list filter (Sect.~\ref{sec:methods_filter}) and the BIC scan (Sect.~\ref{sec:methods_bic}). Comparing the recovered parameters with the injected truth tests whether the procedure returns unbiased atmospheric parameters and an accurate $\langle B \rangle$ across the activity range, and in particular how it behaves for the weakly magnetic stars whose high-field components the scan strips.
+% % PENDING: results from injection-recovery suite — recovery figure, detection floor, upper-limit definition for stripped stars
 
