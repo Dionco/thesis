@@ -22,15 +22,14 @@ In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a r
 \subsection{Sample}
 \label{sec:obs_sample}
 
-Our sample consists of two subsets. The first is the 44 M~dwarfs of \citet{cristofari+2022b}, which provides our primary literature comparison. Of these, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. [VALUE NEEDED: number of these 44 stars with SPIRou coverage in PolarBase.] The second is the new-targets campaign, which extends the analysis to less-studied M~dwarfs not analysed by \citet{cristofari+2022b}. [VALUE NEEDED: number of stars in the new-targets campaign; selection criteria; instruments and wavelength regimes covered.]
+Our sample consists of two subsets. The first is built around the 44 M~dwarfs of \citet{cristofari+2022b}, which provides our primary literature comparison. Of these, 39 have NARVAL or ESPaDOnS optical coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) lack optical PolarBase data and are excluded from the optical analysis. To these 39 we add two well-studied active M~dwarfs that are not in the \citet{cristofari+2022b} list, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), for a total of 41 stars analysed in the optical. [VALUE NEEDED: number of these 44 stars with SPIRou coverage in PolarBase.] The second is the new-targets campaign, which extends the analysis to less-studied M~dwarfs not analysed by \citet{cristofari+2022b}. [VALUE NEEDED: number of stars in the new-targets campaign; selection criteria; instruments and wavelength regimes covered.]
 % TODO(Dion): either supply campaign details or remove campaign from this chapter and the thesis framing
-A per-star summary of observation counts and median signal-to-noise for the 39 \citet{cristofari+2022b} stars retained after the optical-coverage cut is given in Table~\ref{tab:obs_summary}.
+A per-star summary of observation counts and median signal-to-noise for these 41 stars is given in Table~\ref{tab:obs_summary}.
 
 \begin{table*}
 \centering
-\caption{Per-star observing summary for the 39 M~dwarfs of the \citet{cristofari+2022b,cristofari_2023b} sample with PolarBase optical coverage, after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
+\caption{Per-star observing summary for the 41 M~dwarfs analysed in the optical---the 39 \citet{cristofari+2022b,cristofari_2023b} stars with PolarBase optical coverage plus the two additional active stars Gl~388 (AD~Leo) and Gl~873 (EV~Lac)---after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
 \label{tab:obs_summary}
-% RECONCILE: figures and Ch.4 text use 40 stars incl. Gl 873; this table has 39. Dion to resolve.
 \begin{tabular}{l l c r r}
 \toprule
 Star & SpT & Instr. & $N_{\mathrm{obs}}$ & Median SNR \\
@@ -74,9 +73,11 @@ GJ~1103        & M4.5V  & E    & 8   & 110 \\
 Gl~905         & M5.0V  & E, N & 28  & 133 \\
 GJ~1286        & M5.0Ve & E    & 8   & 120 \\
 GJ~1002        & M5.5V  & E    & 9   & 185 \\
-% RECONCILE: Gl 873 appears in the results figures and the "40 stars" counts but is absent here. Dion to resolve.
-% TODO(Dion): fill Gl 873 row from observing log
-% Gl~873 & [SpT] & [Instr.] & [N_obs] & [SNR] \\
+% Two active M dwarfs not in the Cristofari+2022b list; values traceable like the rows above:
+% N_obs = raw PolarBase spectra in 01_raw/<id>/ passing the header SNR_MAX>=100 cut, median = median(SNR_MAX);
+% SpT from 00_polarbase_queries SIMBAD enrichment. Gl 873 uses the canonical ev_lac run (E+N), not the deprecated NARVAL-only gl873.
+Gl~388         & dM3    & E, N & 300 & 258 \\
+Gl~873         & M4.0Ve & E, N & 229 & 169 \\
 \bottomrule
 \end{tabular}
 \end{table*}
