@@ -73,13 +73,24 @@ GJ 1286        & $3227 \pm 37$ & $5.43 \pm 0.09$ & $0.24 \pm 0.11$ & $1.00 \pm 0
 \subsection{Atmospheric parameters}
 \begin{figure*}
     \centering
-    \includegraphics[width=\linewidth]{figures/literature_parameter_comparison.pdf}
+    \includegraphics[width=\linewidth]{figures/literature_parameter_comparison_bic_optimal_region_filtering_v1.pdf}
     \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field with published values. From top to bottom the panels show $T_{\rm eff}$, $\log g$, $[\mathrm{M/H}]$ and $\langle B \rangle$. Our \texttt{asap} retrieval (the BIC-selected run) is the black star and each literature source has its own coloured marker. Literature values are taken from \citet{Passegger_2019} (optical and near-infrared), \citet{Marfil_2021} (free and fixed $\log g$), \citet{Schweitzer_2019}, \citet{cristofari_2023b} and \citet{reiners+2022}. A star missing from a given table simply has no marker for that source. The magenta points in the $\log g$ panel are not a literature measurement but the surface gravity implied by each star's mass and radius.}
     \label{fig:literature_params}
 \end{figure*}
 
 
-\citet{cristofari_2023b, cristofari+2022b, reiners+2022, Marfil_2021, Passegger_2019, Schweitzer_2019} reported atmospheric parameters for most of our targets, and Fig.~\ref{fig:literature_params} compares our retrieved $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ with these published values star by star.
+% \citet{cristofari_2023b, cristofari+2022b, reiners+2022, Marfil_2021, Passegger_2019, Schweitzer_2019} reported atmospheric parameters for most of our targets, and Fig.~\ref{fig:literature_params} compares our retrieved $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ with these published values star by star.
+
+% Our retrieved values are in good agreement with the mentioned papers. However, our models have difficulty converging to low $T_{\rm eff}$. For GJ 1286 and GJ 1002 we find a $T_{\rm eff}$ of around 3250 K, while the average of the other derived values seem to be around 3100 K. Alike, \citet{cristofari_2023b}, we find the $\log g$ among the hardest parameters to constrain. We compared our derived $\log g$ values with self-consistent calculated estimations. For each star, the radius was computed with the retrieved $T_{\rm eff}$ and luminosity using the Stefan-Boltzmann law. The mass of each target was computed relying on the mass-magnitude-metallicity relation of \citet{Mann_2015} and derived $\log g$ from these mass and radius estimations. Fig. \ref{fig:comparison_logg_cristofari} presents this comparison between the $\log g$ obtained from $M_\star$ and $R_\star$ and those obtained from our analysis.
+
+% We find that our retrieved values are mostly in agreement with the self consistent $\log g_\mathrm{SB}$ estimations. The $\log g$ generally also scales inversely with $T_{\rm eff}$, which is is expected according to \citet{Maldonado_2015}. The values we retrieve are in better agreement with the estimations than the values retrieved by \citet{cristofari_2023b}, which could indicate models have improved in the past few years, making constraints on $\log g$ more reliable.
+
+\citet{cristofari_2023b, cristofari+2022b, reiners+2022, Marfil_2021, Passegger_2019, Schweitzer_2019} report atmospheric parameters for most of our targets. Figure~\ref{fig:literature_params} compares our retrieved $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ with these published values on a star-by-star basis. 
+
+Overall, our results agree well with the literature. Across all four parameters the mean offset is small and consistently slightly above the published ones: $20$~K in $T_{\rm eff}$, $0.13$~dex in $\log g$, and $0.14$~dex in $[\mathrm{M/H}]$. In every case this offset is well within the RMS scatter of the sample (90~K, 0.21~dex, and 0.28~dex, respectively), so the systematic component is smaller than the typical star-to-star spread, and we find no significant systematic offset in any parameter. The main exception lies at the cool end, where our models struggle to converge to the lowest temperatures: for GJ~1286 and GJ~1002 we retrieve $T_{\rm eff} \approx 3250$~K, whereas the literature average sits closer to 3100~K. This also impacts the other retrieved atmospheric parameters for these stars.
+
+As in \citet{cristofari_2023b}, we find $\log g$ to be among the hardest parameters to constrain. As a consistency check, we compared our spectroscopic $\log g$ with values calculated from $M_\star$ and $R_\star$. For each star, we computed the radius from the retrieved $T_{\rm eff}$ and luminosity via the Stefan--Boltzmann law, and the mass from the mass--magnitude--metallicity relation of \citet{Mann_2015}. Combining the two yields $\log g_\mathrm{SB}$. Figure~\ref{fig:comparison_logg_cristofari} compares these estimates with our retrieved values. The two are mostly consistent. As expected from \citet{Maldonado_2015}, $\log g$ scales inversely with $T_{\rm eff}$ across the sample. Our values track the $\log g_\mathrm{SB}$ estimates more closely than those of \citet{cristofari_2023b}, which may reflect improvements in the atmospheric models in recent years and, in turn, more reliable $\log g$ constraints.
+
 % TODO(Dion): expand once final values are in
 
 \subsection{Average magnetic field strengths}
@@ -90,6 +101,14 @@ GJ 1286        & $3227 \pm 37$ & $5.43 \pm 0.09$ & $0.24 \pm 0.11$ & $1.00 \pm 0
     % TODO(Dion): finalize caption
     \label{fig:comparison_cristofari}
 \end{figure*}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/comparison_logg_self_bic_optimal_region_filtering_v1.pdf}
+    \caption{Comparison of our derived $\log g$ and the estimations of $\log g$ using the Stefan-Boltzmann law and the mass-magnitude-metallicity relation of \citet{Mann_2015}. The same comparison is shown for the derived values of \citet{cristofari_2023b} with a higher transparency.}
+    % TODO(Dion): finalize caption
+    \label{fig:comparison_logg_cristofari}
+\end{figure}
 
 \citet{cristofari_2023b, reiners+2022} reported average magnetic fields for most of our targets. Figure~\ref{fig:comparison_cristofari} presents a comparison between the retrieved values for the atmospheric parameters and $\langle B \rangle$ of \citet{cristofari_2023b} and ours. Whereas we use ESPaDOnS and NARVAL data in the optical wavelength regime, they have used SPIRou data in NIR.
 
