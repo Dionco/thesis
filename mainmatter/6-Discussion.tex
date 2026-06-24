@@ -5,9 +5,28 @@
 \section{Discussion \& Conclusions}
 \label{chap:discussion}
 
-In this work, we describe an analysis of targets previously studied in \citet{cristofari_2023b} and partially in \citet{reiners+2022}, with the tools introduced in \citet{cristofari_2023a}. Relying on spectra computed with \texttt{ZeeTurbo} from MARCS model atmospheres we investigate the small-scale magnetic field of 41 M dwarfs monitored with NARVAL and ESPaDOnS data from \texttt{Polarbase}. 
+In this work we analysed 41 M dwarfs previously studied by
+\citet{cristofari_2023b} and, in part, by \citet{reiners+2022}, using the
+tools introduced in \citet{cristofari_2023a}. From NARVAL and ESPaDOnS
+spectra retrieved from \texttt{Polarbase}, and synthetic spectra computed
+with \texttt{ZeeTurbo} from MARCS model atmospheres, we characterised their
+small-scale magnetic fields. 
 
-Our approach consists in inferring $T_{\rm eff}$, $\log{g}$, [M/H] and magnetic filling factors at once, to derive the atmospheric and magnetic parameters of our sample stars, and to asses the impact of magnetic fields on stellar characterization. We rely on a common line list, curated using the developed tool \texttt{wave\_explorer}, containing about xxxxxxxx. This list contains transitions with different Landé factors ranging from 0 to xx. This allows us to disentangle the effect of magnetic fields from those of atmospheric parameter and macroturbulence, by matching the shapes of lines affected in different ways by Zeeman broadening. Poorly fitted and tellurics filled regions were discarded using a filtering technique based on the quality of the fit of those regions. An optimal number of fitted magnetic components was found by iteratively removing the strongest magnetic component and transfering its filling factor to the next strongest component, recomputing the synthetic spectrum and its likelihood and use the BIC to find the optimal number of components.
+We inferred $T_{\rm eff}$, $\log{g}$, [M/H]
+and the magnetic filling factors simultaneously, allowing us to measure
+the atmospheric and magnetic parameters of the sample and to assess the
+impact of magnetic fields on stellar characterisation. We rely on a common line list, curated with our \texttt{wave\_explorer}
+tool, of 14 Ti~\textsc{i}, 13 Fe~\textsc{i}, 1 Mg~\textsc{i} and 1
+V~\textsc{i} lines. Their Landé factors span 0 to 2.5, so that lines respond
+to Zeeman broadening to differing degrees; matching their shapes lets us
+separate the magnetic signal from the atmospheric parameters and
+macroturbulence. Regions that were poorly fitted or contaminated by
+tellurics were removed using a filter based on fit quality. Finally, we set
+the number of magnetic components with a BIC criterion: starting from the
+full set, we iteratively merged the strongest component into the next and
+re-evaluated the BIC, keeping the configuration that minimised it.
+
+
 
 
 
