@@ -71,6 +71,7 @@ GJ 1286        & $3227 \pm 37$ & $5.43 \pm 0.09$ & $0.24 \pm 0.11$ & $1.00 \pm 0
 \end{tabular}
 \end{sidewaystable*}
 % <<< results table <<<
+
 \subsection{Atmospheric parameters}
 \begin{figure*}
     \centering
@@ -95,7 +96,7 @@ As in \citet{cristofari_2023b}, we find $\log g$ to be among the hardest paramet
 \subsection{Average magnetic field strengths}
 \begin{figure*}
     \centering
-    \includegraphics[width=\linewidth]{figures/comparison_cristofari2023.pdf}
+    \includegraphics[width=\linewidth]{figures/comparison_cristofari2023_bic_optimal_region_filtering_v1.pdf}
     \caption{Star-by-star comparison of our retrieved atmospheric parameters and mean magnetic field $\langle B \rangle$ with the SPIRou near-infrared values of \citet{cristofari_2023b}, for the targets in common.}
     % TODO(Dion): finalize caption
     \label{fig:comparison_cristofari}
@@ -127,16 +128,23 @@ In the unsaturated regime the field is expected to fall steeply with Rossby numb
 
 \subsection{BIC selection}
 \label{sec:results_bic}
-For all 41 stars we compare the averaged field $\langle B\rangle$ from the run with all magnetic components against the BIC-selected (Sect.~\ref{sec:methods_bic}) run (Fig.~\ref{fig:bic_field_comparison}). The selection lowers $\langle B\rangle$ for 35 stars and raises it for the remaining 6, with a median change of $-0.12\,\mathrm{kG}$. This shift is well within the typical $1\sigma$ uncertainty on $\langle B\rangle$ ($\approx0.28\,\mathrm{kG}$), and smaller than it for 38 of the 41 stars. No shift is outside of $2\sigma$, and the field is driven to zero for no star. The largest single excursions are $+0.75\,\mathrm{kG}$ for GJ~1103 and reductions of $-0.50\,\mathrm{kG}$ for Gl~169.1\,A and $-0.48\,\mathrm{kG}$ for Gl~445, all within their error bars. For stars with stronger detected fields (e.g.\ Gl~873, Gl~388) the full and BIC-selected fields agree to well within their uncertainties and these findings also agree with \citet{reiners+2022}. The selection therefore trims the weakly constrained strong-field components without disturbing the strong-field measurements.
+\begin{figure}
+\centering
+    \includegraphics[width=\columnwidth]{figures/bic_components_removed_histogram.pdf}
+      \caption{Magnetic components removed by the BIC scan per star, out of the full ten-component grid. Components are pruned for 40 of 41 stars (median 4); only GJ\,1103 retains all ten.}
+    \label{fig:bic_components_removed_hist}
+\end{figure}
+
+For all 41 stars we compare the averaged field $\langle B\rangle$ from the run with all magnetic components against the BIC-selected (Sect.~\ref{sec:methods_bic}) run (Fig.~\ref{fig:bic_field_comparison}). The selection lowers $\langle B\rangle$ for 35 stars and raises it for the remaining 6, with a median change of $-0.12\,\mathrm{kG}$. This shift is well within the typical $1\sigma$ uncertainty on $\langle B\rangle$ ($\approx0.28\,\mathrm{kG}$), and smaller than it for 38 of the 41 stars. No shift is outside of $2\sigma$, and the field is driven to zero for no star. The distribution of magnetic components trimmed per star is presented in Fig.~\ref{fig:bic_components_removed_hist}. For 40\% of the stars, 4 magnetic components (max $\langle B\rangle$ = 6 kG) are removed. The largest single excursions are $+0.75\,\mathrm{kG}$ for GJ~1103 and reductions of $-0.50\,\mathrm{kG}$ for Gl~169.1\,A and $-0.48\,\mathrm{kG}$ for Gl~445, all within their error bars. For stars with stronger detected fields (e.g.\ Gl~873, Gl~388) the full and BIC-selected fields agree to well within their uncertainties and these findings also agree with \citet{reiners+2022}. The selection therefore trims the weakly constrained strong-field components without disturbing the strong-field measurements.
 
 \begin{figure*}
     \centering
-    \includegraphics[width=\linewidth]{figures/bic_scan_field_comparison.pdf}
+    \includegraphics[width=\linewidth]{figures/magnetic_strength_pre_and_post_bic_scan_residuals.pdf}
     \caption{Average magnetic field $\langle B \rangle$ for each of the 41 stars from the full-magnetic run (open grey) and the BIC-selected run (red), ordered by decreasing full-magnetic $\langle B \rangle$; the vertical segment marks the field added or removed by the component selection. The selection lowers $\langle B \rangle$ for most stars and leaves every star with a non-zero field, each change staying within the $1\sigma$ error bars. This is the sample-wide counterpart of the single-star scan shown for Gl~410 in Fig.~\ref{fig:bic_scan_ds_leo}.}
     \label{fig:bic_field_comparison}
 \end{figure*}
 
-Because the magnetic and atmospheric parameters are sampled jointly, a more accurate $\langle B \rangle$ can in turn refine the other atmospheric parameters. Tightening the magnetic model is therefore expected to shift $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ slightly, improving rather than biasing them. We test this by comparing the same two runs parameter by parameter (Figs.~\ref{fig:pre_post_bic_teff}--\ref{fig:pre_post_bic_mh}), both using the same region-filtered line lists. Each figure shows the per-star values in both runs and, in the lower panel, their difference.. The median shifts are $-14\,\mathrm{K}$ in $T_{\rm eff}$, $+0.04$~dex in $\log g$, and $+0.03$~dex in $[\mathrm{M/H}]$, each below the typical per-star uncertainty ($\approx20\,\mathrm{K}$, $0.06$~dex, and $0.04$~dex) and showing no systematic offset across the sample. A few stars stand out in the $\Delta$ panels, with $T_{\rm eff}$ offsets as large as $\sim60\,\mathrm{K}$ (Gl~687, Gl~846, Gl~725~A), but these remain within $\sim2\sigma$ and are driven partly by the larger uncertainty of the BIC-selected run rather than a genuine parameter shift. We conclude that the BIC selection removes the unsupported strong-field components and feeds back onto the atmospheric parameters only at the level of a slight refinement, consistent with the joint sampling and well below the per-star uncertainties.
+Because the magnetic and atmospheric parameters are sampled jointly, a more accurate $\langle B \rangle$ can in turn refine the other atmospheric parameters. Tightening the magnetic model is therefore expected to shift $T_{\rm eff}$, $\log g$, and $[\mathrm{M/H}]$ slightly, improving rather than biasing them. We test this by comparing the same two runs parameter by parameter (Figs.~\ref{fig:pre_post_bic_teff}--\ref{fig:pre_post_bic_mh}), both using the same region-filtered line lists. Each figure shows the per-star values in both runs and, in the lower panel, their difference. The median shifts are $-14\,\mathrm{K}$ in $T_{\rm eff}$, $+0.04$~dex in $\log g$, and $+0.03$~dex in $[\mathrm{M/H}]$, each below the typical per-star uncertainty ($\approx20\,\mathrm{K}$, $0.06$~dex, and $0.04$~dex) and showing no systematic offset across the sample. A few stars stand out in the $\Delta$ panels, with $T_{\rm eff}$ offsets as large as $\sim60\,\mathrm{K}$ (Gl~687, Gl~846, Gl~725~A), but these remain within $\sim2\sigma$ and are driven partly by the larger uncertainty of the BIC-selected run rather than a genuine parameter shift. We conclude that the BIC selection removes the unsupported strong-field components and feeds back onto the atmospheric parameters only at the level of a slight refinement, consistent with the joint sampling and well below the per-star uncertainties.
 % PENDING: rerun BIC-selected configs on frozen line lists (or flag changed stars in the figures); update this paragraph with the clean comparison
 
 \begin{figure*}
@@ -183,6 +191,17 @@ Because the magnetic and atmospheric parameters are sampled jointly, a more accu
 %     \label{fig:injrec_atmo}
 % \end{figure}
 
-\subsection{Rossby number}
-
 \subsection{line filtering}
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/region_filtering_stats_histogram.pdf}
+    \caption{Number of line regions discarded by the filtering step (Sect.~\ref{sec:methods_filter}), across the 41-star sample. A region (one of the 29 windows in the used line list) is dropped when its reduced $\chi^2$ exceeds 50. The cut is mild for most stars: 16 lose none, the median star loses one ($\sim$3\%) and the mean is a cut of 5 regions ($\sim$17\%). A tail of magnetically active stars is filtered far more heavily, with four (Gl~15~B, Gl~725~B, Gl~15~A, Gl~687) losing more than 60\% of regions.}
+    \label{fig:region_filtering_stats_histogram}
+\end{figure}
+
+The line-filtering step (Sect.~\ref{sec:methods_filter}) removes regions that the forward model reproduces poorly, for instance because of tellurics. Figure~\ref{fig:region_filtering_stats_histogram} shows how many regions are removed per star. For most stars, little is taken out: 16 ($\sim$40\%) keep all 29 regions, and $\sim$68\% keep more than 90\% of theirs. The median star loses just one region (3\%). A few stars, however, are filtered much more heavily, pulling the mean up to $\sim$5 regions (17\%). Four stars make up this tail (Gl~15~B, Gl~725~B, Gl~15~A and Gl~687) each losing more than 60\% of their regions. All four were assigned $T_{\rm eff}\approx3000$\,K in the diagnostic run, at the cool edge of our model grid. In the full run after filtering, their temperatures move higher (Table~\ref{tab:results}).
+
+
+
+
+

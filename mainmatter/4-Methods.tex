@@ -290,12 +290,8 @@ For three stars spanning the activity range (Gl~410, Gl~514, Gl~725A) we reran t
 
 \begin{figure}
     \centering
-    % PENDING: figure to be produced; placeholder renders automatically once the PDF exists
-    \IfFileExists{figures/bic_scan_validation.pdf}{%
-        \includegraphics[width=\linewidth]{figures/bic_scan_validation.pdf}}{%
-        \fbox{\parbox[c][0.28\textheight][c]{0.9\linewidth}{\centering\itshape
-        PENDING: \texttt{figures/bic\_scan\_validation.pdf}}}}
-    \caption{Validation of the post-hoc BIC scan. For three stars spanning the activity range, the BIC curve from the frozen-parameter scan (solid) is overlaid on the curve obtained by rerunning the full MCMC at every component configuration (dashed), with the minimum of each marked. The two minima coincide, confirming that the frozen-parameter scan recovers the same component selection as a full re-fit.}
+    \includegraphics[width=\linewidth]{figures/bic_optimal_summary_absolute.pdf}}{%
+    \caption{BIC versus the maximum magnetic field component allowed in the fit, for GL~410 and GL~725~A. The BIC scan (solid black) derives every point from a single MCMC run by removing the strongest components one at a time, while the reference (dashed blue) runs a separate MCMC fit at each configuration. Both reach their minimum at the same field strength — 4~kG for GL~410 and 6~kG for GL~725~A (red marker, dashed line) — so the single-run scan recovers the same optimal configuration as the far more expensive per-configuration runs.}
     \label{fig:bic_scan_validation}
 \end{figure}
 
