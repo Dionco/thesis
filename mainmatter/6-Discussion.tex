@@ -5,12 +5,33 @@
 \section{Discussion \& Conclusions}
 \label{chap:discussion}
 
+% In this work we analysed 41 M dwarfs previously studied by
+% \citet{cristofari_2023b} and, in part, by \citet{reiners+2022}, using the
+% tools introduced in \citet{cristofari_2023a}. From NARVAL and ESPaDOnS
+% spectra retrieved from \texttt{Polarbase}, and synthetic spectra computed
+% with \texttt{ZeeTurbo} from MARCS model atmospheres, we characterised their
+% small-scale magnetic fields. 
+
+% We inferred $T_{\rm eff}$, $\log{g}$, [M/H]
+% and the magnetic filling factors simultaneously, allowing us to measure
+% the atmospheric and magnetic parameters of the sample and to assess the
+% impact of magnetic fields on stellar characterisation. We rely on a common line list, curated with our \texttt{wave\_explorer}
+% tool, of 14 Ti~\textsc{i}, 13 Fe~\textsc{i}, 1 Mg~\textsc{i} and 1
+% V~\textsc{i} lines. Their Landé factors span 0 to 2.5, so that lines respond
+% to Zeeman broadening to differing degrees; matching their shapes lets us
+% separate the magnetic signal from the atmospheric parameters and
+% macroturbulence. Regions that were poorly fitted or contaminated by
+% tellurics were removed using a filter based on fit quality. Finally, we set
+% the number of magnetic components with a BIC criterion: starting from the
+% full set, we iteratively merged the strongest component into the next and
+% re-evaluated the BIC, keeping the configuration that minimised it.
+
 In this work we analysed 41 M dwarfs previously studied by
 \citet{cristofari_2023b} and, in part, by \citet{reiners+2022}, using the
 tools introduced in \citet{cristofari_2023a}. From NARVAL and ESPaDOnS
 spectra retrieved from \texttt{Polarbase}, and synthetic spectra computed
 with \texttt{ZeeTurbo} from MARCS model atmospheres, we characterised their
-small-scale magnetic fields. 
+small-scale magnetic fields.
 
 We inferred $T_{\rm eff}$, $\log{g}$, [M/H]
 and the magnetic filling factors simultaneously, allowing us to measure
@@ -18,7 +39,7 @@ the atmospheric and magnetic parameters of the sample and to assess the
 impact of magnetic fields on stellar characterisation. We rely on a common line list, curated with our \texttt{wave\_explorer}
 tool, of 14 Ti~\textsc{i}, 13 Fe~\textsc{i}, 1 Mg~\textsc{i} and 1
 V~\textsc{i} lines. Their Landé factors span 0 to 2.5, so that lines respond
-to Zeeman broadening to differing degrees; matching their shapes lets us
+to Zeeman broadening to differing degrees, and matching their shapes lets us
 separate the magnetic signal from the atmospheric parameters and
 macroturbulence. Regions that were poorly fitted or contaminated by
 tellurics were removed using a filter based on fit quality. Finally, we set
@@ -26,7 +47,38 @@ the number of magnetic components with a BIC criterion: starting from the
 full set, we iteratively merged the strongest component into the next and
 re-evaluated the BIC, keeping the configuration that minimised it.
 
+Our atmospheric parameters validate against the literature. The mean offsets in $T_{\rm eff}$, $\log g$ and $[\mathrm{M/H}]$ ($20\,\mathrm{K}$, $0.13$~dex and $0.14$~dex) do not exceed the star-by-star scatter among the published sources ($42\,\mathrm{K}$, $0.13$~dex and $0.18$~dex), so our systematic is no larger than the disagreement between existing catalogues (Sect.~\ref{sec:results}). As in \citet{cristofari_2023b}, $\log g$ is the hardest parameter to constrain, yet our values track the Stefan--Boltzmann estimates $\log g_{\rm SB}$ more closely than theirs, which may reflect improvements in the atmospheric models. The headline result is therefore a methodological one. A single pipeline, applied identically to a heterogeneous sample and without per-star tuning, returns a homogeneous and self-consistent parameter set. The magnetic comparison is where the analysis becomes more interesting, and where it raises questions it cannot fully close.
 
+Our optical $\langle B \rangle$ values lie systematically above the SPIRou near-infrared measurements of \citet{cristofari_2023b}, by a mean of more than $0.60\,\mathrm{kG}$---several times the $0.13\,\mathrm{kG}$ scatter between the published sources---and by as much as $2.6\,\mathrm{kG}$ for GJ~1103. Rather than a single systematic to be corrected away, this offset has several plausible and non-exclusive origins. Optical and near-infrared lines form at different depths and may sample different layers of the atmosphere. The two datasets were not taken at the same time, so any temporal evolution of the field between epochs enters the comparison directly. And the diagnostics are not equally sensitive: because the Zeeman intensification scales as $\lambda^2$ \citep{donati_landstreet+2009, Reiners+2012}, the optical signal is intrinsically weaker than the near-infrared one. That these explanations remain open is what makes the comparison worth pursuing, and it is the optical regime, where the signal is faintest, that both motivates and complicates the measurement.
 
+The weakly magnetic stars are where this tension is sharpest. As the field falls the optical intensification becomes marginal, and the analysis grows correspondingly sensitive to how the magnetic model is set up. The filling factors are constrained to be non-negative, so for a weakly magnetic star the strong-field components cannot scatter below zero, and noise pushes their posterior means to small positive values instead of averaging out. Because $\langle B \rangle = \sum_i B_i f_i$ weights each component by its field strength, these spurious factors are amplified by the large $B_i$ they carry, and the full grid overestimates $\langle B \rangle$ at low field. The BIC scan (Sect.~\ref{sec:methods_bic}) is designed to remove exactly this excess, and the injection--recovery test confirms on synthetic spectra of known field that it does so without undershooting genuine fields.
+% TODO(Dion): the previous sentence is contingent on the injection-recovery suite being run.
+% If it is not yet in the manuscript, soften to "is intended to confirm" and add the
+% cross-ref \ref{sec:results_injection} once that section is un-commented.
+Even so, our retrieved fields reach down to $0.30\,\mathrm{kG}$ (Gl~514) but not to the lowest values reported by \citet{cristofari_2023b}, which we read as the sensitivity floor of optical intensification rather than a limit we can push arbitrarily lower. The grid resolution matters here too. We adopt $1\,\mathrm{kG}$ steps rather than the coarser $2\,\mathrm{kG}$ spacing used in some earlier work, because a coarse step is too approximate precisely for these weak-field stars, and \citet{amateis_2026} reach the same conclusion. We do not refine the grid further only because its computational cost roughly doubles with each halving of the step, so we stop where a finer grid would no longer improve the results given the quality of the data.
+% TODO(Dion): add the Amateis, Kochukhov et al. 2026 entry to bib.bib (key: amateis_2026).
+% TODO(Dion): if "1 kG now preferred over my earlier 2 kG" rests on a private communication
+% from Cristofari, attribute it as such rather than to the published paper.
 
+A by-product of the component selection is worth noting. The number of magnetic components the BIC retains is not merely a nuisance setting, since it tracks the field rather than the quality of the fit: we find no correlation between the first-pass $\chi^2_\nu$ and the number of components stripped.
+% TODO(Dion): this rests on the chi2nu-vs-stripped-components check, currently commented out
+% in Sect.~\ref{sec:methods_bic}. Either restore that result or soften this sentence.
+The most active stars keep the most components, with GJ~1103 retaining all ten, while the weakly magnetic ones collapse to a handful, so the retained count behaves as a coarse, model-internal proxy for activity alongside $\langle B \rangle$ itself. This reading should not be pressed too far. The BIC is only an asymptotic approximation to the Bayesian evidence, and its penalty $k\ln n$ treats the $n$ fitted pixels as independent when neighbouring pixels are in fact correlated, so the effective sample size is smaller than $n$. We verified that the post-hoc, frozen-parameter scan recovers the same component count as a full MCMC at every configuration for three stars spanning the activity range (Gl~410, Gl~514, Gl~725A; Fig.~\ref{fig:bic_scan_validation}), but a fully Bayesian treatment of the component number is something we return to below.
+
+At the level of individual stars the three analyses agree on which targets are the most magnetic. We, \citet{reiners+2022} and \citet{cristofari_2023b} all place GJ~1286, GJ~1002, GJ~1151, GJ~1289, GJ~873, Gl~388 and Gl~410 among the most magnetic in the sample, consistent with the H$\alpha$ equivalent widths of \citet{Schofer_2019}. The clearest disagreements are Gl~905 and GJ~1103, both of which we find more active than these works suggest, and GJ~1103 is also the star with the largest optical-to-near-infrared offset. These outliers are the natural first targets for the follow-up described below.
+
+Placed in the $\langle B\rangle$--Rossby-number plane (Fig.~\ref{fig:rossby}), all of our targets but the rapidly rotating GJ~873 fall in the unsaturated dynamo regime, where the field is expected to fall steeply with Rossby number as $\langle B\rangle\propto\mathrm{Ro}^{-1.26}$ \citep{reiners+2022}. Our retrieved fields show no such trend and yield a slope consistent with zero, but we are cautious about reading this as a statement about the dynamo. The sample is narrow in activity and dominated by weakly to moderately active stars, we adopt the Rossby numbers of \citet{cristofari_2023b} rather than fitting rotation ourselves, and the scatter in $\langle B\rangle$ is large at the low fields where most of the targets sit. The flat relation is most naturally explained by this sample selection and measurement scatter, and we present it as a placement of our measurements rather than a rotation--activity result.
+
+These results rest on a few modelling choices that bound their precision. We select spectral regions in the first place because the \texttt{ZeeTurbo} models do not reproduce every line equally well, so a region can be clean in the data yet poorly modelled, and we did not apply a dedicated telluric correction. Only a limited number of telluric lines fall within the selected regions, and correcting tellurics reliably inside the dense telluric forests is difficult, so the gain from a correction would be small relative to the effort. We instead let the $\chi^2$-based filter (Sect.~\ref{sec:methods_filter}) reject the affected regions automatically. The forward model also interpolates the grid linearly in $(T_{\rm eff}, \log g, \mathrm{[M/H]})$, and although the flux does not in fact vary linearly with these parameters---the non-linearity is clearest in the cores of strong lines---the resulting error is small against the reported uncertainties at a grid spacing of $100\,\mathrm{K}$ and error bars of order $30\,\mathrm{K}$, while being far cheaper to evaluate at every step of the chain. Each of these is a place where the analysis could be tightened, and each points to a concrete next step.
+
+One further caveat bears directly on the magnetic comparison. Our templates are time averages by construction, co-added across all epochs that survive the signal-to-noise cut, and we therefore interpret the retrieved parameters as time-averaged quantities, following \citet{cristofari+2022b, cristofari_2023b, reiners+2022}. Because our optical data and the SPIRou measurements were taken at different epochs, part of the field offset discussed above may reflect genuine temporal evolution rather than a wavelength-dependent systematic, and the two cannot be disentangled from time-averaged templates alone.
+
+Several of these threads converge on the same programme of work. The most immediate step is a reliable telluric correction, which would recover the regions the filter currently discards and is in any case a prerequisite for extending the analysis cleanly into the near-infrared. Retrieving the parameters epoch by epoch, rather than from a single co-added template, would then test the small-scale field for variability and, for the targets with near-infrared coverage, help separate temporal evolution from formation-depth effects in the optical comparison. The natural endpoint is to fit the optical and near-infrared spectra of a star jointly within a single retrieval, ideally on contemporaneous data, exploiting the $\lambda^2$ scaling so that the two regimes constrain the field together and break the degeneracy between formation depth and the optical sensitivity floor.
+
+On the statistical side, the component count rests here on a post-hoc BIC, which approximates the Bayesian evidence rather than computing it. A nested sampler such as \texttt{dynesty} or \texttt{UltraNest}, both already available within \texttt{asap} but not exercised in this work, would return the evidence directly and allow the number of magnetic components to be compared between configurations on a fully Bayesian footing, at a cost considerably higher than the single \texttt{emcee} run per star used here. It is the natural way to put the component selection on firmer ground.
+
+In summary, we set out to test whether \texttt{asap}, applied uniformly to every star, could return a self-consistent set of atmospheric and magnetic parameters for a \texttt{Polarbase} sample of M~dwarfs that validates against the published near-infrared values, and the atmospheric parameters meet that test without per-star tuning. The magnetic fields agree with the near-infrared on the ranking of the most active stars but lie systematically higher in absolute terms, and we have argued that this offset is not a defect to be removed but a set of open questions about formation depth, temporal evolution and the sensitivity floor of optical intensification. The homogeneous optical retrieval presented here is the first step towards answering them.
+% TODO(Dion): if Chapter 7 (7-Conclusions.tex) is to carry a separate formal conclusion,
+% this final paragraph is the seed to move/expand there. Keep "self-consistent" = homogeneous
+% pipeline application, not optical/NIR agreement.
 
