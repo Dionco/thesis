@@ -139,7 +139,7 @@ interactive spectrum-exploration tool. For a given star it overlays the observed
 \texttt{wave\_explorer} can be run on a single star or on many at once.
 Single-star mode tailors a list to one target, whereas multi-star mode builds a list that performs well across a diverse sample, as required when a common selection must serve many stars. In multi-star mode the displayed spectrum and residuals are the pixel-by-pixel averages of the observed and model flux on a common wavelength grid, which exposes the features shared across the sample. The quality flag of each region is then the median $\chi^2$ over stars, so a region is penalised only when it fits poorly for the sample as a whole rather than for a single outlier.
 
-The initial optical list used for the NARVAL/ESPaDOnS configuration of the retrieval comprises $45$ wavelength regions in the range $746$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region. Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is dominated by Ti\,\textsc{i} ($24$ lines) and Fe\,\textsc{i} ($16$ lines), with single Cr\,\textsc{i} and Mg\,\textsc{i} regions, two V\,\textsc{i} regions, and one molecular MgH region.
+The initial optical list used for the NARVAL/ESPaDOnS configuration of the retrieval comprises $29$ wavelength regions in the range $747$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region. Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is split roughly evenly between Ti\,\textsc{i} ($14$ lines) and Fe\,\textsc{i} ($13$ lines), with single Mg\,\textsc{i} and V\,\textsc{i} regions.
 
 \begin{table}
 \caption{Initial optical line list. The identification relied on wavelengths and depths extracted from the VALD database. Each entry reports the central wavelength of the line region (vacuum \AA). Effective Landé factors are given for atomic lines.}
@@ -151,12 +151,10 @@ The initial optical list used for the NARVAL/ESPaDOnS configuration of the retri
 \toprule
 Species & Wavelength (\AA) [$g_\mathrm{eff}$] \\
 \midrule
-Cr\,\textsc{i} & 7464.60 [1.37] \\
-Fe\,\textsc{i} & 7497.62 [1.34], 7512.37 [1.42], 8001.30 [0.90], 8048.25 [0.78], 8077.36 [0.76], 8470.77 [2.49], 8516.29 [1.83], 8517.45 [0.78], 8584.65 [1.07], 8614.23 [1.49], 8624.04 [1.22], 8690.95 [1.66], 8759.70 [1.49], 8807.10 [1.02], 8826.78 [1.49], 8840.70 [1.50] \\
-Mg\,\textsc{i} & 8809.31 \\
-MgH & 7492.55 \\
-Ti\,\textsc{i} & 7491.25 [0.96], 7493.69 [1.34], 7998.60 [1.19], 8026.99 [1.06], 8070.38 [0.75], 8399.22 [0.00], 8414.59 [0.66], 8419.28 [0.87], 8428.75 [1.00], 8441.58 [1.12], 8469.48 [1.10], 8520.60 [1.06], 8685.37 [0.99], 8737.10 [1.00], 8769.09 [1.33], 9678.13 [1.35], 9691.59 [1.50], 9708.68 [1.26], 9721.64 [0.95], 9731.10 [1.00], 9745.93 [0.00], 9773.02 [1.55], 9786.11 [1.48], 9790.46 [1.50] \\
-V\,\textsc{i} & 8119.07 [1.42], 8146.91 [1.51] \\
+Fe\,\textsc{i} & 7513.12 [1.42], 8049.86 [1.50], 8077.42 [0.76], 8222.67 [1.11], 8470.79 [2.49], 8516.35 [1.83], 8517.45 [0.78], 8584.60 [1.07], 8614.15 [1.49], 8623.90 [1.22], 8759.60 [1.49], 8807.06 [1.02], 8840.88 [1.50] \\
+Mg\,\textsc{i} & 8809.15 \\
+Ti\,\textsc{i} & 7472.04 [1.37], 8027.08 [1.06], 8070.45 [0.75], 8399.16 [0.00], 8419.26 [0.87], 8441.62 [1.12], 8677.72 [1.19], 8685.38 [0.99], 9691.50 [1.50], 9708.31 [1.26], 9721.64 [0.95], 9731.10 [1.00], 9772.98 [1.55], 9786.11 [1.48] \\
+V\,\textsc{i} & 8119.00 [1.42] \\
 \bottomrule
 \end{tabular}
 \end{table}
