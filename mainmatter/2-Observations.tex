@@ -34,13 +34,15 @@ NARVAL and ESPaDOnS data are reduced in real time at the TBL and CFHT, respectiv
 
 Our sample is built around the M~dwarfs of \citet{cristofari_2023b}, who measured their small-scale surface magnetic fields from high-resolution NIR spectra obtained with SPIRou \citep{spirou}. Of these, 39 have NARVAL or ESPaDOnS coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) have no archival optical data and are dropped. We add two well-studied active M~dwarfs not in that sample, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), giving 41 stars in total. Their observation counts and median signal-to-noise are summarised in Table~\ref{tab:obs_summary}.
 
-\begin{table*}
+\begin{table}
 \centering
 \caption{Per-star observing summary for the 41 M~dwarfs analysed in the optical---the 39 \citet{cristofari+2022b,cristofari_2023b} stars with PolarBase optical coverage plus the two additional active stars Gl~388 (AD~Leo) and Gl~873 (EV~Lac)---after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
 \label{tab:obs_summary}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{l l c r r}
 \toprule
-Star & SpT & Instr. & $N_{\mathrm{obs}}$ & Median SNR \\
+Star & SpT & Instr. & $N_{\mathrm{obs}}$ & Med.\ SNR \\
 \midrule
 Gl~338B        & M0V    & E, N & 5   & 152 \\
 Gl~846         & M0.5V  & E, N & 91  & 172 \\
@@ -88,7 +90,7 @@ Gl~388         & dM3    & E, N & 300 & 258 \\
 Gl~873         & M4.0Ve & E, N & 229 & 169 \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 \subsection{Per-star data preparation}
 \label{sec:obs_preparation}
