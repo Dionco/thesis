@@ -3,40 +3,9 @@
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Observations and data reduction}
-\label{sec:observations}
-
-% This chapter describes the spectroscopic data underlying the thesis. We work in the optical, with NARVAL and ESPaDOnS spectra drawn from the PolarBase archive. Throughout this work we analyse only the Stokes I (unpolarised intensity) component of the spectropolarimetric observations.
-
-% The magnetic measurements presented here rely on Zeeman intensification, which probes the total unsigned surface magnetic flux through differential broadening of magnetically sensitive lines in Stokes I. This diagnostic is complementary to circular polarimetry. Stokes V is sensitive only to the net line-of-sight field and is therefore restricted to the large-scale, signed component, whereas mixed-polarity small-scale fields, which dominate the magnetic flux budget of M dwarfs, cancel in polarised light but contribute fully to the Stokes I signal \citep{reiners_basri_2009, Kochukhov_2021}.
-
-This chapter describes the spectroscopic data underlying the thesis. We work in the optical, using archival M-dwarf observations from the NARVAL and ESPaDOnS spectropolarimeters, available in the PolarBase archive. Although these are full spectropolarimetric data, we analyse only the Stokes $I$ (unpolarised intensity) component.
-
-This restriction reflects the diagnostic used here. As set out in Sect.~\ref{chap:intro}, the small-scale, mixed-polarity fields that carry most of the magnetic flux of M dwarfs cancel in circularly polarised light. They are recovered instead from their Zeeman broadening of magnetically sensitive lines in Stokes $I$, which responds to the total unsigned flux \citep{reiners_basri_2009, Kochukhov_2021}.
-
-\subsection{Instruments and reduction}
-\label{sec:obs_instruments}
-
-% We use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations.
-
-% We use NARVAL and ESPaDOnS spectra, both of which cover 0.37--1\,$\mu$m at a resolving power of ${\sim}65{,}000$ \citep{narval, espadons, polarbase1}. NARVAL and ESPaDOnS data are reduced in real time at the Télescope Bernard Lyot (TBL) and the Canada--France--Hawaii Telescope (CFHT), respectively, using the Libre-Esprit pipeline, which implements the algorithm of \citet{polarbase2}. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
-
-% In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a resolving power of $70{,}000$ \citep{spirou}. [VALUE NEEDED: identification of the SPIRou reduction pipeline (e.g.\ APERO) and a one-sentence description of its wavelength solution and continuum-normalisation behaviour.]
-
-We use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations. The spectra come from two instruments, NARVAL and ESPaDOnS, both fibre-fed cross-dispersed \'echelle spectropolarimeters of near-identical design: NARVAL \citep{narval} is mounted on the 2\,m T\'elescope Bernard Lyot (TBL) at the Pic du Midi Observatory, and ESPaDOnS \citep{espadons}, its predecessor and near-twin, on the 3.6\,m Canada--France--Hawaii Telescope (CFHT) atop Maunakea. In both instruments, a Cassegrain polarimetric module feeds a bench-mounted spectrograph through optical fibres, delivering single-exposure optical coverage of about 370–1000 nm in a single exposure at a resolving power of ${\sim}65{,}000$ in polarimetric mode \citep{narval, espadons, polarbase1}.
-
-NARVAL and ESPaDOnS data are reduced in real time at the TBL and CFHT, respectively, using the Libre-Esprit pipeline \citep{polarbase2}, which performs the standard \'echelle reduction steps --- bias and flat-field correction, optimal extraction of the spectral orders, and wavelength calibration. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
-
-\subsection{Sample}
-\label{sec:obs_sample}
-
-% Our sample is built around the M~dwarfs of \citet{cristofari_2023b}, who measured the small-scale surface magnetic fields of these stars from high-resolution NIR spectra obtained with SPIRou \citep{spirou}. Of these, 39 have NARVAL or ESPaDOnS coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) have no archival optical data and are excluded from the analysis. To these 39 we add two well-studied active M~dwarfs that are not in the \citet{cristofari_2023b} sample, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), for a total of 41 stars analysed in the optical. A per-star summary of observation counts and median signal-to-noise for these 41 stars is given in Table~\ref{tab:obs_summary}.
-
-Our sample is built around the M~dwarfs of \citet{cristofari_2023b}, who measured their small-scale surface magnetic fields from high-resolution NIR spectra obtained with SPIRou \citep{spirou}. Of these, 39 have NARVAL or ESPaDOnS coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) have no archival optical data and are dropped. We add two well-studied active M~dwarfs not in that sample, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), giving 41 stars in total. Their observation counts and median signal-to-noise are summarised in Table~\ref{tab:obs_summary}.
-
 \begin{table}
 \centering
-\caption{Per-star observing summary for the 41 M~dwarfs analysed in the optical---the 39 \citet{cristofari+2022b,cristofari_2023b} stars with PolarBase optical coverage plus the two additional active stars Gl~388 (AD~Leo) and Gl~873 (EV~Lac)---after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
+\caption{Per-star observing summary for the 41 M~dwarfs analysed in the optical --- the 39 \citet{cristofari+2022b,cristofari_2023b} stars with PolarBase optical coverage plus the two additional active stars Gl~388 (AD~Leo) and Gl~873 (EV~Lac) --- after the ${\rm SNR}\geq100$ cut applied in Sect.~\ref{sec:obs_preparation}. Instruments: E~=~ESPaDOnS, N~=~NARVAL. Spectral types are from SIMBAD.}
 \label{tab:obs_summary}
 \footnotesize
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} l l c r r}
@@ -91,9 +60,50 @@ Gl~873         & M4.0Ve & E, N & 229 & 169 \\
 \end{tabular*}
 \end{table}
 
+\section{Observations and data reduction}
+\label{sec:observations}
+
+
+% This chapter describes the spectroscopic data underlying the thesis. We work in the optical, with NARVAL and ESPaDOnS spectra drawn from the PolarBase archive. Throughout this work we analyse only the Stokes I (unpolarised intensity) component of the spectropolarimetric observations.
+
+% The magnetic measurements presented here rely on Zeeman intensification, which probes the total unsigned surface magnetic flux through differential broadening of magnetically sensitive lines in Stokes I. This diagnostic is complementary to circular polarimetry. Stokes V is sensitive only to the net line-of-sight field and is therefore restricted to the large-scale, signed component, whereas mixed-polarity small-scale fields, which dominate the magnetic flux budget of M dwarfs, cancel in polarised light but contribute fully to the Stokes I signal \citep{reiners_basri_2009, Kochukhov_2021}.
+
+This chapter describes the spectroscopic data underlying the thesis. We work in the optical, using archival M-dwarf observations from the NARVAL and ESPaDOnS spectropolarimeters, available in the PolarBase archive. Although these are full spectropolarimetric data, we analyse only the Stokes $I$ (unpolarised intensity) component.
+
+This restriction reflects the diagnostic used here. As set out in Sect.~\ref{chap:intro}, the small-scale, mixed-polarity fields that carry most of the magnetic flux of M dwarfs cancel in circularly polarised light. They are recovered instead from their Zeeman broadening of magnetically sensitive lines in Stokes $I$, which responds to the total unsigned flux \citep{reiners_basri_2009, Kochukhov_2021}.
+
+\subsection{Instruments and reduction}
+\label{sec:obs_instruments}
+
+% We use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations.
+
+% We use NARVAL and ESPaDOnS spectra, both of which cover 0.37--1\,$\mu$m at a resolving power of ${\sim}65{,}000$ \citep{narval, espadons, polarbase1}. NARVAL and ESPaDOnS data are reduced in real time at the Télescope Bernard Lyot (TBL) and the Canada--France--Hawaii Telescope (CFHT), respectively, using the Libre-Esprit pipeline, which implements the algorithm of \citet{polarbase2}. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
+
+% In the near-infrared, we use SPIRou spectra, which span 0.95--2.5\,$\mu$m at a resolving power of $70{,}000$ \citep{spirou}. [VALUE NEEDED: identification of the SPIRou reduction pipeline (e.g.\ APERO) and a one-sentence description of its wavelength solution and continuum-normalisation behaviour.]
+
+We use PolarBase\footnote{\url{https://www.polarbase.ovgso.fr/}} \citep{polarbase1, polarbase2}, a publicly available archive of high-resolution spectropolarimetric stellar observations. The spectra come from two instruments, NARVAL and ESPaDOnS, both fibre-fed cross-dispersed \'echelle spectropolarimeters of near-identical design: NARVAL \citep{narval} is mounted on the 2\,m T\'elescope Bernard Lyot (TBL) at the Pic du Midi Observatory, and ESPaDOnS \citep{espadons}, its predecessor and near-twin, on the 3.6\,m Canada--France--Hawaii Telescope (CFHT) atop Maunakea. In both instruments, a Cassegrain polarimetric module feeds a bench-mounted spectrograph through optical fibres, delivering single-exposure optical coverage of about 370–1000 nm in a single exposure at a resolving power of ${\sim}65{,}000$ in polarimetric mode \citep{narval, espadons, polarbase1}.
+
+NARVAL and ESPaDOnS data are reduced in real time at the TBL and CFHT, respectively, using the Libre-Esprit pipeline \citep{polarbase2}, which performs the standard \'echelle reduction steps --- bias and flat-field correction, optimal extraction of the spectral orders, and wavelength calibration. An initial wavelength solution is derived from a Th--Ar spectrum acquired during the night and subsequently refined using telluric bands superimposed on each stellar spectrum as radial-velocity references, yielding a final radial-velocity accuracy of $20$--$30$\,m\,s$^{-1}$ \citep{instrument_reduction_pipeline}. The pipeline also automatically normalises the continuum.
+
+\subsection{Sample}
+\label{sec:obs_sample}
+
+% Our sample is built around the M~dwarfs of \citet{cristofari_2023b}, who measured the small-scale surface magnetic fields of these stars from high-resolution NIR spectra obtained with SPIRou \citep{spirou}. Of these, 39 have NARVAL or ESPaDOnS coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) have no archival optical data and are excluded from the analysis. To these 39 we add two well-studied active M~dwarfs that are not in the \citet{cristofari_2023b} sample, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), for a total of 41 stars analysed in the optical. A per-star summary of observation counts and median signal-to-noise for these 41 stars is given in Table~\ref{tab:obs_summary}.
+
+Our sample is built around the M~dwarfs of \citet{cristofari_2023b}, who measured their small-scale surface magnetic fields from high-resolution NIR spectra obtained with SPIRou \citep{spirou}. Of these, 39 have NARVAL or ESPaDOnS coverage in PolarBase, while the remaining five (Gl~617B, GJ~4063, PM~J09553-2715, GJ~1012, PM~J08402+3127) have no archival optical data and are dropped. We add two well-studied active M~dwarfs not in that sample, Gl~388 (AD~Leo) and Gl~873 (EV~Lac), giving 41 stars in total. Their observation counts and median signal-to-noise are summarised in Table~\ref{tab:obs_summary}.
+
+
+
 \subsection{Per-star data preparation}
 \label{sec:obs_preparation}
 
 % For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating our results with low-quality data. The remaining spectra acquired within a single night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel to produce a night template. We then take the median of all night templates to construct a final template for each star. The is a high signal-to-noise template spectrum that is where time variations are averaged out. M~dwarfs are known to show temporal variability in their surface magnetic and activity diagnostics. We therefore interpret the recovered atmospheric and magnetic parameters as time-averaged quantities, following the practice of \citet{cristofari+2022b, cristofari_2023b, reiners+2022, Passegger_2019}.
 
 For each star, we correct the observed spectra for the barycentric Earth radial velocity (BERV) and discard any observation with ${\rm SNR}<100$ to avoid contaminating the results with low-quality data. The remaining spectra taken on the same night are cubically interpolated onto a common wavelength grid and median-combined pixel-by-pixel into a single per-night template, and the median of all per-night templates forms the final template for that star. This yields a single high signal-to-noise spectrum per star, but one in which any variation between epochs is averaged out. Since M~dwarfs vary in their magnetic and activity diagnostics on rotational and longer timescales, we interpret the recovered atmospheric and magnetic parameters as time-averaged quantities, following \citet{Passegger_2019, reiners+2022, cristofari+2022b, cristofari_2023b}.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mcmc_step_workflow.pdf}
+    \caption{One step of the \texttt{asap} forward model, illustrated for the Zeeman-sensitive Ti\,\textsc{i} line at $970.83\,\mathrm{nm}$ in Gl~388 (AD~Leo). For a proposed parameter set, a synthetic spectrum is linearly interpolated within the \texttt{ZeeTurbo} box $(T_\mathrm{eff}, \log g, \mathrm{[M/H]})$ (red star) from its eight bracketing grid nodes (blue), at each field strength $B_i$. Three of these spectra are shown ($B=0$, $5$, and $10\,\mathrm{kG}$), coloured on a blue-to-red gradient in field strength along which the Zeeman broadening grows. The components are then summed in flux, weighted by the filling factors $f_i$, into the combined model spectrum $S_\mathrm{mag}=\sum_i f_i S_i$, drawn in the colour of the mean field $\langle B \rangle$ on the same gradient. The dashed blue curve is the non-magnetic ($B=0$) component. Finally, the resulting model (red) is compared with the observed spectrum (black) through the likelihood.}
+    \label{fig:forward_model}
+\end{figure*}
