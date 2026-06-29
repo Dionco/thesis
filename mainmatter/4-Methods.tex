@@ -86,23 +86,23 @@ The two constraints are enforced separately. Only the $N_B$ magnetic factors $f_
 The MCMC samples a common parameter set for every star in the sample: the atmospheric parameters $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$, the radial velocity $v_r$, the macroturbulent velocity $\zeta_\mathrm{RT}$, and the magnetic filling factors $f_1,\dots,f_{N_B}$. All priors are uniform. Their bounds are listed in Table~\ref{tab:mcmc_priors}. The bounds on the atmospheric parameters are inherited from the \texttt{ZeeTurbo} grid extents. The prior on $\{f_1,\dots,f_{N_B}\}$ is uniform over the simplex defined in Sect.~\ref{sec:methods_magnetic}. $N_B$ is not itself a free parameter, but is fixed for a given run and selected post-hoc by the BIC scan (Sect.~\ref{sec:methods_bic}). The remaining parameters supported by \texttt{asap}, $v\sin i$ (Sect.~\ref{sec:methods_forward}), $[\alpha/\mathrm{Fe}]$, the veiling factor, and any additional Gaussian broadening, are held fixed and set to zero across the sample.
 
 \begin{table}
-\caption{Uniform-prior bounds on the MCMC free parameters, for the optical (NARVAL/ESPaDOnS) and near-infrared (SPIRou) configurations of the retrieval. The atmospheric-parameter bounds correspond to the extent of the relevant \texttt{ZeeTurbo} grid. The macroturbulent kernel mode and the fixed instrumental broadening are not priors but are listed for completeness.}
+\caption{Uniform-prior bounds on the MCMC free parameters for the optical (NARVAL/ESPaDOnS) retrieval. The atmospheric-parameter bounds correspond to the extent of the \texttt{ZeeTurbo} grid. The macroturbulent kernel mode and the fixed instrumental broadening are not priors but are listed for completeness.}
 \label{tab:mcmc_priors}
 \centering
-\begin{tabular}{lcc}
+\begin{tabular}{lc}
 \toprule
-Parameter & Optical & NIR \\
+Parameter & Value \\
 \midrule
-$T_\mathrm{eff}$ [K]                       & $[2900,\,4000]$    & $[2900,\,3900]$ \\
-$\log g$ [dex]                              & $[3.5,\,5.5]$      & $[4.5,\,5.5]$ \\
-$[\mathrm{M/H}]$ [dex]                      & $[-0.75,\,+0.75]$  & $[-0.5,\,+0.25]$ \\
-$v_r$ [km\,s$^{-1}$]                        & $[-200,\,+200]$    & $[-200,\,+200]$ \\
-$\zeta_\mathrm{RT}$ [km\,s$^{-1}$]          & $\geq 0$           & $\geq 0$ \\
-$\{f_i\}$                                   & simplex            & simplex \\
-$\{B_i\}$ initial set [kG]                  & $\{0,1,\dots,10\}$    & $\{0,1,\dots,10\}$ \\
+$T_\mathrm{eff}$ [K]                       & $[3000,\,4000]$ \\
+$\log g$ [dex]                              & $[4.5,\,5.5]$ \\
+$[\mathrm{M/H}]$ [dex]                      & $[-0.5,\,+0.5]$ \\
+$v_r$ [km\,s$^{-1}$]                        & $[-200,\,+200]$ \\
+$\zeta_\mathrm{RT}$ [km\,s$^{-1}$]          & $\geq 0$ \\
+$\{f_i\}$                                   & simplex \\
+$\{B_i\}$ initial set [kG]                  & $\{0,1,\dots,10\}$ \\
 \midrule
-Macroturbulent kernel                       & radial-tangential  & radial-tangential \\
-$v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$              & $4.3$ \\
+Macroturbulent kernel                       & radial-tangential \\
+$v_\mathrm{instru}$ [km\,s$^{-1}$]          & $4.4$ \\
 \bottomrule
 \end{tabular}
 \end{table}
