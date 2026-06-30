@@ -381,12 +381,18 @@ Figure~\ref{fig:region_filtering} shows the diagnostic phase (Fig.~\ref{fig:line
 
 The production phase is the full-length retrieval that yields the reported parameters: the same pipeline as Sect.~\ref{sec:methods_fit} run for the full 5000 MCMC steps rather than the 2000 of the diagnostic phase. How it is launched depends on the diagnostic outcome. If no region is rejected, the common list is already final and the run simply continues to the full production length. If any region is rejected, the star is refitted from scratch on a filtered list --- a copy of the common list with the rejected regions commented out and annotated with their $\chi^2_R/N_R$, recording what was dropped for each star.
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/bic_optimal_summary_absolute.pdf}}{%
+    \caption{BIC versus the maximum magnetic field component allowed in the fit, for GL~410 and GL~725~A. The BIC scan (solid black) derives every point from a single MCMC run by removing the strongest components one at a time, while the reference (dashed blue) runs a separate MCMC fit at each configuration. Both reach their minimum at the same field strength — 4~kG for GL~410 and 6~kG for GL~725~A (red marker, dashed line) — so the single-run scan recovers the same optimal configuration as the far more expensive per-configuration runs.}
+    \label{fig:bic_scan_validation}
+\end{figure}
 
 \subsection{Magnetic-component selection via BIC}
 \label{sec:methods_bic}
 % The magnetic model is described in Sect.~\ref{sec:methods_magnetic}. Its filling factors are constrained to be non-negative ($f_i \geq 0$). For weakly magnetic stars this introduces an asymmetry: the filling factors of the strong-field components cannot scatter below zero, so noise pushes their posterior means to small positive values rather than averaging out around zero. Because the mean field $\langle B\rangle = \sum_i B_i f_i$ weights each component by its field strength, these spurious filling factors are amplified by the large $B_i$ of the strong-field components, biasing $\langle B\rangle$ upward. The full magnetic grid therefore overestimates $\langle B\rangle$ for weakly magnetic stars, and we reduce the number of components carried as free parameters to recover a lower, less biased estimate.
 
-The magnetic model is described in Sect.~\ref{sec:methods_magnetic}. Whenever a component's true filling factor lies near zero --- the lower bound of the prior --- its posterior is truncated there and its mean is displaced to a small positive value rather than averaging to zero. This boundary effect occurs in weakly and strongly magnetic stars alike, but its impact on the mean field depends on which components are affected, since each field strength is weighted by its filling factor. In a strongly magnetic star the dominant high-field components carry a genuine, well-constrained filling factor and $\langle B\rangle$ is large, so the residual bias from any near-bound components is a small fractional effect. In a weakly magnetic star, it is the high-field components that sit near zero. Each one still picks up a small spurious filling factor, and multiplying that by a large $B_i$ turns it into a sizeable $B_i f_i$ term. The true $\langle B\rangle$ is small, so these few spurious terms can make up a significant fraction of the sum and push it upward. Therefore, as in \citet{Lavail_2019}, we use the BIC to limit the number of components carried as free parameters, dropping high-field components the data do not require.
+Whenever a component's true filling factor lies near zero --- the lower bound of the prior --- its posterior is truncated there and its mean is displaced to a small positive value rather than averaging to zero. This boundary effect occurs in weakly and strongly magnetic stars alike, but its impact on the mean field depends on which components are affected, since each field strength is weighted by its filling factor. In a strongly magnetic star the dominant high-field components carry a genuine, well-constrained filling factor and $\langle B\rangle$ is large, so the residual bias from any near-bound components is a small fractional effect. In a weakly magnetic star, it is the high-field components that sit near zero. Each one still picks up a small spurious filling factor, and multiplying that by a large $B_i$ turns it into a sizeable $B_i f_i$ term. The true $\langle B\rangle$ is small, so these few spurious terms can make up a significant fraction of the sum and push it upward. Therefore, as in \citet{Lavail_2019}, we use the BIC to limit the number of components carried as free parameters, dropping high-field components the data do not require.
 
 We select the number of magnetic components per star with the BIC \citep{Schwarz+1978, Sharma_2017},
 \begin{equation}
@@ -394,6 +400,108 @@ We select the number of magnetic components per star with the BIC \citep{Schwarz
     \mathrm{BIC} = -2 \ln \mathcal{L} + k\,\ln n,
 \end{equation}
 where $\mathcal{L}$ is the likelihood (Eq.~\ref{eq:likelihood}) evaluated at the production best-fit (maximum-likelihood) parameters, $k$ is the number of free parameters, and $n$ is the number of fitted spectral pixels. The first term rewards goodness of fit, while the penalty $k\ln n$ grows with model complexity, so an additional component is justified only when it improves the likelihood enough to outweigh the penalty. The configuration with the lowest BIC is preferred. Locating this minimum directly would require a separate MCMC run for each number of components, which is very expensive across the full sample. We therefore approximate the BIC with a rapid \emph{scan}.
+
+% >>> results table (auto-generated by new/build_results_table.py) >>>
+\begin{table*}[!h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.25}
+% ===== filling-factor STRIP (shaded barcode) + field axis + <B> marker =====
+% Cell i (i=0..10) = field B_i = i kG; cell shade encodes f_i.
+% field f (kG) -> horizontal fraction (f+0.5)/11  [cell centres on integer kG]
+\providecommand{\ffgamma}{0.7}    % shade contrast: 1=linear, <1 lifts small bins
+\providecommand{\ffcw}{\dimexpr\linewidth/11-0.5pt\relax}
+\definecolor{Bmark}{HTML}{c15f3c} % <B> marker colour
+\providecommand{\ffstrut}{\rule[-0.5pt]{0pt}{7.0pt}}
+\providecommand{\ffcell}[1]{%
+  \textcolor{black!\fpeval{round(#1==0 ? 4 : max(9,min(92,92*exp(\ffgamma*ln(#1)))))}}%
+    {\rule[-0.5pt]{\ffcw}{7.0pt}}\hspace{0.5pt}}
+\providecommand{\ffframe}{%
+  \llap{\textcolor{black!55}{\rule[-0.5pt]{\linewidth}{0.3pt}}}%
+  \llap{\textcolor{black!55}{\rule[6.2pt]{\linewidth}{0.3pt}}}}
+% <B> marker: filled circle at the mean with a horizontal +/-1sigma error bar.
+% #1 = <B> (kG), #2 = sigma (kG). Requires \usepackage{tikz}.
+\providecommand{\ffmark}[2]{%
+  \llap{\smash{\makebox[\linewidth][l]{%
+    \hspace{\fpeval{((#1)-(#2)+0.5)/11}\linewidth}%          to x_lo
+    \rlap{\textcolor{Bmark}{\rule[1.9pt]{0.4pt}{2.2pt}}}%     left cap
+    \rlap{\textcolor{Bmark}{\rule[2.7pt]{\fpeval{2*(#2)/11}\linewidth}{0.6pt}}}% whisker
+    \hspace{\fpeval{2*(#2)/11}\linewidth}%                    to x_hi
+    \rlap{\textcolor{Bmark}{\rule[1.9pt]{0.4pt}{2.2pt}}}%     right cap
+    \hspace{\fpeval{(-(#2))/11}\linewidth}%                   back to x_mean
+    \tikz[baseline=0pt]{\useasboundingbox (0,0);%            circle marker
+      \filldraw[fill=Bmark,draw=white,line width=0.4pt] (0,3pt) circle (2pt);}%
+  }}}}
+% field axis ruler (place in header; same mapping as cells)
+\providecommand{\fftick}[1]{\makebox[0pt][c]{\shortstack{{\scriptsize #1}\\[-1pt]\rule{0.4pt}{2.3pt}}}}
+\providecommand{\ffruler}{\makebox[\linewidth][l]{%
+  \hspace{\fpeval{0.5/11}\linewidth}\fftick{0}%
+  \hspace{\fpeval{2/11}\linewidth}\fftick{2}%
+  \hspace{\fpeval{2/11}\linewidth}\fftick{4}%
+  \hspace{\fpeval{2/11}\linewidth}\fftick{6}%
+  \hspace{\fpeval{2/11}\linewidth}\fftick{8}%
+  \hspace{\fpeval{2/11}\linewidth}\fftick{10}%
+  \hspace{\fpeval{0.7/11}\linewidth}\makebox[0pt][l]{\scriptsize\,kG}%
+}}
+% shade legend (compact)
+\providecommand{\ffkey}{{\scriptsize $f_i$}\,\raisebox{0.15ex}{%
+  \textcolor{black!9}{\rule[-0.4pt]{2.6pt}{6pt}}\textcolor{black!22}{\rule[-0.4pt]{2.6pt}{6pt}}%
+  \textcolor{black!35}{\rule[-0.4pt]{2.6pt}{6pt}}\textcolor{black!48}{\rule[-0.4pt]{2.6pt}{6pt}}%
+  \textcolor{black!61}{\rule[-0.4pt]{2.6pt}{6pt}}\textcolor{black!74}{\rule[-0.4pt]{2.6pt}{6pt}}%
+  \textcolor{black!92}{\rule[-0.4pt]{2.6pt}{6pt}}}\,{\scriptsize $0\!\to\!1$}}
+\caption{Retrieved atmospheric and magnetic parameters for the 41 stars of the sample (the \texttt{bic\_optimal\_region\_filtering\_v1} \texttt{asap} runs). $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$ are posterior medians with empirical uncertainties (formal $1\sigma$ added in quadrature to the $30\,\mathrm{K}$, $0.05$ and $0.10\,\mathrm{dex}$ modelling floors; Sect.~\ref{sec:methods_likelihood}); $\zeta_\mathrm{RT}$ and $\langle B\rangle = \sum_i B_i f_i$ carry their formal $1\sigma$ errors. $B_\mathrm{max}$ is the strongest field component retained by the BIC scan. The last column shows the filling-factor distribution as a shaded strip: the eleven cells span the common $0$--10$\,\mathrm{kG}$ field axis ruled above the column (cell $i$ at $B_i = i\,\mathrm{kG}$) and each cell's shade encodes its filling factor $f_i$, from near-white at $f_i=0$ to black at $f_i=1$ (\ffkey); cells left white are field strengths not retained by the BIC scan. The circle on each strip marks the mean field $\langle B\rangle$ with its $\pm1\sigma$ error bar. A single dark cell thus marks a concentrated weak field, a spread of grey cells a distributed or saturated one. Exact $f_i$ with $1\sigma$ errors are given in Table~\ref{tab:ff_full}. Ordered by descending $T_\mathrm{eff}$.}
+\label{tab:results}
+\begin{tabularx}{\textwidth}{l c c c c c c >{\raggedright\arraybackslash}X}
+\toprule
+Star & $T_\mathrm{eff}$ & $\log g$ & $[\mathrm{M/H}]$ & $\zeta_\mathrm{RT}$ & $\langle B\rangle$ & $B_\mathrm{max}$ & Filling factors $f_i$\ \ \ffkey \\
+ & (K) & (dex) & (dex) & (km\,s$^{-1}$) & (kG) & (kG) & \ffruler \\
+\midrule
+Gl 338B        & $3899 \pm 30$ & $4.94 \pm 0.08$ & $0.06 \pm 0.10$ & $0.46 \pm 0.37$ & $0.52 \pm 0.07$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7525}\ffcell{0.1485}\ffcell{0.0198}\ffcell{0.0099}\ffcell{0.0198}\ffcell{0.0495}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.52}{0.07}} \\
+Gl 846         & $3876 \pm 33$ & $4.73 \pm 0.08$ & $0.01 \pm 0.11$ & $1.05 \pm 0.45$ & $0.48 \pm 0.07$ & 4 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7600}\ffcell{0.1400}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0600}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.48}{0.07}} \\
+Gl 410         & $3835 \pm 32$ & $4.80 \pm 0.07$ & $0.00 \pm 0.10$ & $1.90 \pm 0.22$ & $1.30 \pm 0.06$ & 4 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.1700}\ffcell{0.6400}\ffcell{0.0400}\ffcell{0.0200}\ffcell{0.1300}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.30}{0.06}} \\
+Gl 514         & $3733 \pm 33$ & $4.78 \pm 0.07$ & $-0.11 \pm 0.10$ & $0.30 \pm 0.24$ & $0.30 \pm 0.05$ & 4 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8900}\ffcell{0.0400}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0500}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.30}{0.05}} \\
+Gl 205         & $3699 \pm 34$ & $4.74 \pm 0.08$ & $0.37 \pm 0.11$ & $0.93 \pm 0.42$ & $0.65 \pm 0.07$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.5743}\ffcell{0.3267}\ffcell{0.0297}\ffcell{0.0198}\ffcell{0.0198}\ffcell{0.0297}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.65}{0.07}} \\
+Gl 382         & $3674 \pm 34$ & $4.83 \pm 0.08$ & $0.11 \pm 0.11$ & $0.51 \pm 0.38$ & $0.68 \pm 0.06$ & 4 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.6100}\ffcell{0.2800}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0800}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.68}{0.06}} \\
+Gl 412A        & $3674 \pm 32$ & $4.79 \pm 0.06$ & $-0.45 \pm 0.10$ & $0.30 \pm 0.25$ & $0.36 \pm 0.06$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.9300}\ffcell{0.0100}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0400}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.36}{0.06}} \\
+Gl 880         & $3649 \pm 34$ & $4.79 \pm 0.08$ & $0.21 \pm 0.11$ & $0.29 \pm 0.23$ & $0.80 \pm 0.06$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.5152}\ffcell{0.3939}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0606}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.80}{0.06}} \\
+Gl 411         & $3599 \pm 32$ & $4.80 \pm 0.06$ & $-0.41 \pm 0.10$ & $0.31 \pm 0.27$ & $0.49 \pm 0.05$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.9091}\ffcell{0.0101}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0606}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.49}{0.05}} \\
+Gl 15A         & $3590 \pm 32$ & $4.96 \pm 0.06$ & $-0.30 \pm 0.10$ & $0.39 \pm 0.32$ & $0.45 \pm 0.06$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8485}\ffcell{0.0707}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0505}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.45}{0.06}} \\
+Gl 436         & $3581 \pm 35$ & $4.94 \pm 0.08$ & $0.06 \pm 0.11$ & $0.50 \pm 0.35$ & $0.36 \pm 0.06$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.9010}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0594}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.36}{0.06}} \\
+Gl 752A        & $3550 \pm 41$ & $5.00 \pm 0.08$ & $0.26 \pm 0.11$ & $1.38 \pm 0.31$ & $0.69 \pm 0.10$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7100}\ffcell{0.1800}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0600}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.69}{0.10}} \\
+Gl 48          & $3539 \pm 36$ & $5.02 \pm 0.07$ & $0.13 \pm 0.11$ & $0.40 \pm 0.36$ & $0.58 \pm 0.07$ & 4 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8100}\ffcell{0.0400}\ffcell{0.0300}\ffcell{0.0100}\ffcell{0.1100}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.58}{0.07}} \\
+PM J21463+3813 & $3537 \pm 39$ & $5.13 \pm 0.07$ & $-0.28 \pm 0.11$ & $0.90 \pm 0.57$ & $1.31 \pm 0.12$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.6800}\ffcell{0.0300}\ffcell{0.0500}\ffcell{0.0400}\ffcell{0.0400}\ffcell{0.0400}\ffcell{0.1200}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.31}{0.12}} \\
+Gl 408         & $3527 \pm 34$ & $4.94 \pm 0.07$ & $-0.04 \pm 0.11$ & $0.39 \pm 0.32$ & $0.76 \pm 0.08$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.6535}\ffcell{0.1980}\ffcell{0.0297}\ffcell{0.0198}\ffcell{0.0198}\ffcell{0.0792}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.76}{0.08}} \\
+Gl 725B        & $3515 \pm 35$ & $5.00 \pm 0.08$ & $-0.32 \pm 0.11$ & $0.87 \pm 0.46$ & $0.66 \pm 0.08$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8687}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0202}\ffcell{0.0707}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.66}{0.08}} \\
+Gl 251         & $3511 \pm 34$ & $4.80 \pm 0.07$ & $-0.07 \pm 0.11$ & $0.43 \pm 0.32$ & $0.59 \pm 0.07$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8614}\ffcell{0.0198}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0198}\ffcell{0.0693}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.59}{0.07}} \\
+Gl 725A        & $3477 \pm 34$ & $4.92 \pm 0.07$ & $-0.28 \pm 0.10$ & $0.37 \pm 0.31$ & $0.98 \pm 0.07$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8081}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0202}\ffcell{0.0303}\ffcell{0.1111}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.98}{0.07}} \\
+Gl 581         & $3475 \pm 34$ & $4.92 \pm 0.07$ & $-0.09 \pm 0.11$ & $0.55 \pm 0.37$ & $0.72 \pm 0.08$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8200}\ffcell{0.0500}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0200}\ffcell{0.0800}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.72}{0.08}} \\
+Gl 687         & $3445 \pm 67$ & $5.11 \pm 0.16$ & $0.13 \pm 0.14$ & $0.53 \pm 0.52$ & $0.89 \pm 0.25$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7300}\ffcell{0.0800}\ffcell{0.0300}\ffcell{0.0300}\ffcell{0.0300}\ffcell{0.0400}\ffcell{0.0600}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.89}{0.25}} \\
+Gl 849         & $3444 \pm 40$ & $4.92 \pm 0.08$ & $0.30 \pm 0.11$ & $0.40 \pm 0.34$ & $0.58 \pm 0.07$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8100}\ffcell{0.0700}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0800}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.58}{0.07}} \\
+Gl 480         & $3439 \pm 38$ & $5.02 \pm 0.07$ & $0.35 \pm 0.11$ & $0.53 \pm 0.41$ & $0.67 \pm 0.09$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7200}\ffcell{0.1500}\ffcell{0.0300}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0800}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.67}{0.09}} \\
+GJ 1148        & $3423 \pm 44$ & $4.92 \pm 0.10$ & $0.11 \pm 0.12$ & $1.71 \pm 0.43$ & $0.75 \pm 0.14$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8100}\ffcell{0.0500}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0200}\ffcell{0.0900}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.75}{0.14}} \\
+Gl 699         & $3416 \pm 35$ & $5.19 \pm 0.07$ & $-0.32 \pm 0.11$ & $0.98 \pm 0.53$ & $1.00 \pm 0.10$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7400}\ffcell{0.0500}\ffcell{0.0500}\ffcell{0.0300}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0900}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.00}{0.10}} \\
+GJ 1105        & $3416 \pm 38$ & $4.77 \pm 0.09$ & $-0.04 \pm 0.11$ & $0.64 \pm 0.44$ & $1.03 \pm 0.11$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.6700}\ffcell{0.1500}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0300}\ffcell{0.0300}\ffcell{0.1000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.03}{0.11}} \\
+GJ 3378        & $3413 \pm 41$ & $4.99 \pm 0.07$ & $0.08 \pm 0.11$ & $1.56 \pm 0.46$ & $0.86 \pm 0.11$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8100}\ffcell{0.0300}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0200}\ffcell{0.1100}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.86}{0.11}} \\
+Gl 15B         & $3411 \pm 64$ & $5.21 \pm 0.16$ & $-0.14 \pm 0.13$ & $0.52 \pm 0.61$ & $1.28 \pm 0.29$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.5743}\ffcell{0.1485}\ffcell{0.0495}\ffcell{0.0297}\ffcell{0.0495}\ffcell{0.1485}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.28}{0.29}} \\
+Gl 388         & $3409 \pm 34$ & $5.25 \pm 0.07$ & $0.36 \pm 0.10$ & $2.35 \pm 0.37$ & $3.13 \pm 0.08$ & 7 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.0505}\ffcell{0.0808}\ffcell{0.3434}\ffcell{0.1414}\ffcell{0.2020}\ffcell{0.0606}\ffcell{0.0505}\ffcell{0.0707}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{3.13}{0.08}} \\
+GJ 4333        & $3395 \pm 45$ & $4.99 \pm 0.09$ & $0.33 \pm 0.12$ & $1.70 \pm 0.41$ & $1.14 \pm 0.15$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.5960}\ffcell{0.2323}\ffcell{0.0202}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0202}\ffcell{0.1111}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.14}{0.15}} \\
+Gl 873         & $3368 \pm 65$ & $5.26 \pm 0.14$ & $0.15 \pm 0.15$ & $4.91 \pm 1.24$ & $4.01 \pm 0.33$ & 8 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.0693}\ffcell{0.0792}\ffcell{0.1188}\ffcell{0.1683}\ffcell{0.1782}\ffcell{0.1188}\ffcell{0.0891}\ffcell{0.0891}\ffcell{0.0891}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{4.01}{0.33}} \\
+Gl 317         & $3367 \pm 42$ & $5.06 \pm 0.07$ & $0.40 \pm 0.11$ & $1.18 \pm 0.48$ & $0.66 \pm 0.09$ & 5 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8182}\ffcell{0.0404}\ffcell{0.0303}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0909}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.66}{0.09}} \\
+Gl 169.1A      & $3367 \pm 46$ & $4.78 \pm 0.12$ & $0.13 \pm 0.13$ & $2.37 \pm 0.32$ & $0.87 \pm 0.14$ & 7 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.8317}\ffcell{0.0198}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0198}\ffcell{0.0891}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.87}{0.14}} \\
+Gl 445         & $3356 \pm 37$ & $5.08 \pm 0.09$ & $-0.08 \pm 0.11$ & $0.94 \pm 0.63$ & $1.21 \pm 0.15$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7400}\ffcell{0.0300}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0300}\ffcell{0.1400}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.21}{0.15}} \\
+Gl 447         & $3337 \pm 43$ & $5.08 \pm 0.08$ & $0.08 \pm 0.12$ & $2.26 \pm 0.42$ & $0.90 \pm 0.16$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7500}\ffcell{0.1000}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.1000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.90}{0.16}} \\
+GJ 1103        & $3326 \pm 47$ & $5.04 \pm 0.12$ & $0.25 \pm 0.13$ & $1.09 \pm 0.64$ & $2.89 \pm 0.23$ & 10 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.4510}\ffcell{0.1961}\ffcell{0.0490}\ffcell{0.0196}\ffcell{0.0098}\ffcell{0.0098}\ffcell{0.0098}\ffcell{0.0196}\ffcell{0.0196}\ffcell{0.0196}\ffcell{0.1961}\ffframe\ffmark{2.89}{0.23}} \\
+Gl 876         & $3318 \pm 43$ & $4.98 \pm 0.07$ & $0.29 \pm 0.11$ & $1.82 \pm 0.33$ & $0.92 \pm 0.11$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.7900}\ffcell{0.0400}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0100}\ffcell{0.0200}\ffcell{0.1100}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{0.92}{0.11}} \\
+Gl 905         & $3304 \pm 45$ & $5.28 \pm 0.11$ & $0.40 \pm 0.11$ & $0.53 \pm 0.51$ & $2.56 \pm 0.19$ & 8 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.0600}\ffcell{0.6300}\ffcell{0.0500}\ffcell{0.0200}\ffcell{0.0100}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0300}\ffcell{0.1600}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{2.56}{0.19}} \\
+GJ 1289        & $3301 \pm 38$ & $5.07 \pm 0.07$ & $0.20 \pm 0.11$ & $2.85 \pm 0.40$ & $1.95 \pm 0.15$ & 6 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.0800}\ffcell{0.6400}\ffcell{0.0500}\ffcell{0.0300}\ffcell{0.0300}\ffcell{0.0400}\ffcell{0.1300}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.95}{0.15}} \\
+GJ 1151        & $3294 \pm 38$ & $5.11 \pm 0.08$ & $0.09 \pm 0.11$ & $0.62 \pm 0.50$ & $1.89 \pm 0.20$ & 7 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.3636}\ffcell{0.3737}\ffcell{0.0202}\ffcell{0.0101}\ffcell{0.0101}\ffcell{0.0303}\ffcell{0.0808}\ffcell{0.1111}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.89}{0.20}} \\
+GJ 1002        & $3258 \pm 36$ & $5.45 \pm 0.08$ & $0.09 \pm 0.11$ & $0.84 \pm 0.60$ & $1.85 \pm 0.20$ & 8 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.1188}\ffcell{0.6733}\ffcell{0.0396}\ffcell{0.0198}\ffcell{0.0099}\ffcell{0.0099}\ffcell{0.0198}\ffcell{0.0198}\ffcell{0.0891}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{1.85}{0.20}} \\
+GJ 1286        & $3227 \pm 37$ & $5.43 \pm 0.09$ & $0.24 \pm 0.11$ & $1.00 \pm 0.71$ & $2.18 \pm 0.17$ & 7 & \makebox[\linewidth][l]{\ffstrut\ffcell{0.0500}\ffcell{0.6300}\ffcell{0.0900}\ffcell{0.0300}\ffcell{0.0200}\ffcell{0.0200}\ffcell{0.0400}\ffcell{0.1200}\ffcell{0.0000}\ffcell{0.0000}\ffcell{0.0000}\ffframe\ffmark{2.18}{0.17}} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+% <<< results table <<<
 
 % We apply this post hoc, without re-running the MCMC. The production run (Sect.~\ref{sec:methods_filter}) uses a magnetic grid spanning $0$--$10\,\mathrm{kG}$ in $1\,\mathrm{kG}$ steps. From its best-fit solution we compute the BIC of the full configuration and then collapse the grid from the top down. At each step the strongest component is removed and its filling factor transferred to the next-strongest component, the synthetic spectrum is recomputed with all other parameters held at their best-fit values, and the likelihood and BIC are re-evaluated, lowering $k$ by one. Transferring the filling factor to the adjacent bin rather than discarding it lowers $\langle B\rangle$ by only $f_\mathrm{drop}\,\Delta B$ per step (with $\Delta B = 1\,\mathrm{kG}$ the grid spacing), so the collapse traces a smooth, monotonically decreasing sequence in $\langle B\rangle$. We repeat until only the non-magnetic component remains and adopt the lowest-BIC configuration. The chosen configuration is then rerun in the production phase with the star's filtered line list from the diagnostic phase, from which the reported $\langle B\rangle$ is derived. Figure~\ref{fig:bic_scan_ds_leo} illustrates this scan for Gl~410, where the BIC turns over once the unsupported high-field components have been stripped. Because removing a genuine strong-field component sharply degrades the fit while removing a spurious one barely changes it, the criterion is self-regulating.
 
@@ -415,13 +523,6 @@ Because the other parameters are held fixed rather than re-optimised, this is an
 %     \caption{The post-hoc BIC scan for Gl~410. Plotted is $\Delta\mathrm{BIC}$, the BIC relative to its lowest value, against the strongest magnetic component still retained as the scan collapses the $0$--$10\,\mathrm{kG}$ grid from the top down. The curve falls as unsupported high-field components are stripped and rises once a genuine one is removed. The minimum (red point) is adopted: five components with a maximum field of $4\,\mathrm{kG}$. The inset magnifies the shallow upturn beyond the minimum, with the dotted line at $\Delta\mathrm{BIC}=10$ for reference.}
 %     \label{fig:bic_scan_ds_leo}
 % \end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/bic_optimal_summary_absolute.pdf}}{%
-    \caption{BIC versus the maximum magnetic field component allowed in the fit, for GL~410 and GL~725~A. The BIC scan (solid black) derives every point from a single MCMC run by removing the strongest components one at a time, while the reference (dashed blue) runs a separate MCMC fit at each configuration. Both reach their minimum at the same field strength — 4~kG for GL~410 and 6~kG for GL~725~A (red marker, dashed line) — so the single-run scan recovers the same optimal configuration as the far more expensive per-configuration runs.}
-    \label{fig:bic_scan_validation}
-\end{figure}
 
 % \subsection{Validation on synthetic spectra}
 % \label{sec:methods_injection}
