@@ -1,27 +1,27 @@
 \section{Example joint posteriors}
 \label{app:corner_posteriors}
 
-Figures~\ref{fig:corner_gl_846}--\ref{fig:corner_gj_1289} show the full joint posterior distributions of the magnetic spectral fit for three representative stars, spanning a range of retrieved field strengths: Gl~846, with one of the weakest fields in the sample, the intermediate DS~Leo (Gl~410), and GJ~1289, the strongest of the three. The number of fitted magnetic components is set per star by the BIC scan found optimum (Sect.~\ref{sec:methods_filter}), which is why it differs from figure to figure.
+Figures~\ref{fig:corner_gl_846}--\ref{fig:corner_gj_1289} show the full joint posterior distributions of the magnetic spectral fit for three representative stars, spanning a range of retrieved field strengths: Gl~846, with one of the weakest fields in the sample, the intermediate DS~Leo (Gl~410), and GJ~1289, the strongest of the three. The number of fitted magnetic components is set per star by the optimum found by the BIC scan (Sect.~\ref{sec:methods_bic}), which is why it differs from figure to figure.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/corner_posterior_gl_846.pdf}
     \caption{Joint posterior distribution of the magnetic spectral fit to Gl~846
     from the Narval template. The triangle shows the magnetic filling-factor
-    simplex --- $a_0$ (the $B=0$\,kG closure) through $a_4$, one per field bin
+    simplex --- $f_0$ (the $B=0$\,kG closure) through $f_4$, one per field bin
     retained by the BIC-optimal region-filtered model --- followed by the five
-    atmospheric parameters ($T_{\rm eff}$, $\log g$, [M/H], $RV$, $\zeta$).
+    atmospheric parameters ($T_\mathrm{eff}$, $\log g$, $[\mathrm{M/H}]$, $v_r$, $\zeta_\mathrm{RT}$).
     Diagonal panels give the 1D marginals with the $68\%$ credible interval
     shaded; the dashed crimson line marks the posterior median (quoted with
     $\pm68\%$ above each panel) and the solid steel line the reported best-fit
     value (mean of the highest-likelihood $5\%$ of samples). Off-diagonal panels
     show the 2D joint densities with $1$/$2$/$3\sigma$ contours. The upper-right
     insets show the posterior of the mean field
-    $\langle B\rangle = \sum_i a_i B_i$, peaking at
+    $\langle B\rangle = \sum_i f_i B_i$, peaking at
     $\langle B\rangle = 0.5$\,kG, and the marginal filling factor of each field
-    bin. Most of the filling factor lies in the $B=0$\,kG closure $a_0$, making
+    bin. Most of the filling factor lies in the $B=0$\,kG closure $f_0$, making
     this one of the weakest-field stars in the sample; the residual weight in the
-    higher bins is strongly anti-correlated with $a_0$ through the simplex
+    higher bins is strongly anti-correlated with $f_0$ through the simplex
     closure.}
     \label{fig:corner_gl_846}
 \end{figure}
@@ -32,10 +32,10 @@ Figures~\ref{fig:corner_gl_846}--\ref{fig:corner_gj_1289} show the full joint po
     \caption{Joint posterior distribution of the magnetic spectral fit to DS~Leo
     (Gl~410) from the Narval template, in the same format as
     Fig.~\ref{fig:corner_gl_846}. The BIC-optimal region-filtered model retains a
-    simplex of the same width, $a_0$ (the $B=0$\,kG closure) through $a_4$, but
+    simplex of the same width, $f_0$ (the $B=0$\,kG closure) through $f_4$, but
     the field is appreciably stronger: the mean-field posterior in the
     upper-right inset peaks at $\langle B\rangle = 1.3$\,kG, with the filling
-    factor shifted out of the closure and peaking in the $1$\,kG bin ($a_1$).
+    factor shifted out of the closure and peaking in the $1$\,kG bin ($f_1$).
     Panel layout, line styles, shading and contour levels are as in
     Fig.~\ref{fig:corner_gl_846}.}
     \label{fig:corner_ds_leo}
@@ -47,10 +47,10 @@ Figures~\ref{fig:corner_gl_846}--\ref{fig:corner_gj_1289} show the full joint po
     \caption{Joint posterior distribution of the magnetic spectral fit to
     GJ~1289 from the Narval template, again following
     Fig.~\ref{fig:corner_gl_846}. The BIC-optimal region-filtered model keeps the
-    widest simplex of the three examples, $a_0$ (the $B=0$\,kG closure) through
-    $a_6$; the mean-field posterior in the upper-right inset peaks at
-    $\langle B\rangle = 2.0$\,kG, with a dominant $1$\,kG component ($a_1$) and a
-    tail extending to the $6$\,kG bin. As in the other examples the adjacent
+    widest simplex of the three examples, $f_0$ (the $B=0$\,kG closure) through
+    $f_6$; the mean-field posterior in the upper-right inset peaks at
+    $\langle B\rangle = 2.0$\,kG, with a dominant $1$\,kG component ($f_1$) and a
+    tail extending to the $6$\,kG bin. As in the other examples, the adjacent
     magnetic marginals are broad and strongly anti-correlated through the simplex
     closure, whereas the atmospheric parameters are comparatively well
     constrained.}
