@@ -122,15 +122,15 @@ and the log-likelihood is
 \end{equation}
 where $n$ is the number of fitted pixels.
 
-To absorb modelling-induced systematics that the pipeline uncertainties do not capture, we follow the two-pass procedure of \citet{cristofari_2023a, cristofari_2023b}. A first MCMC is run with the original $\sigma_i$. The residuals at the posterior median yield a reduced chi-squared $\chi^2_\nu = \chi^2/\nu$, with $\nu = n - k$ degrees of freedom for $k$ free parameters. In the subsequent run, all pixel errors are inflated as $\sigma_i \to \sigma_i\sqrt{\chi^2_\nu}$, so that the best fit has $\chi^2_\nu \approx 1$.
+To partly account for systematic uncertainties not reflected in the per-pixel errors, we follow the two-pass procedure of \citet{cristofari_2023a, cristofari_2023b}. A first MCMC is run with the original $\sigma_i$. The residuals at the posterior median yield a reduced chi-squared $\chi^2_\nu = \chi^2/\nu$, with $\nu = n - k$ degrees of freedom for $k$ free parameters. In the subsequent run, all pixel errors are inflated as $\sigma_i \to \sigma_i\sqrt{\chi^2_\nu}$, so that the best fit has $\chi^2_\nu \approx 1$.
 
-Each parameter's reported value is taken as the mean of the highest-likelihood $5\%$ of samples, which approximates the maximum a posteriori (MAP) estimate rather than the posterior median. Its associated formal error bar is given by half the width of the central $68\%$ (16th--84th percentile) interval of the second-pass posterior. These formal bars are statistical lower bounds that reflect only the width of the posterior and do not capture systematics or model error, which is why the empirical floors of \citet{cristofari_2023a, cristofari_2023b} are adopted as the reported uncertainties. Typical formal values are $5$--$20$~K in $T_\mathrm{eff}$ and $0.005$--$0.080$~dex in $\log g$ and $[\mathrm{M/H}]$. \citet{cristofari+2022b} found these formal errors to be significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, and proposed \emph{empirical} error bars obtained by adding in quadrature a floor of $30$~K in $T_\mathrm{eff}$, $0.05$~dex in $\log g$, and $0.10$~dex in $[\mathrm{M/H}]$.
+Each parameter's reported value is taken as the mean of the highest-likelihood $5\%$ of samples, which approximates the maximum a posteriori (MAP) estimate rather than the posterior median. Its associated formal error bar is given by half the width of the central $68\%$ (16th--84th percentile) interval of the second-pass posterior. These formal bars reflect only the statistical width of the posterior and underestimate the full uncertainty. They remain significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, which is why the empirical floors of \citet{cristofari_2023a, cristofari_2023b} are adopted as the reported uncertainties. Typical formal values are $5$--$20$~K in $T_\mathrm{eff}$ and $0.005$--$0.080$~dex in $\log g$ and $[\mathrm{M/H}]$. \citet{cristofari+2022b} found these formal errors to be significantly smaller than the dispersion of derived parameters across reasonable modelling assumptions, and proposed empirical error bars obtained by adding in quadrature a floor of $30$~K in $T_\mathrm{eff}$, $0.05$~dex in $\log g$, and $0.10$~dex in $[\mathrm{M/H}]$.
 
 % \subsubsection{MCMC sampling}
 % \label{sec:methods_sampling}
 % The posterior is explored with \texttt{emcee}, an ensemble Markov-chain Monte Carlo sampler that uses the affine-invariant proposal of \citet{emcee_algorithm}. A population of $K$ walkers is initialised in the parameter space of Sect.~\ref{sec:methods_freeparams} and advanced jointly, each walker proposing a new position from the current configuration of the ensemble. At each proposal the forward model of Sect.~\ref{sec:methods_forward} is evaluated and compared to the observed flux through the likelihood of Sect.~\ref{sec:methods_likelihood}, and the move is accepted or rejected with a probability set by the ratio of posterior densities at the new and current points. The point estimates and error bars of Sect.~\ref{sec:methods_likelihood} are then computed from the accumulated walker positions.
 \begin{table}
-\caption{Initial optical line list. The identification relied on wavelengths and depths extracted from the VALD database. Each entry reports the central wavelength of the line region (vacuum \AA). Effective Landé factors are given for atomic lines.}
+\caption{Initial optical line list. The identification relied on wavelengths and depths extracted from the VALD database. Each entry reports the central wavelength of the line region (vacuum \AA). Effective Landé factors are given.}
 \label{tab:linelist_opt}
 \centering
 \small
@@ -240,13 +240,13 @@ V\,\textsc{i} & 8119.00 [1.42] \\
 % A careful selection of absorption lines is crucial. Not all of the observed spectrum is usable, and not all of it is equally informative. Parts are degraded by low signal-to-noise or contaminated by
 % telluric features, and the forward model reproduces some regions more
 % faithfully than others. 
-A careful selection of absorption lines is crucial. Not all of the observed spectrum is usable, and not all of it is equally informative. Some regions are reproduced far less faithfully than others, because the model atmospheres used in \texttt{ZeeTurbo} remain imperfect, and these regions are best excluded. Parts are also degraded by low signal-to-noise or telluric contamination. We therefore restrict the analysis to a curated set of spectral regions by evaluating the likelihood of Sect.~\ref{sec:methods_likelihood} over them. These regions alone then constrain the retrieved parameters. In what follows we use \emph{line list} for the set of spectral lines of interest and \emph{regions} for the wavelength windows around them on which the likelihood is computed.
+A careful selection of absorption lines is crucial. Not all of the observed spectrum is usable, and not all of it is equally informative. Some regions are reproduced far less faithfully than others, because the model atmospheres used in \texttt{ZeeTurbo} remain imperfect, and these regions are best excluded. Parts are also degraded by low signal-to-noise or telluric contamination. We therefore restrict the analysis to a curated set of spectral regions and evaluate the likelihood over these alone, so only the selected pixels constrain the retrieved parameters. In what follows we use \emph{line list} for the set of spectral lines of interest and \emph{regions} for the wavelength windows around them on which the likelihood is computed.
 
 % Each parameter alters a line's strength, width, or central wavelength in ways that partly mimic the others, so the list must be built to separate these responses rather than let them be absorbed into one another \citep{Kochukhov_2021}. The degeneracy between metallicity and magnetic intensification is a clear example: both raise the equivalent width of magnetically sensitive Fe lines. A transition's magnetic sensitivity is set by its effective Land\'e factor $g_\mathrm{eff}$, which fixes the size of the Zeeman splitting at a given field strength, so a list dominated by high-$g_\mathrm{eff}$ Fe transitions cannot distinguish a more metal-rich, weakly magnetic star from a less metal-rich, strongly magnetic one.
 
 % These degeneracies set the selection criteria. The list should span a range of $g_\mathrm{eff}$, since comparing transitions of differing magnetic sensitivity is what separates Zeeman broadening from the rotational and turbulent broadening. Longer-wavelength lines are favoured, as the Zeeman splitting grows with wavelength \citep{donati_landstreet+2009, Reiners+2012}. The group of Ti~\textsc{i} lines near 970~nm identified by \citet{Kochukhov+2017, Shulyak+2017, Kochukhov_2021} is especially valuable for this reason. It is equally important to include at least one transition with negligible $g_\mathrm{eff}$, because such a line pins down the non-magnetic broadening, principally the macroturbulence $\zeta_\mathrm{RT}$ and the stellar rotation, independently of the field, disentangling the two broadening effects.
 
-Certain parameters leave similar imprints on the spectrum, and the list must break the resulting degeneracies. The clearest case is line broadening: separating the field from rotation and macroturbulence requires lines spanning a range of $g_\mathrm{eff}$, since only the magnetic broadening depends on it (Eq.~\ref{eq:zeeman}). Longer-wavelength lines are favoured, as the splitting grows with $\lambda^2$. The Ti~\textsc{i} group near 970~nm is especially valuable here \citep{Kochukhov+2017, Shulyak_2017, Kochukhov_2021}. Including at least one transition with negligible $g_\mathrm{eff}$ anchors the non-magnetic broadening independently of the field, disentangling the two broadening effects.
+Certain parameters leave similar imprints on the spectrum, and the line list must break the resulting degeneracies. The clearest case is line broadening: separating the field from rotation and macroturbulence requires lines spanning a range of $g_\mathrm{eff}$, since only the magnetic broadening depends on it (Eq.~\ref{eq:zeeman}). Longer-wavelength lines are favoured, as the splitting grows with $\lambda^2$. The Ti~\textsc{i} group near 970~nm is especially valuable here \citep{Kochukhov+2017, Shulyak_2017, Kochukhov_2021}. Including at least one transition with negligible $g_\mathrm{eff}$ anchors the non-magnetic broadening independently of the field, disentangling the two broadening effects.
 
 To assemble and refine this list I built \texttt{wave\_explorer}, an
 interactive spectrum-exploration tool. For a given star it overlays the observed spectrum on a synthetic spectrum generated from the point estimates of the parameters of a completed pipeline run, showing directly which features the forward model reproduces and which it misses. Region boundaries can be adjusted, new windows added, and existing ones removed. The tool also reports the residuals between observation and model and assigns a quality flag from the mean pixel-wise $\chi^2$. A high value marks a systematic mismatch, such as a poorly modelled line, an unmasked telluric, or a continuum error. Sorting by this flag produces a worst-first table, letting us quickly inspect where model and data disagree most and prune or remask accordingly. On top of this, lines from the VALD database are overplotted and labelled by species, indicating which transitions are responsible for each observed feature. A screenshot of the tool is displayed in Fig.~\ref{fig:wave_explorer}.
@@ -254,7 +254,7 @@ interactive spectrum-exploration tool. For a given star it overlays the observed
 \texttt{wave\_explorer} can be run on a single star or on many at once.
 Single-star mode tailors a list to one target, whereas multi-star mode builds a list that performs well across a diverse sample, as required when a common selection must serve many stars. In multi-star mode the displayed spectrum and residuals are the pixel-by-pixel averages of the observed and model flux on a common wavelength grid, which exposes the features shared across the sample. The quality flag of each region is then the median $\chi^2$ over stars, so a region is penalised only when it fits poorly for the sample as a whole rather than for a single outlier.
 
-The curated list this process yields is what we refer to as the common line list, which comprises $29$ wavelength regions in the range $747$--$979\,\mathrm{nm}$. The species and effective Land\'e factor $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region. Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is split roughly evenly between Ti\,\textsc{i} ($14$ lines) and Fe\,\textsc{i} ($13$ lines), with single Mg\,\textsc{i} and V\,\textsc{i} regions.
+The curated list this process yields is what we refer to as the common line list, which comprises $29$ wavelength regions in the range $747$--$979\,\mathrm{nm}$. The species and $g_\mathrm{eff}$ of each region are identified with the strongest VALD line falling inside the region. Table~\ref{tab:linelist_opt} reports the resulting identifications. The list is split roughly evenly between Ti\,\textsc{i} ($14$ lines) and Fe\,\textsc{i} ($13$ lines), with single Mg\,\textsc{i} and V\,\textsc{i} regions.
 
 % \begin{table}
 % \caption{Initial optical line list. The identification relied on wavelengths and depths extracted from the VALD database. Each entry reports the central wavelength of the line region (vacuum \AA). Effective Landé factors are given for atomic lines.}
@@ -286,102 +286,22 @@ The curated list this process yields is what we refer to as the common line list
 
 % The common list of Sect.~\ref{sec:methods_linelist} is a single compromise for a diverse sample. Because the targets of Table~\ref{tab:obs_summary} span a range of M spectral types and data quality, a region that is clean and well modelled in one star can be unusable in another. Telluric absorption falls at different stellar-frame wavelengths depending on a star's radial velocity and observing epochs, so a line free of contamination in one target may be blended in another, and low S/N can leave a region uninformative. Line strengths also depend strongly on $T_\mathrm{eff}$, so a transition that is clean in a warmer M dwarf can be overwhelmed by a growing blend in a cooler one. \citet{reiners+2022} address both by tailoring the selection per star: a minimum S/N per line, a rejection of lines lying too close to tellurics, and a progressive exclusion of lines below $T_\mathrm{eff}=3750$ and $3600\,\mathrm{K}$. Rather than impose fixed temperature cuts, we identify the regions to drop empirically, from a short diagnostic run of each star.
 
-The common list is a single compromise for a diverse sample. Because the targets of Table~\ref{tab:obs_summary} span a range of M spectral types and data quality, a region that is clean and well modelled in one star can be unusable in another. Telluric absorption falls at different stellar-frame wavelengths depending on a star's radial velocity and observing epoch, so a line free of contamination in one target may be blended in another, and low S/N can leave a region uninformative. Line strengths also depend strongly on $T_\mathrm{eff}$, so a transition that is clean in a warmer M dwarf can be overwhelmed by a growing blend in a cooler one. \citet{reiners+2022} handle this by tailoring the selection per star, including fixed $T_\mathrm{eff}$ cuts that progressively drop lines toward cooler stars. Rather than impose such cuts, we identify the regions to drop empirically, from a short diagnostic run of each star.
-
-% \begin{figure}
-% \centering
-% \resizebox{\columnwidth}{!}{%
-% \begin{tikzpicture}[
-%   font=\small, text=black,
-%   >={Stealth[length=2.6mm,width=2mm]},
-%   % ---- shared geometry: every box lines up to the same grid ----
-%   box/.style={draw, align=center, inner sep=2pt, minimum height=9mm,
-%               line width=0.8pt, fill=white},
-%   card/.style={box, text width=28mm},                  % fixed-width step box
-%   term/.style={box, rounded corners=8pt, inner xsep=9pt, inner ysep=1pt, line width=0.9pt,
-%                draw=termAc, fill=termBg, font=\small\bfseries},  % start / end
-%   diag/.style={card, draw=diagAc},                     % diagnostic-phase step
-%   prod/.style={card, draw=prodAc},                     % production-phase step
-%   bridge/.style={card, rounded corners=4pt, draw=edge},% decision outcome
-%   dec/.style={draw=decAc, fill=decBg, diamond, aspect=2.4,
-%               align=center, inner sep=2pt, line width=0.8pt},     % decision
-%   arr/.style={->, draw=edge, line width=0.8pt},
-%   pno/.style={font=\footnotesize\bfseries, draw=noAc, text=noAc, fill=white,
-%               line width=0.7pt, inner sep=2.5pt, rounded corners=2pt},
-%   pyes/.style={font=\footnotesize\bfseries, draw=yesAc, text=yesAc, fill=white,
-%                line width=0.7pt, inner sep=2.5pt, rounded corners=2pt},
-%   banner/.style={font=\small\bfseries, text=white, inner sep=3.5pt,
-%                  rounded corners=3pt, anchor=west, draw=diagAc},                % phase tab
-% ]
-
-% % ============================= start ===============================
-% \node[term] (A) {Star $+$ common line list};
-
-% % ========================= diagnostic spine ========================
-% \node[diag, below=8mm of A] (B) {Run pipeline with reduced steps};
-% \node[diag, below=6mm of B]  (C) {Compute $\chi^2_R/N_R$ for each region};
-% \node[dec,  below=5mm of C]  (D) {Any region with\\[1pt]$\chi^2_R/N_R > 50$\,?};
-
-% % ===================== branch (decision outcome) ===================
-% \node[diag] (E) at ([xshift=-22mm,yshift=-15mm]D.south) {Common list is final};
-% \node[diag] (F) at ([xshift= 22mm,yshift=-15mm]D.south) {Drop rejected regions\\$\rightarrow$ filtered list};
-
-% % ======================== production lanes =========================
-% \node[prod, below=12mm of E] (G) {Run to full length};
-% \node[prod, below=12mm of F] (H) {Rerun from scratch\\on filtered list};
-% \node[term] (I) at ($(G.south)!0.5!(H.south)+(0,-8mm)$) {Posterior estimates};
-
-% % ===================== phase frames (background) ===================
-% \coordinate[above=4mm of B] (diagTop);
-% \coordinate[below=21mm of D] (diagBot);
-% \coordinate[above=6mm of G] (prodTop);
-% \coordinate[below=3mm of I] (prodBot);
-% \begin{scope}[on background layer]
-%   \node[draw=diagAc, fill=diagBg, rounded corners=9pt, line width=1pt,
-%         fit=(B)(C)(D)(diagTop)(diagBot), inner xsep=23.5mm, inner ysep=0mm] (diagF) {};
-%   \node[draw=prodAc, fill=prodBg, rounded corners=9pt, line width=1pt,
-%         fit=(G)(H)(I)(prodTop)(prodBot), inner xsep=8mm, inner ysep=0mm] (prodF) {};
-% \end{scope}
-
-% % ============================= arrows ==============================
-% \draw[arr] (A) -- (B);
-% \draw[arr] (B) -- (C);
-% \draw[arr] (C) -- (D);
-
-% \draw[arr] (D.south) -- (E.north) node[pno, pos=0.5] {No};
-% \draw[arr] (D.south) -- (F.north) node[pyes, pos=0.5] {Yes};
-
-% \draw[arr] (E) -- (G);
-% \draw[arr] (F) -- (H);
-
-% \draw[arr] (G.south) |- (I.west);
-% \draw[arr] (H.south) |- (I.east);
-
-% % phase banners drawn LAST so they sit on top of the arrows; fill masks
-% % any arrow passing beneath, keeping the label text uncut
-% \node[banner, fill=diagAc] at ([xshift=7mm]diagF.north west) {Diagnostic phase};
-% \node[banner, fill=prodAc] at ([xshift=7mm]prodF.north west) {Production phase};
-
-% \end{tikzpicture}%
-% }
-% \caption{Per-star line-list filtering workflow. In the diagnostic phase (blue) the pipeline is run using the common line list with a reduced number of MCMC steps, and the mean per-pixel $\chi^2$ over the fitted pixels of each region, $\chi^2_R/N_R$, is evaluated. If no region exceeds the threshold the common list is final and the run is carried to its full production length. If any region does, those regions are filtered out and the pipeline is rerun from scratch with the filtered line list. The production phase (green) is in either case an ordinary pipeline run that differs only in the line list it uses, and it is this run that yields the posterior estimates.}
-% \label{fig:linelist_filter}
-% \end{figure}
+The common list is a single compromise for a diverse sample. Because the targets of Table~\ref{tab:obs_summary} span a range of M spectral types and data quality, a region that is clean and well modelled in one star can be unusable in another. Telluric absorption falls at different stellar-frame wavelengths depending on a star's radial velocity and observing epoch, so a line free of contamination in one target may be blended in another, and low S/N can leave a region uninformative. Line strengths also depend strongly on $T_\mathrm{eff}$, so a transition that is clean in a warmer M dwarf can be overwhelmed by a growing blend in a cooler one. \citet{reiners+2022} handle this by tailoring the selection per star, including fixed $T_\mathrm{eff}$ cuts that progressively drop lines toward cooler stars. Rather than impose such cuts, we identify the regions to drop empirically with a per-star filter: a short diagnostic phase flags the unreliable regions, which are then excluded from the production phase.
 
 % The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnostic phase the star is fitted on the full common list with a reduced number of MCMC steps, the aim being a representative synthetic spectrum rather than a converged posterior. The forward model evaluated at the point estimates of this posterior gives this synthetic spectrum, which we compare to the observations region by region. For a region $R$ we take the mean per-pixel $\chi^2$ over its $N_R$ fitted pixels ($\chi^2_R/N_R$). This is also the quantity reported by the tool used to build the list by hand (Sect.~\ref{sec:methods_linelist}), so manual and automatic selection rank regions using a common method. Because the diagnostic synthetic spectrum depends on the model configuration of the diagnostic fit, the filtered list inherits that dependence, so runs that adopt different magnetic configurations can retain slightly different sets of regions.
 
-The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnostic phase the star is fitted on the full common list with a reduced number of MCMC steps (2000). The aim is a representative fit rather than a converged posterior. Evaluating the forward model at the best-fit parameters yields the diagnostic spectrum, which we compare to the observations region by region. For a region $R$ we take the mean per-pixel $\chi^2$ over its $N_R$ fitted pixels ($\chi^2_R/N_R$). This is the same quantity reported by the tool used to build the list by hand (Sect.~\ref{sec:methods_linelist}), so manual and automatic selection rank regions on a common footing. 
+The filter runs in two phases (Fig.~\ref{fig:linelist_filter}). In the diagnostic phase the star is fitted on the full common list with a reduced number of MCMC steps (2000). The aim is a representative fit rather than a converged posterior. Evaluating the forward model at the best-fit parameters yields the diagnostic spectrum, which we compare to the observations region by region. For a region $R$, we sum the $\chi^2$ contributions of its $N_R$ fitted pixels to obtain $\chi^2_R$, and divide by $N_R$ to give the mean per-pixel value $\chi^2_R/N_R$. This is the same quantity reported by the tool used to build the list by hand (Sect.~\ref{sec:methods_linelist}), so manual and automatic selection rank regions on a common footing. 
 % This fit assumes a magnetic configuration --- the number of field components and their filling factors --- which shapes its point estimates and hence the diagnostic spectrum built from them. The filtered list inherits this dependence: two runs that assume different configurations can retain slightly different regions.
 
-A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the per-region model. Below the threshold the model reproduces the data well, while higher values mark mismatches such as a poorly modelled line, a residual telluric, or a continuum error. Since the metric is a mean of squared, error-normalised residuals, $50$ corresponds to a mean per-pixel residual of $\sim\!7\sigma$, so the cut is deliberately permissive, leaving marginal regions in the fit.
+A region is rejected when $\chi^2_R/N_R > 50$, a threshold set by inspecting the per-region model. Below the threshold the model reproduces the data well, while higher values mark mismatches. Since the metric is a mean of squared, error-normalised residuals, $50$ corresponds to a mean per-pixel residual of $\sim\!7\sigma$, so the cut is deliberately permissive, leaving marginal regions in the fit.
 
 % Figure~\ref{fig:region_filtering} shows the filter at work for Gl~445, putting the diagnostic phase of Fig.~\ref{fig:linelist_filter} into practice. Each panel displays the observed spectrum against the model fitted to it over one region of the common line list, with the grey band marking the pixels that enter $\chi^2_R/N_R$ and the value itself printed in the bottom-right corner, in green when the region is kept and red where it is dropped. The kept regions in the left column track the model closely and sit below the threshold. The rejected regions in the right column fall in the $967$--$979\,\mathrm{nm}$ band, where telluric absorption pulls it away from the data and sends $\chi^2_R/N_R$ over the threshold.
 
-Figure~\ref{fig:region_filtering} shows the diagnostic phase (Fig.~\ref{fig:linelist_filter}) at work on Gl~445. Each panel shows one region of the common line list, with the observed spectrum and the fitted model. The grey band marks the pixels entering $\chi^2_R/N_R$, and the value is printed in the bottom-right corner --- green where the region is kept, red where it is rejected. The kept regions, in the left column, track the model closely and fall below the threshold. The rejected regions, in the right column, lie in the $967$--$979\,\mathrm{nm}$ band, where telluric absorption pulls the model away from the observations and pushes $\chi^2_R/N_R$ over the threshold.
+Figure~\ref{fig:region_filtering} shows the diagnostic phase at work on Gl~445. Each panel shows one region of the common line list, with the observed spectrum and the fitted model. The grey band marks the pixels entering $\chi^2_R/N_R$, and the value is printed in the bottom-right corner --- green where the region is kept, red where it is rejected. The kept regions, in the left column, track the model closely and fall below the threshold. The rejected regions, in the right column, lie in the $967$--$979\,\mathrm{nm}$ band, where telluric absorption pulls the model away from the observations and pushes $\chi^2_R/N_R$ over the threshold.
 
 % The diagnostics set the production phase, which is the full-length retrieval that yields the reported parameters --- the same pipeline of Sect.~\ref{sec:methods_fit}, run to the full number of MCMC steps (5000) rather than the reduced count of the diagnostic phase (2000). If no region is rejected, the common list is final and the run continues to the full production length. If any region is rejected, the star is refitted from scratch on its filtered list. The filtered list is saved as a copy of the common list with rejected regions commented out and annotated with their $\chi^2_R/N_R$, keeping a record of what was dropped for each star. Either way, the production run differs from a standard fit only in the line list it uses, and it is this run that yields the reported parameters.
 
-The production phase is the full-length retrieval that yields the reported parameters: the same pipeline as Sect.~\ref{sec:methods_fit} run for the full 5000 MCMC steps rather than the 2000 of the diagnostic phase. How it is launched depends on the diagnostic outcome. If no region is rejected, the common list is already final and the run simply continues to the full production length. If any region is rejected, the star is refitted from scratch on a filtered list --- a copy of the common list with the rejected regions commented out and annotated with their $\chi^2_R/N_R$, recording what was dropped for each star.
+The production phase is the full-length retrieval that yields the reported parameters: the pipeline described in Sect.~\ref{sec:methods_fit} run for the full 5000 MCMC steps rather than the 2000 of the diagnostic phase. How it is launched depends on the diagnostic outcome. If no region is rejected, the common list is already final and the run simply continues to the full production length. If any region is rejected, the star is refitted from scratch on a filtered list --- a copy of the common list with the rejected regions commented out and annotated with their $\chi^2_R/N_R$, recording what was dropped for each star.
 
 \begin{figure}[!h]
     \centering
@@ -394,9 +314,9 @@ The production phase is the full-length retrieval that yields the reported param
 \label{sec:methods_bic}
 % The magnetic model is described in Sect.~\ref{sec:methods_magnetic}. Its filling factors are constrained to be non-negative ($f_i \geq 0$). For weakly magnetic stars this introduces an asymmetry: the filling factors of the strong-field components cannot scatter below zero, so noise pushes their posterior means to small positive values rather than averaging out around zero. Because the mean field $\langle B\rangle = \sum_i B_i f_i$ weights each component by its field strength, these spurious filling factors are amplified by the large $B_i$ of the strong-field components, biasing $\langle B\rangle$ upward. The full magnetic grid therefore overestimates $\langle B\rangle$ for weakly magnetic stars, and we reduce the number of components carried as free parameters to recover a lower, less biased estimate.
 
-Whenever a component's true filling factor lies near zero --- the lower bound of the prior --- its posterior is truncated there and its mean is displaced to a small positive value rather than averaging to zero. This boundary effect occurs in weakly and strongly magnetic stars alike, but its impact on the mean field depends on which components are affected, since each field strength is weighted by its filling factor. In a strongly magnetic star the dominant high-field components carry a genuine, well-constrained filling factor and $\langle B\rangle$ is large, so the residual bias from any near-bound components is a small fractional effect. In a weakly magnetic star, it is the high-field components that sit near zero. Each one still picks up a small spurious filling factor, and multiplying that by a large $B_i$ turns it into a sizeable $B_i f_i$ term. The true $\langle B\rangle$ is small, so these few spurious terms can make up a significant fraction of the sum and push it upward. Therefore, as in \citet{Lavail_2019}, we use the BIC to limit the number of components carried as free parameters, dropping high-field components the data do not require.
+Whenever a component's true filling factor lies near zero --- the lower bound of the prior --- its posterior is truncated there and its mean is displaced to a small positive value rather than averaging to zero. This boundary effect occurs in weakly and strongly magnetic stars alike, but its impact on the mean field depends on which components are affected. In a strongly magnetic star the dominant strong-field components carry a genuine, well-constrained filling factor and $\langle B\rangle$ is large, so the residual bias from any near-bound components is a small fractional effect. In a weakly magnetic star, it is the strong-field components that sit near zero. Each one still picks up a small spurious filling factor, and multiplying that by a large $B_i$ turns it into a sizeable $B_i f_i$ term. The true $\langle B\rangle$ is small, so these few spurious terms can make up a significant fraction of the sum and push it upward. The remedy is to carry only as many strong-field components as the data genuinely require.
 
-We select the number of magnetic components per star with the BIC \citep{Schwarz+1978, Sharma_2017},
+We therefore select the number of magnetic components per star with the Bayesian information criterion (BIC)  \citep{Schwarz+1978, Sharma_2017}, following \citet{Lavail_2019},
 \begin{equation}
     \label{eq:bic}
     \mathrm{BIC} = -2 \ln \mathcal{L} + k\,\ln n,
