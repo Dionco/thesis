@@ -390,7 +390,7 @@
 \newcommand*\AANum[1]{\renewcommand*\aa@numarticle{#1}%
 \gdef\@AANum{#1}}
 \newcommand*\@AANum{}
-\newcommand*\aa@numarticle{Article number}
+\newcommand*\aa@numarticle{}
 \newcommand*\doi[1]{%
   \renewcommand*\aa@doi{DOI: #1}%
   \renewcommand*\aa@doifig{#1}%
@@ -416,7 +416,7 @@
   }%
   \copy0%
 }
-\newcommand*\aa@pageof{, page \thepage{} of \pageref{LastPage}}
+\newcommand*\aa@pageof{page \thepage{} of \pageref{LastPage}}
 \newcommand*{\aa@publishlink}{\hfil%
  Article published by EDP Sciences%
  \hfil}
