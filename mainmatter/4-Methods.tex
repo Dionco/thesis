@@ -415,8 +415,8 @@ where $\mathcal{L}$ is the likelihood (Eq.~\ref{eq:likelihood}) evaluated at the
 % uses, so the legend is faithful to the cells. Retained bins are shaded (floor
 % \fffloor keeps even f_i~0 a visible grey); bins not retained by the BIC scan are
 % drawn blank (\ffvoid), so "unused" never looks like a very low filling factor.
-\providecommand{\ffgamma}{0.7}    % shade contrast: 1=linear, <1 lifts small bins
-\providecommand{\fffloor}{16}     % min black! of a RETAINED bin (low f_i stays visible)
+\providecommand{\ffgamma}{0.9}    % shade contrast: 1=linear, <1 lifts small bins (lighter start)
+\providecommand{\fffloor}{8}      % min black! of a RETAINED bin (low f_i stays a faint tint)
 \providecommand{\ffcw}{\dimexpr\linewidth/11-0.5pt\relax}
 \definecolor{Bmark}{HTML}{b5471f} % <B> marker colour (saturated terracotta)
 \providecommand{\ffstrut}{\rule[-0.5pt]{0pt}{7.0pt}}
@@ -424,8 +424,8 @@ where $\mathcal{L}$ is the likelihood (Eq.~\ref{eq:likelihood}) evaluated at the
 \providecommand{\ffshade}[1]{\fpeval{round(#1<=0 ? \fffloor : max(\fffloor,min(92,92*exp(\ffgamma*ln(#1)))))}}
 % retained bin: cell shaded by its f_i
 \providecommand{\ffcell}[1]{\textcolor{black!\ffshade{#1}}{\rule[-0.5pt]{\ffcw}{7.0pt}}\hspace{0.5pt}}
-% not-retained bin: blank slot with a faint left divider (reads as "unused", not low f_i)
-\providecommand{\ffvoid}{\rlap{\textcolor{black!20}{\rule[-0.5pt]{0.3pt}{7.0pt}}}\hspace{\ffcw}\hspace{0.5pt}}
+% not-retained bin: an explicit dash (clearly "no component here", never a low f_i)
+\providecommand{\ffvoid}{\makebox[\ffcw][c]{\ffstrut\textcolor{black!55}{\textendash}}\hspace{0.5pt}}
 % thin top+bottom rules bounding the whole 0..10 kG strip
 \providecommand{\ffframe}{%
   \llap{\textcolor{black!55}{\rule[-0.5pt]{\linewidth}{0.3pt}}}%
@@ -454,24 +454,18 @@ where $\mathcal{L}$ is the likelihood (Eq.~\ref{eq:likelihood}) evaluated at the
   \hspace{\fpeval{2/11}\linewidth}\fftick{10}%
   \rlap{\hspace{\fpeval{0.5/11}\linewidth}{\scriptsize $B$\,(kG)}}%
 }}
-% shade key (header row 1): the FULL stepped gradient, one labelled swatch per
-% f_i = 0.1..1.0, drawn with the SAME \ffshade map as the cells (so the legend is
-% faithful to the nonlinear gamma shading); shade is qualitative (exact f_i in
-% Table B.1). Swatches are contiguous to read as a discrete colour bar.
-\providecommand{\ffsw}[1]{\textcolor{black!\ffshade{#1}}{\rule[-0.5pt]{8pt}{7.0pt}}}
-% the full stepped bar: 10 contiguous 8pt swatches (f_i = 0.1..1.0), total 80pt
-\providecommand{\fframp}{\ffsw{0.1}\ffsw{0.2}\ffsw{0.3}\ffsw{0.4}\ffsw{0.5}%
-  \ffsw{0.6}\ffsw{0.7}\ffsw{0.8}\ffsw{0.9}\ffsw{1.0}}
-% reference labels centred under swatches 1,3,5,7,9 (centres 4,20,36,52,68 pt)
-\providecommand{\fframplab}{\makebox[80pt][l]{%
-  \hspace{4pt}\makebox[0pt][c]{\tiny 0.1}%
-  \hspace{16pt}\makebox[0pt][c]{\tiny 0.3}%
-  \hspace{16pt}\makebox[0pt][c]{\tiny 0.5}%
-  \hspace{16pt}\makebox[0pt][c]{\tiny 0.7}%
-  \hspace{16pt}\makebox[0pt][c]{\tiny 0.9}}}
-\providecommand{\ffkey}{{\scriptsize shade $=f_i$:}\;%
-  \raisebox{1pt}{\shortstack{\fframp\\[-1.5pt]\fframplab}}}
-\caption{Retrieved atmospheric and magnetic parameters for the 41 stars of the sample, ordered by descending $T_\mathrm{eff}$. $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$ are posterior medians whose uncertainties combine the formal $1\sigma$ with the adopted modelling floors (Sect.~\ref{sec:methods_likelihood}); $\zeta_\mathrm{RT}$ and $\langle B\rangle$ carry their formal $1\sigma$ errors, and $B_\mathrm{max}$ is the strongest field component retained by the BIC scan. The last column shows each star's filling-factor distribution as a shaded strip over the $0$--10$\,\mathrm{kG}$ field axis ruled in the header: cell shade encodes $f_i$ qualitatively (darker $=$ larger; key above), while cells left blank are field bins not retained by the BIC scan. The circle marks the mean field $\langle B\rangle$ with its $\pm1\sigma$ error bar, so a single dark cell denotes a concentrated weak field and a spread of grey a saturated one; exact $f_i$ with $1\sigma$ errors are listed in Table~\ref{tab:ff_full}.}
+% shade key (header row 1): the FULL stepped gradient as 10 contiguous squares
+% (f_i = 0.1..1.0) drawn with the SAME \ffshade map as the cells (faithful to the
+% nonlinear gamma shading); shade is qualitative (exact f_i in Table B.1). The bar
+% fills the column width; only the endpoints are labelled, inline on one line, so
+% the key adds no vertical height. Each square = (linewidth - label room)/10.
+\providecommand{\ffkw}{\dimexpr(\linewidth-26pt)/10\relax}
+\providecommand{\ffsw}[1]{\textcolor{black!\ffshade{#1}}{\rule[-0.5pt]{\ffkw}{7.0pt}}}
+\providecommand{\ffkey}{\makebox[\linewidth][l]{{\scriptsize $f_i$}\,{\tiny 0.1}\,%
+  \ffsw{0.1}\ffsw{0.2}\ffsw{0.3}\ffsw{0.4}\ffsw{0.5}%
+  \ffsw{0.6}\ffsw{0.7}\ffsw{0.8}\ffsw{0.9}\ffsw{1.0}%
+  \,{\tiny 1.0}}}
+\caption{Retrieved atmospheric and magnetic parameters for the 41 stars of the sample, ordered by descending $T_\mathrm{eff}$. $T_\mathrm{eff}$, $\log g$ and $[\mathrm{M/H}]$ are posterior medians whose uncertainties combine the formal $1\sigma$ with the adopted modelling floors (Sect.~\ref{sec:methods_likelihood}); $\zeta_\mathrm{RT}$ and $\langle B\rangle$ carry their formal $1\sigma$ errors, and $B_\mathrm{max}$ is the strongest field component retained by the BIC scan. The last column shows each star's filling-factor distribution as a shaded strip over the $0$--10$\,\mathrm{kG}$ field axis ruled in the header: cell shade encodes $f_i$ qualitatively (darker $=$ larger; key above), while a dash ($-$) marks field bins not retained by the BIC scan. The circle marks the mean field $\langle B\rangle$ with its $\pm1\sigma$ error bar, so a single dark cell denotes a concentrated weak field and a spread of grey a saturated one; exact $f_i$ with $1\sigma$ errors are listed in Table~\ref{tab:ff_full}.}
 \label{tab:results}
 \begin{tabularx}{\textwidth}{l c c c c c c >{\raggedright\arraybackslash}X}
 \toprule
